@@ -1,2083 +1,509 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="aurora-borealis" data-lang="en">
+<html lang="en" data-theme="aurora">
 <head>
-<!--
-╔═══════════════════════════════════════════════════════════════════════════════╗
-║                                                                               ║
-║   PEACEWEAVER: UNIFIED CITIZEN PEACE ARCHITECTURE                             ║
-║   A comprehensive platform for cross-border ecological and cultural           ║
-║   cooperation between Ukraine, Russia, and neighboring communities.           ║
-║                                                                               ║
-║   Version: 2.0 Evolved                                                        ║
-║   License: Open-source for peaceful purposes only                             ║
-║                                                                               ║
-║   ══════════════════════════════════════════════════════════════════════════  ║
-║                                                                               ║
-║   ZERO-HARM COMMITMENT:                                                       ║
-║   This software is designed exclusively for peaceful, restorative, and        ║
-║   humanitarian purposes. It contains no tracking, surveillance, or            ║
-║   weaponization capabilities. Any attempt to repurpose this platform          ║
-║   for harmful, coercive, or violent ends violates its foundational            ║
-║   principles and intended use.                                                ║
-║                                                                               ║
-║   ANTI-INVERSION CLAUSE:                                                      ║
-║   The architecture of this platform is intentionally designed to resist       ║
-║   inversion—meaning it cannot be easily transformed from a peace tool         ║
-║   into an instrument of division, propaganda, or harm. Modifications          ║
-║   that subvert its peaceful intent are considered violations of the           ║
-║   spirit of this work.                                                        ║
-║                                                                               ║
-╚═══════════════════════════════════════════════════════════════════════════════╝
--->
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Peaceweaver: A citizen-powered peace architecture bridging communities through ecology, culture, story, and shared humanity.">
-<meta name="theme-color" content="#0a1628">
-<title>Peaceweaver – Unified Citizen Peace Architecture</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Peaceweaver - Enhanced Gamification</title>
 <style>
-/* ═══════════════════════════════════════════════════════════════════════════
-   SECTION 1: CSS CUSTOM PROPERTIES & THEME SYSTEM
-   ───────────────────────────────────────────────────────────────────────────
-   Purpose: Defines 24 comprehensive themes using CSS variables for instant
-   theme switching. Each theme is carefully designed for accessibility and
-   visual harmony. Themes support both light and dark modes.
-   
-   How to extend: Add new themes by copying an existing [data-theme] block
-   and modifying the color values. Ensure WCAG AA contrast compliance.
-   
-   Expected outcome: Seamless theme switching without page reload.
-═══════════════════════════════════════════════════════════════════════════ */
-
-:root {
-  /* Base timing and spacing */
-  --transition-fast: 0.15s;
-  --transition-medium: 0.3s;
-  --transition-slow: 0.6s;
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 4rem;
-  --border-radius-sm: 4px;
-  --border-radius-md: 8px;
-  --border-radius-lg: 16px;
-  --border-radius-xl: 24px;
-  
-  /* Typography scale */
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.5rem;
-  --font-size-2xl: 2rem;
-  --font-size-3xl: 2.5rem;
-  --font-size-4xl: 3.5rem;
-  
-  /* Line heights */
-  --line-height-tight: 1.2;
-  --line-height-normal: 1.5;
-  --line-height-relaxed: 1.75;
-  
-  /* Z-index scale */
-  --z-base: 1;
-  --z-dropdown: 100;
-  --z-sticky: 200;
-  --z-overlay: 300;
-  --z-modal: 400;
-  --z-splash: 500;
-  --z-hud: 600;
-  --z-constellation: 50;
-}
-
-/* ─── Theme 1: Aurora Borealis (Default Dark) ─── */
-[data-theme="aurora-borealis"] {
-  --color-bg-primary: #0a1628;
-  --color-bg-secondary: #0f1f35;
-  --color-bg-tertiary: #152844;
-  --color-bg-card: #1a3052;
-  --color-text-primary: #e8f4f8;
-  --color-text-secondary: #a8c5d4;
-  --color-text-muted: #6b8fa8;
-  --color-accent-primary: #4fd1c5;
-  --color-accent-secondary: #63b3ed;
-  --color-accent-tertiary: #9f7aea;
-  --color-border: #2a4a6a;
-  --color-success: #48bb78;
-  --color-warning: #ecc94b;
-  --color-error: #fc8181;
-  --color-glow: rgba(79, 209, 197, 0.3);
-  --gradient-primary: linear-gradient(135deg, #0a1628 0%, #1a3052 50%, #0f1f35 100%);
-  --gradient-accent: linear-gradient(135deg, #4fd1c5 0%, #63b3ed 50%, #9f7aea 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 2: Sunset Steppe ─── */
-[data-theme="sunset-steppe"] {
-  --color-bg-primary: #1a0f0a;
-  --color-bg-secondary: #2d1810;
-  --color-bg-tertiary: #3d2218;
-  --color-bg-card: #4d2c20;
-  --color-text-primary: #faf0e6;
-  --color-text-secondary: #d4a574;
-  --color-text-muted: #a67c52;
-  --color-accent-primary: #f59e0b;
-  --color-accent-secondary: #ef4444;
-  --color-accent-tertiary: #ec4899;
-  --color-border: #5d3628;
-  --color-success: #84cc16;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-  --color-glow: rgba(245, 158, 11, 0.3);
-  --gradient-primary: linear-gradient(135deg, #1a0f0a 0%, #4d2c20 50%, #2d1810 100%);
-  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #ec4899 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 3: Forest Sanctuary ─── */
-[data-theme="forest-sanctuary"] {
-  --color-bg-primary: #0d1f14;
-  --color-bg-secondary: #14291c;
-  --color-bg-tertiary: #1a3324;
-  --color-bg-card: #203d2c;
-  --color-text-primary: #e8f5e9;
-  --color-text-secondary: #a5d6a7;
-  --color-text-muted: #66bb6a;
-  --color-accent-primary: #4caf50;
-  --color-accent-secondary: #8bc34a;
-  --color-accent-tertiary: #009688;
-  --color-border: #2e5a3a;
-  --color-success: #66bb6a;
-  --color-warning: #ffeb3b;
-  --color-error: #ef5350;
-  --color-glow: rgba(76, 175, 80, 0.3);
-  --gradient-primary: linear-gradient(135deg, #0d1f14 0%, #203d2c 50%, #14291c 100%);
-  --gradient-accent: linear-gradient(135deg, #4caf50 0%, #8bc34a 50%, #009688 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 4: Ocean Depths ─── */
-[data-theme="ocean-depths"] {
-  --color-bg-primary: #0a1929;
-  --color-bg-secondary: #0d2137;
-  --color-bg-tertiary: #102945;
-  --color-bg-card: #133153;
-  --color-text-primary: #e3f2fd;
-  --color-text-secondary: #90caf9;
-  --color-text-muted: #42a5f5;
-  --color-accent-primary: #00bcd4;
-  --color-accent-secondary: #03a9f4;
-  --color-accent-tertiary: #3f51b5;
-  --color-border: #1e4976;
-  --color-success: #26a69a;
-  --color-warning: #ffca28;
-  --color-error: #ef5350;
-  --color-glow: rgba(0, 188, 212, 0.3);
-  --gradient-primary: linear-gradient(135deg, #0a1929 0%, #133153 50%, #0d2137 100%);
-  --gradient-accent: linear-gradient(135deg, #00bcd4 0%, #03a9f4 50%, #3f51b5 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 5: Lavender Dusk ─── */
-[data-theme="lavender-dusk"] {
-  --color-bg-primary: #1a1625;
-  --color-bg-secondary: #251f35;
-  --color-bg-tertiary: #302845;
-  --color-bg-card: #3b3155;
-  --color-text-primary: #f3e5f5;
-  --color-text-secondary: #ce93d8;
-  --color-text-muted: #ab47bc;
-  --color-accent-primary: #9c27b0;
-  --color-accent-secondary: #e91e63;
-  --color-accent-tertiary: #673ab7;
-  --color-border: #4a3d6a;
-  --color-success: #66bb6a;
-  --color-warning: #ffca28;
-  --color-error: #ef5350;
-  --color-glow: rgba(156, 39, 176, 0.3);
-  --gradient-primary: linear-gradient(135deg, #1a1625 0%, #3b3155 50%, #251f35 100%);
-  --gradient-accent: linear-gradient(135deg, #9c27b0 0%, #e91e63 50%, #673ab7 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 6: Arctic Dawn ─── */
-[data-theme="arctic-dawn"] {
-  --color-bg-primary: #f0f9ff;
-  --color-bg-secondary: #e0f2fe;
-  --color-bg-tertiary: #bae6fd;
-  --color-bg-card: #ffffff;
-  --color-text-primary: #0c4a6e;
-  --color-text-secondary: #0369a1;
-  --color-text-muted: #0ea5e9;
-  --color-accent-primary: #0284c7;
-  --color-accent-secondary: #06b6d4;
-  --color-accent-tertiary: #8b5cf6;
-  --color-border: #7dd3fc;
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-glow: rgba(2, 132, 199, 0.2);
-  --gradient-primary: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
-  --gradient-accent: linear-gradient(135deg, #0284c7 0%, #06b6d4 50%, #8b5cf6 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 7: Sakura Bloom ─── */
-[data-theme="sakura-bloom"] {
-  --color-bg-primary: #fdf2f8;
-  --color-bg-secondary: #fce7f3;
-  --color-bg-tertiary: #fbcfe8;
-  --color-bg-card: #ffffff;
-  --color-text-primary: #831843;
-  --color-text-secondary: #be185d;
-  --color-text-muted: #db2777;
-  --color-accent-primary: #ec4899;
-  --color-accent-secondary: #f472b6;
-  --color-accent-tertiary: #a855f7;
-  --color-border: #f9a8d4;
-  --color-success: #34d399;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-  --color-glow: rgba(236, 72, 153, 0.2);
-  --gradient-primary: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%);
-  --gradient-accent: linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #a855f7 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 8: Obsidian Night ─── */
-[data-theme="obsidian-night"] {
-  --color-bg-primary: #09090b;
-  --color-bg-secondary: #18181b;
-  --color-bg-tertiary: #27272a;
-  --color-bg-card: #3f3f46;
-  --color-text-primary: #fafafa;
-  --color-text-secondary: #a1a1aa;
-  --color-text-muted: #71717a;
-  --color-accent-primary: #f4f4f5;
-  --color-accent-secondary: #a1a1aa;
-  --color-accent-tertiary: #71717a;
-  --color-border: #52525b;
-  --color-success: #4ade80;
-  --color-warning: #facc15;
-  --color-error: #f87171;
-  --color-glow: rgba(244, 244, 245, 0.1);
-  --gradient-primary: linear-gradient(135deg, #09090b 0%, #27272a 50%, #18181b 100%);
-  --gradient-accent: linear-gradient(135deg, #f4f4f5 0%, #a1a1aa 50%, #71717a 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.7);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 9: Golden Wheat ─── */
-[data-theme="golden-wheat"] {
-  --color-bg-primary: #fefce8;
-  --color-bg-secondary: #fef9c3;
-  --color-bg-tertiary: #fef08a;
-  --color-bg-card: #ffffff;
-  --color-text-primary: #713f12;
-  --color-text-secondary: #a16207;
-  --color-text-muted: #ca8a04;
-  --color-accent-primary: #eab308;
-  --color-accent-secondary: #f59e0b;
-  --color-accent-tertiary: #84cc16;
-  --color-border: #fde047;
-  --color-success: #22c55e;
-  --color-warning: #f97316;
-  --color-error: #ef4444;
-  --color-glow: rgba(234, 179, 8, 0.2);
-  --gradient-primary: linear-gradient(135deg, #fefce8 0%, #fef9c3 50%, #fef08a 100%);
-  --gradient-accent: linear-gradient(135deg, #eab308 0%, #f59e0b 50%, #84cc16 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 10: Crimson Courage ─── */
-[data-theme="crimson-courage"] {
-  --color-bg-primary: #1c0a0a;
-  --color-bg-secondary: #2d1010;
-  --color-bg-tertiary: #3d1616;
-  --color-bg-card: #4d1c1c;
-  --color-text-primary: #fef2f2;
-  --color-text-secondary: #fca5a5;
-  --color-text-muted: #f87171;
-  --color-accent-primary: #ef4444;
-  --color-accent-secondary: #f97316;
-  --color-accent-tertiary: #eab308;
-  --color-border: #7f1d1d;
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-error: #fca5a5;
-  --color-glow: rgba(239, 68, 68, 0.3);
-  --gradient-primary: linear-gradient(135deg, #1c0a0a 0%, #4d1c1c 50%, #2d1010 100%);
-  --gradient-accent: linear-gradient(135deg, #ef4444 0%, #f97316 50%, #eab308 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 11: Mint Fresh ─── */
-[data-theme="mint-fresh"] {
-  --color-bg-primary: #f0fdf4;
-  --color-bg-secondary: #dcfce7;
-  --color-bg-tertiary: #bbf7d0;
-  --color-bg-card: #ffffff;
-  --color-text-primary: #14532d;
-  --color-text-secondary: #166534;
-  --color-text-muted: #22c55e;
-  --color-accent-primary: #10b981;
-  --color-accent-secondary: #14b8a6;
-  --color-accent-tertiary: #06b6d4;
-  --color-border: #86efac;
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-glow: rgba(16, 185, 129, 0.2);
-  --gradient-primary: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
-  --gradient-accent: linear-gradient(135deg, #10b981 0%, #14b8a6 50%, #06b6d4 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 12: Copper Earth ─── */
-[data-theme="copper-earth"] {
-  --color-bg-primary: #1c1510;
-  --color-bg-secondary: #2a1f18;
-  --color-bg-tertiary: #382920;
-  --color-bg-card: #463328;
-  --color-text-primary: #fdf4ef;
-  --color-text-secondary: #d4a574;
-  --color-text-muted: #b8956c;
-  --color-accent-primary: #cd7f32;
-  --color-accent-secondary: #b8860b;
-  --color-accent-tertiary: #daa520;
-  --color-border: #5c4033;
-  --color-success: #6b8e23;
-  --color-warning: #daa520;
-  --color-error: #cd5c5c;
-  --color-glow: rgba(205, 127, 50, 0.3);
-  --gradient-primary: linear-gradient(135deg, #1c1510 0%, #463328 50%, #2a1f18 100%);
-  --gradient-accent: linear-gradient(135deg, #cd7f32 0%, #b8860b 50%, #daa520 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 13: Cyber Neon ─── */
-[data-theme="cyber-neon"] {
-  --color-bg-primary: #0a0a0f;
-  --color-bg-secondary: #12121a;
-  --color-bg-tertiary: #1a1a25;
-  --color-bg-card: #222230;
-  --color-text-primary: #f0f0ff;
-  --color-text-secondary: #00ff88;
-  --color-text-muted: #ff00ff;
-  --color-accent-primary: #00ffff;
-  --color-accent-secondary: #ff00ff;
-  --color-accent-tertiary: #ffff00;
-  --color-border: #333345;
-  --color-success: #00ff88;
-  --color-warning: #ffff00;
-  --color-error: #ff3366;
-  --color-glow: rgba(0, 255, 255, 0.4);
-  --gradient-primary: linear-gradient(135deg, #0a0a0f 0%, #222230 50%, #12121a 100%);
-  --gradient-accent: linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #ffff00 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.7);
-  --shadow-glow: 0 0 30px var(--color-glow);
-}
-
-/* ─── Theme 14: Desert Sand ─── */
-[data-theme="desert-sand"] {
-  --color-bg-primary: #fef7ed;
-  --color-bg-secondary: #fed7aa;
-  --color-bg-tertiary: #fdba74;
-  --color-bg-card: #ffffff;
-  --color-text-primary: #7c2d12;
-  --color-text-secondary: #c2410c;
-  --color-text-muted: #ea580c;
-  --color-accent-primary: #f97316;
-  --color-accent-secondary: #fb923c;
-  --color-accent-tertiary: #ef4444;
-  --color-border: #fed7aa;
-  --color-success: #65a30d;
-  --color-warning: #eab308;
-  --color-error: #dc2626;
-  --color-glow: rgba(249, 115, 22, 0.2);
-  --gradient-primary: linear-gradient(135deg, #fef7ed 0%, #fed7aa 50%, #fdba74 100%);
-  --gradient-accent: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #ef4444 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 15: Moonlit Silver ─── */
-[data-theme="moonlit-silver"] {
-  --color-bg-primary: #0f0f12;
-  --color-bg-secondary: #1a1a20;
-  --color-bg-tertiary: #25252e;
-  --color-bg-card: #30303c;
-  --color-text-primary: #e8e8f0;
-  --color-text-secondary: #b8b8c8;
-  --color-text-muted: #8888a0;
-  --color-accent-primary: #c0c0d0;
-  --color-accent-secondary: #a0a0b8;
-  --color-accent-tertiary: #6366f1;
-  --color-border: #40404f;
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-  --color-glow: rgba(192, 192, 208, 0.2);
-  --gradient-primary: linear-gradient(135deg, #0f0f12 0%, #30303c 50%, #1a1a20 100%);
-  --gradient-accent: linear-gradient(135deg, #c0c0d0 0%, #a0a0b8 50%, #6366f1 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 16: Tropical Paradise ─── */
-[data-theme="tropical-paradise"] {
-  --color-bg-primary: #042f2e;
-  --color-bg-secondary: #064e3b;
-  --color-bg-tertiary: #065f46;
-  --color-bg-card: #047857;
-  --color-text-primary: #ecfdf5;
-  --color-text-secondary: #a7f3d0;
-  --color-text-muted: #6ee7b7;
-  --color-accent-primary: #10b981;
-  --color-accent-secondary: #f59e0b;
-  --color-accent-tertiary: #ec4899;
-  --color-border: #059669;
-  --color-success: #34d399;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-  --color-glow: rgba(16, 185, 129, 0.3);
-  --gradient-primary: linear-gradient(135deg, #042f2e 0%, #047857 50%, #064e3b 100%);
-  --gradient-accent: linear-gradient(135deg, #10b981 0%, #f59e0b 50%, #ec4899 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 17: Slate Professional ─── */
-[data-theme="slate-professional"] {
-  --color-bg-primary: #f8fafc;
-  --color-bg-secondary: #f1f5f9;
-  --color-bg-tertiary: #e2e8f0;
-  --color-bg-card: #ffffff;
-  --color-text-primary: #1e293b;
-  --color-text-secondary: #475569;
-  --color-text-muted: #64748b;
-  --color-accent-primary: #3b82f6;
-  --color-accent-secondary: #0ea5e9;
-  --color-accent-tertiary: #8b5cf6;
-  --color-border: #cbd5e1;
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-glow: rgba(59, 130, 246, 0.15);
-  --gradient-primary: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
-  --gradient-accent: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 50%, #8b5cf6 100%);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --shadow-glow: 0 0 15px var(--color-glow);
-}
-
-/* ─── Theme 18: Emerald Deep ─── */
-[data-theme="emerald-deep"] {
-  --color-bg-primary: #022c22;
-  --color-bg-secondary: #064e3b;
-  --color-bg-tertiary: #065f46;
-  --color-bg-card: #047857;
-  --color-text-primary: #ecfdf5;
-  --color-text-secondary: #a7f3d0;
-  --color-text-muted: #6ee7b7;
-  --color-accent-primary: #34d399;
-  --color-accent-secondary: #10b981;
-  --color-accent-tertiary: #14b8a6;
-  --color-border: #059669;
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-  --color-glow: rgba(52, 211, 153, 0.3);
-  --gradient-primary: linear-gradient(135deg, #022c22 0%, #047857 50%, #064e3b 100%);
-  --gradient-accent: linear-gradient(135deg, #34d399 0%, #10b981 50%, #14b8a6 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 19: Rose Garden ─── */
-[data-theme="rose-garden"] {
-  --color-bg-primary: #1f0a14;
-  --color-bg-secondary: #2d101c;
-  --color-bg-tertiary: #3b1624;
-  --color-bg-card: #491c2c;
-  --color-text-primary: #fdf2f8;
-  --color-text-secondary: #f9a8d4;
-  --color-text-muted: #f472b6;
-  --color-accent-primary: #ec4899;
-  --color-accent-secondary: #db2777;
-  --color-accent-tertiary: #be185d;
-  --color-border: #831843;
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-error: #fca5a5;
-  --color-glow: rgba(236, 72, 153, 0.3);
-  --gradient-primary: linear-gradient(135deg, #1f0a14 0%, #491c2c 50%, #2d101c 100%);
-  --gradient-accent: linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 20: Indigo Dream ─── */
-[data-theme="indigo-dream"] {
-  --color-bg-primary: #0f0a1f;
-  --color-bg-secondary: #1a1030;
-  --color-bg-tertiary: #251640;
-  --color-bg-card: #301c50;
-  --color-text-primary: #eef2ff;
-  --color-text-secondary: #a5b4fc;
-  --color-text-muted: #818cf8;
-  --color-accent-primary: #6366f1;
-  --color-accent-secondary: #8b5cf6;
-  --color-accent-tertiary: #a855f7;
-  --color-border: #4338ca;
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-  --color-glow: rgba(99, 102, 241, 0.3);
-  --gradient-primary: linear-gradient(135deg, #0f0a1f 0%, #301c50 50%, #1a1030 100%);
-  --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 21: Amber Glow ─── */
-[data-theme="amber-glow"] {
-  --color-bg-primary: #1c1408;
-  --color-bg-secondary: #2a1e0c;
-  --color-bg-tertiary: #382810;
-  --color-bg-card: #463214;
-  --color-text-primary: #fffbeb;
-  --color-text-secondary: #fcd34d;
-  --color-text-muted: #f59e0b;
-  --color-accent-primary: #f59e0b;
-  --color-accent-secondary: #fbbf24;
-  --color-accent-tertiary: #eab308;
-  --color-border: #92400e;
-  --color-success: #4ade80;
-  --color-warning: #fcd34d;
-  --color-error: #f87171;
-  --color-glow: rgba(245, 158, 11, 0.3);
-  --gradient-primary: linear-gradient(135deg, #1c1408 0%, #463214 50%, #2a1e0c 100%);
-  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #eab308 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 22: Teal Serenity ─── */
-[data-theme="teal-serenity"] {
-  --color-bg-primary: #042f2e;
-  --color-bg-secondary: #0a4544;
-  --color-bg-tertiary: #115e59;
-  --color-bg-card: #14746f;
-  --color-text-primary: #f0fdfa;
-  --color-text-secondary: #5eead4;
-  --color-text-muted: #2dd4bf;
-  --color-accent-primary: #14b8a6;
-  --color-accent-secondary: #2dd4bf;
-  --color-accent-tertiary: #06b6d4;
-  --color-border: #0d9488;
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-  --color-glow: rgba(20, 184, 166, 0.3);
-  --gradient-primary: linear-gradient(135deg, #042f2e 0%, #14746f 50%, #0a4544 100%);
-  --gradient-accent: linear-gradient(135deg, #14b8a6 0%, #2dd4bf 50%, #06b6d4 100%);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ─── Theme 23: Warm Paper ─── */
-[data-theme="warm-paper"] {
-  --color-bg-primary: #fdfaf6;
-  --color-bg-secondary: #f5f0e8;
-  --color-bg-tertiary: #ebe5da;
-  --color-bg-card: #ffffff;
-  --color-text-primary: #3d3530;
-  --color-text-secondary: #5c524a;
-  --color-text-muted: #7a6f65;
-  --color-accent-primary: #b45309;
-  --color-accent-secondary: #d97706;
-  --color-accent-tertiary: #059669;
-  --color-border: #d4c9bc;
-  --color-success: #059669;
-  --color-warning: #d97706;
-  --color-error: #dc2626;
-  --color-glow: rgba(180, 83, 9, 0.15);
-  --gradient-primary: linear-gradient(135deg, #fdfaf6 0%, #f5f0e8 50%, #ebe5da 100%);
-  --gradient-accent: linear-gradient(135deg, #b45309 0%, #d97706 50%, #059669 100%);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --shadow-glow: 0 0 15px var(--color-glow);
-}
-
-/* ─── Theme 24: High Contrast ─── */
-[data-theme="high-contrast"] {
-  --color-bg-primary: #000000;
-  --color-bg-secondary: #0a0a0a;
-  --color-bg-tertiary: #141414;
-  --color-bg-card: #1e1e1e;
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #e0e0e0;
-  --color-text-muted: #c0c0c0;
-  --color-accent-primary: #ffff00;
-  --color-accent-secondary: #00ffff;
-  --color-accent-tertiary: #ff00ff;
-  --color-border: #404040;
-  --color-success: #00ff00;
-  --color-warning: #ffff00;
-  --color-error: #ff0000;
-  --color-glow: rgba(255, 255, 0, 0.3);
-  --gradient-primary: linear-gradient(135deg, #000000 0%, #1e1e1e 50%, #0a0a0a 100%);
-  --gradient-accent: linear-gradient(135deg, #ffff00 0%, #00ffff 50%, #ff00ff 100%);
-  --shadow-sm: 0 2px 4px rgba(255, 255, 255, 0.1);
-  --shadow-md: 0 4px 12px rgba(255, 255, 255, 0.15);
-  --shadow-lg: 0 8px 32px rgba(255, 255, 255, 0.2);
-  --shadow-glow: 0 0 20px var(--color-glow);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SECTION 2: GLOBAL RESET & BASE STYLES
-   ───────────────────────────────────────────────────────────────────────────
-   Purpose: Normalizes browser defaults and establishes foundational styles.
-   How to extend: Add new base element styles here.
-   Expected outcome: Consistent rendering across browsers.
-═══════════════════════════════════════════════════════════════════════════ */
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
-  background: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  line-height: var(--line-height-normal);
-  min-height: 100vh;
-  overflow-x: hidden;
-  transition: background-color var(--transition-medium), color var(--transition-medium);
-}
-
-/* Focus styles for accessibility */
-:focus-visible {
-  outline: 3px solid var(--color-accent-primary);
-  outline-offset: 2px;
-}
-
-:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-bg-secondary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 5px;
-  border: 2px solid var(--color-bg-secondary);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent-primary);
-}
-
-/* Selection colors */
-::selection {
-  background: var(--color-accent-primary);
-  color: var(--color-bg-primary);
-}
-
-/* Link styles */
-a {
-  color: var(--color-accent-primary);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-a:hover {
-  color: var(--color-accent-secondary);
-  text-decoration: underline;
-}
-
-/* Button base styles */
-button {
-  font-family: inherit;
-  font-size: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-/* Image defaults */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SECTION 3: TYPOGRAPHY SYSTEM
-   ───────────────────────────────────────────────────────────────────────────
-   Purpose: Establishes consistent typographic hierarchy.
-   How to extend: Add new heading levels or text styles.
-   Expected outcome: Clear visual hierarchy and readability.
-═══════════════════════════════════════════════════════════════════════════ */
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
-  font-weight: 600;
-  line-height: var(--line-height-tight);
-  color: var(--color-text-primary);
-}
-
-h1 { font-size: var(--font-size-4xl); margin-bottom: var(--spacing-lg); }
-h2 { font-size: var(--font-size-3xl); margin-bottom: var(--spacing-md); }
-h3 { font-size: var(--font-size-2xl); margin-bottom: var(--spacing-md); }
-h4 { font-size: var(--font-size-xl); margin-bottom: var(--spacing-sm); }
-h5 { font-size: var(--font-size-lg); margin-bottom: var(--spacing-sm); }
-h6 { font-size: var(--font-size-base); margin-bottom: var(--spacing-sm); }
-
-p {
-  margin-bottom: var(--spacing-md);
-  line-height: var(--line-height-relaxed);
-}
-
-.text-muted { color: var(--color-text-muted); }
-.text-secondary { color: var(--color-text-secondary); }
-.text-accent { color: var(--color-accent-primary); }
-.text-center { text-align: center; }
-.text-small { font-size: var(--font-size-sm); }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SECTION 4: ANIMATED SPLASH SCREEN
-   ───────────────────────────────────────────────────────────────────────────
-   Purpose: Creates an engaging entry experience with animated elements.
-   How to extend: Add more animation keyframes or particle effects.
-   Expected outcome: Smooth fade-in with floating particles and text animation.
-═══════════════════════════════════════════════════════════════════════════ */
-
-#splash-screen {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-splash);
-  background: var(--gradient-primary);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--spacing-lg);
-  transition: opacity 1s ease, visibility 1s ease;
-}
-
-#splash-screen.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-#splash-screen::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 0%, var(--color-bg-primary) 70%);
-  pointer-events: none;
-}
-
-.splash-particles {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.splash-particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: var(--color-accent-primary);
-  border-radius: 50%;
-  opacity: 0.6;
-  animation: floatParticle 15s infinite ease-in-out;
-}
-
-@keyframes floatParticle {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-  25% { transform: translate(50px, -100px) scale(1.5); opacity: 0.8; }
-  50% { transform: translate(-30px, -200px) scale(1); opacity: 0.4; }
-  75% { transform: translate(80px, -150px) scale(1.2); opacity: 0.7; }
-}
-
-.splash-content {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-}
-
-.splash-logo {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto var(--spacing-lg);
-  position: relative;
-  animation: pulseGlow 3s infinite ease-in-out;
-}
-
-.splash-logo svg {
-  width: 100%;
-  height: 100%;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { filter: drop-shadow(0 0 10px var(--color-glow)); }
-  50% { filter: drop-shadow(0 0 30px var(--color-glow)); }
-}
-
-.splash-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  letter-spacing: 4px;
-  margin-bottom: var(--spacing-md);
-  background: var(--gradient-accent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: fadeInUp 1s ease 0.3s both;
-}
-
-.splash-subtitle {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-  max-width: 600px;
-  margin: 0 auto var(--spacing-xl);
-  line-height: var(--line-height-relaxed);
-  animation: fadeInUp 1s ease 0.6s both;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.splash-enter-btn {
-  padding: var(--spacing-md) var(--spacing-xl);
-  font-size: var(--font-size-lg);
-  font-weight: 600;
-  letter-spacing: 2px;
-  background: var(--gradient-accent);
-  color: var(--color-bg-primary);
-  border-radius: var(--border-radius-lg);
-  cursor: pointer;
-  transition: transform var(--transition-medium), box-shadow var(--transition-medium);
-  animation: fadeInUp 1s ease 0.9s both;
-  border: none;
-}
-
-.splash-enter-btn:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-glow);
-}
-
-.splash-enter-btn:active {
-  transform: scale(0.98);
-}
-
-.splash-skip {
-  position: absolute;
-  bottom: var(--spacing-lg);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
-  cursor: pointer;
-  transition: color var(--transition-fast);
-}
-
-.splash-skip:hover {
-  color: var(--color-text-primary);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SECTION 5: MAIN APPLICATION LAYOUT
-   ───────────────────────────────────────────────────────────────────────────
-   Purpose: Structures the main application with sticky navigation.
-   How to extend: Add new layout regions or modify grid structure.
-   Expected outcome: Responsive layout with fixed header and scrollable content.
-═══════════════════════════════════════════════════════════════════════════ */
-
-#app-container {
-  display: none;
-  flex-direction: column;
-  min-height: 100vh;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-#app-container.visible {
-  display: flex;
-  opacity: 1;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SECTION 6: STICKY NAVIGATION & TABLE OF CONTENTS
-   ───────────────────────────────────────────────────────────────────────────
-   Purpose: Provides persistent navigation with section links.
-   How to extend: Add dropdown menus or additional nav items.
-   Expected outcome: Fixed header that remains visible during scroll.
-═══════════════════════════════════════════════════════════════════════════ */
-
-#main-header {
-  position: sticky;
-  top: 0;
-  z-index: var(--z-sticky);
-  background: var(--color-bg-secondary);
-  border-bottom: 1px solid var(--color-border);
-  backdrop-filter: blur(10px);
-}
-
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--spacing-sm) var(--spacing-md);
-  gap: var(--spacing-md);
-  flex-wrap: wrap;
-}
-
-.site-title {
-  font-size: var(--font-size-xl);
-  font-weight: 600;
-  color: var(--color-accent-primary);
-  letter-spacing: 2px;
-}
-
-.header-controls {
-  display: flex;
-  gap: var(--spacing-sm);
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-/* Search box */
-.search-container {
-  position: relative;
-}
-
-#search-input {
-  padding: var(--spacing-sm) var(--spacing-md);
-  padding-left: 36px;
-  background: var(--color-bg-tertiary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-sm);
-  width: 200px;
-  transition: border-color var(--transition-fast), width var(--transition-medium);
-}
-
-#search-input:focus {
-  border-color: var(--color-accent-primary);
-  width: 280px;
-}
-
-#search-input::placeholder {
-  color: var(--color-text-muted);
-}
-
-.search-icon {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--color-text-muted);
-  pointer-events: none;
-}
-
-.search-results {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  margin-top: 4px;
-  max-height: 300px;
-  overflow-y: auto;
-  display: none;
-  box-shadow: var(--shadow-lg);
-}
-
-.search-results.active {
-  display: block;
-}
-
-.search-result-item {
-  padding: var(--spacing-sm) var(--spacing-md);
-  cursor: pointer;
-  border-bottom: 1px solid var(--color-border);
-  transition: background-color var(--transition-fast);
-}
-
-.search-result-item:last-child {
-  border-bottom: none;
-}
-
-.search-result-item:hover {
-  background: var(--color-bg-tertiary);
-}
-
-.search-result-title {
-  font-weight: 600;
-  color: var(--color-text-primary);
-  font-size: var(--font-size-sm);
-}
-
-.search-result-excerpt {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  margin-top: 2px;
-}
-
-.search-highlight {
-  background: var(--color-accent-primary);
-  color: var(--color-bg-primary);
-  padding: 0 2px;
-  border-radius: 2px;
-}
-
-/* Control buttons */
-.control-btn {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-sm) var(--spacing-md);
-  background: var(--color-bg-tertiary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.control-btn:hover {
-  background: var(--color-bg-card);
-  color: var(--color-accent-primary);
-  border-color: var(--color-accent-primary);
-}
-
-.control-btn svg {
-  width: 16px;
-  height: 16px;
-}
-
-/* Dropdown menus */
-.dropdown {
-  position: relative;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  min-width: 200px;
-  max-height: 400px;
-  overflow-y: auto;
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  margin-top: 4px;
-  display: none;
-  box-shadow: var(--shadow-lg);
-  z-index: var(--z-dropdown);
-}
-
-.dropdown-menu.active {
-  display: block;
-  animation: dropdownFade 0.2s ease;
-}
-
-@keyframes dropdownFade {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  font-size: var(--font-size-sm);
-}
-
-.dropdown-item:hover {
-  background: var(--color-bg-tertiary);
-  color: var(--color-text-primary);
-}
-
-.dropdown-item.active {
-  background: var(--color-accent-primary);
-  color: var(--color-bg-primary);
-}
-
-.dropdown-divider {
-  height: 1px;
-  background: var(--color-border);
-  margin: var(--spacing-xs) 0;
-}
-
-/* Navigation tabs */
-.nav-tabs {
-  display: flex;
-  gap: 2px;
-  padding: 0 var(--spacing-md);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.nav-tabs::-webkit-scrollbar {
-  display: none;
-}
-
-.nav-tab {
-  padding: var(--spacing-sm) var(--spacing-md);
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
-  white-space: nowrap;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.nav-tab:hover {
-  color: var(--color-text-primary);
-  background: var(--color-bg-tertiary);
-}
-
-.nav-tab.active {
-  color: var(--color-accent-primary);
-  border-bottom-color: var(--color-accent-primary);
-}
-
-/* Mobile menu toggle */
-.menu-toggle {
-  display: none;
-  padding: var(--spacing-sm);
-  background: var(--color-bg-tertiary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  color: var(--color-text-primary);
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: flex;
-  }
-  
-  .nav-tabs {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background: var(--color-bg-secondary);
-    border-bottom: 1px solid var(--color-border);
-    padding: var(--spacing-sm);
-  }
-  
-  .nav-tabs.mobile-open {
-    display: flex;
-  }
-  
-  .nav-tab {
-    border-bottom: none;
-    border-left: 2px solid transparent;
-  }
-  
-  .nav-tab.active {
-    border-left-color: var(--color-accent-primary);
-    border-bottom: none;
-  }
-  
-  #search-input {
-    width: 150px;
-  }
-  
-  #search-input:focus {
-    width: 200px;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SECTION 7: GAMIFICATION HUD
-   ───────────────────────────────────────────────────────────────────────────
-   Purpose: Displays user progress, achievements, and engagement metrics.
-   How to extend: Add new stat types or achievement categories.
-   Expected outcome: Always-visible progress indicators that motivate engagement.
-═══════════════════════════════════════════════════════════════════════════ */
-
-#gamification-hud {
-  position: fixed;
-  top: 120px;
-  right: var(--spacing-md);
-  z-index: var(--z-hud);
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacing-md);
-  width: 220px;
-  box-shadow: var(--shadow-lg);
-  transition: transform var(--transition-medium), opacity var(--transition-medium);
-}
-
-#gamification-hud.collapsed {
-  transform: translateX(calc(100% + var(--spacing-md)));
-}
-
-.hud-toggle {
-  position: absolute;
-  left: -36px;
-  top: var(--spacing-sm);
-  width: 32px;
-  height: 32px;
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.hud-toggle:hover {
-  background: var(--color-accent-primary);
-  color: var(--color-bg-primary);
-}
-
-.hud-toggle svg {
-  width: 16px;
-  height: 16px;
-  transition: transform var(--transition-fast);
-}
-
-#gamification-hud.collapsed .hud-toggle svg {
-  transform: rotate(180deg);
-}
-
-.hud-title {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--color-accent-primary);
-  margin-bottom: var(--spacing-sm);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.hud-section {
-  margin-bottom: var(--spacing-md);
-}
-
-.hud-section:last-child {
-  margin-bottom: 0;
-}
-
-.hud-label {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  margin-bottom: var(--spacing-xs);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.hud-value {
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-/* Progress bar */
-.progress-bar {
-  height: 8px;
-  background: var(--color-bg-tertiary);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-}
-
-.progress-fill {
-  height: 100%;
-  background: var(--gradient-accent);
-  border-radius: 4px;
-  transition: width var(--transition-medium);
-  position: relative;
-}
-
-.progress-fill::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(100%); }
-}
-
-/* Stats grid */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--spacing-sm);
-}
-
-.stat-item {
-  background: var(--color-bg-tertiary);
-  padding: var(--spacing-sm);
-  border-radius: var(--border-radius-sm);
-  text-align: center;
-}
-
-.stat-number {
-  font-size: var(--font-size-lg);
-  font-weight: 700;
-  color: var(--color-accent-primary);
-}
-
-.stat-label {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-}
-
-/* Achievements */
-.achievements-list {
-  display: flex;
-  gap: var(--spacing-xs);
-  flex-wrap: wrap;
-}
-
-.achievement-badge {
-  width: 32px;
-  height: 32px;
-  background: var(--color-bg-tertiary);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  cursor: help;
-  transition: all var(--transition-fast);
-  position: relative;
-}
-
-.achievement-badge.earned {
-  background: var(--gradient-accent);
-  box-shadow: var(--shadow-glow);
-}
-
-.achievement-badge.locked {
-  opacity: 0.4;
-  filter: grayscale(1);
-}
-
-.achievement-badge:hover::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--border-radius-sm);
-  font-size: var(--font-size-xs);
-  white-space: nowrap;
-  margin-bottom: 4px;
-  border: 1px solid var(--color-border);
-  z-index: 100;
-}
-
-/* Streak counter */
-.streak-display {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  background: var(--color-bg-tertiary);
-  border-radius: var(--border-radius-md);
-}
-
-.streak-icon {
-  font-size: 24px;
-}
-
-.streak-info {
-  flex: 1;
-}
-
-.streak-count {
-  font-size: var(--font-size-lg);
-  font-weight: 700;
-  color: var(--color-warning);
-}
-
-.streak-label {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-}
-
-@media (max-width: 1024px) {
-  #gamification-hud {
-    top: auto;
-    bottom: var(--spacing-md);
-    right: var(--spacing-md);
-    width: 180px;
-    padding: var(--spacing-sm);
-  }
-  
-  #gamification-hud.collapsed {
-    transform: translateY(calc(100% + var(--spacing-md)));
-  }
-  
-  .hud-toggle {
-    left: 50%;
-    transform: translateX(-50%);
-    top: -36px;
-  }
-  
-  #gamification-hud.collapsed .hud-toggle svg {
-    transform: rotate(90deg);
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SECTION 8: CONSTELLATION STATE VISUALIZER
-   ───────────────────────────────────────────────────────────────────────────
-   Purpose: Visual representation of user's journey through content sections.
-   How to extend: Add more node types or connection patterns.
-   Expected outcome: Interactive star map showing visited and available sections.
-═══════════════════════════════════════════════════════════════════════════ */
-
-#constellation-visualizer {
-  position: fixed;
-  bottom: var(--spacing-md);
-  left: var(--spacing-md);
-  z-index: var(--z-constellation);
-  width: 200px;
-  height: 150px;
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-  transition: transform var(--transition-medium), opacity var(--transition-medium);
-}
-
-#constellation-visualizer.collapsed {
-  transform: translateX(calc(-100% - var(--spacing-md)));
-}
-
-.constellation-toggle {
-  position: absolute;
-  right: -36px;
-  top: var(--spacing-sm);
-  width: 32px;
-  height: 32px;
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  z-index: 10;
-}
-
-.constellation-toggle:hover {
-  background: var(--color-accent-primary);
-  color: var(--color-bg-primary);
-}
-
-.constellation-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.constellation-label {
-  position: absolute;
-  bottom: 4px;
-  left: 4px;
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  background: var(--color-bg-card);
-  padding: 2px 6px;
-  border-radius: var(--border-radius-sm);
-}
-
-@media (max-width: 768px) {
-  #constellation-visualizer {
-    display: none;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SECTION 9: MAIN CONTENT AREA WITH PARALLAX
-   ───────────────────────────────────────────────────────────────────────────
-   Purpose: Scrollable content area with parallax effects on section headers.
-   How to extend: Add new section types or parallax layers.
-   Expected outcome: Smooth scrolling with depth illusion.
-═══════════════════════════════════════════════════════════════════════════ */
-
-#main-content {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
-
-.parallax-container {
-  position: relative;
-}
-
-/* Content sections */
-.content-section {
-  padding: var(--spacing-xl) var(--spacing-lg);
-  max-width: 900px;
-  margin: 0 auto;
-  position: relative;
-}
-
-.content-section:nth-child(odd) {
-  background: var(--color-bg-secondary);
-}
-
-/* Section header with parallax effect */
-.section-header {
-  position: relative;
-  padding: var(--spacing-xl) 0;
-  margin-bottom: var(--spacing-lg);
-  text-align: center;
-  overflow: hidden;
-}
-
-.section-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -50%;
-  width: 200%;
-  height: 100%;
-  background: radial-gradient(ellipse at center, var(--color-glow) 0%, transparent 70%);
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-.section-icon {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto var(--spacing-md);
-  background: var(--gradient-accent);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  box-shadow: var(--shadow-glow);
-  animation: floatIcon 6s infinite ease-in-out;
-}
-
-@keyframes floatIcon {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.section-title {
-  font-size: var(--font-size-3xl);
-  margin-bottom: var(--spacing-sm);
-  background: var(--gradient-accent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.section-subtitle {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* Section body */
-.section-body {
-  line-height: var(--line-height-relaxed);
-}
-
-.section-body p {
-  margin-bottom: var(--spacing-md);
-}
-
-/* Feature cards */
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--spacing-lg);
-  margin-top: var(--spacing-lg);
-}
-
-.feature-card {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacing-lg);
-  transition: all var(--transition-medium);
-}
-
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--color-accent-primary);
-}
-
-.feature-card-icon {
-  width: 48px;
-  height: 48px;
-  background: var(--color-bg-tertiary);
-  border-radius: var(--border-radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  margin-bottom: var(--spacing-md);
-}
-
-.feature-card-title {
-  font-size: var(--font-size-lg);
-  font-weight: 600;
-  margin-bottom: var(--spacing-sm);
-  color: var(--color-text-primary);
-}
-
-.feature-card-description {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  line-height: var(--line-height-relaxed);
-}
-
-/* Collapsible content */
-.collapsible {
-  margin: var(--spacing-md) 0;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  overflow: hidden;
-}
-
-.collapsible-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-md);
-  background: var(--color-bg-tertiary);
-  cursor: pointer;
-  transition: background-color var(--transition-fast);
-  user-select: none;
-}
-
-.collapsible-header:hover {
-  background: var(--color-bg-card);
-}
-
-.collapsible-title {
-  font-weight: 600;
-  color: var(--color-text-primary);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.collapsible-icon {
-  width: 20px;
-  height: 20px;
-  transition: transform var(--transition-fast);
-}
-
-.collapsible.open .collapsible-icon {
-  transform: rotate(180deg);
-}
-
-.collapsible-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height var(--transition-medium);
-}
-
-.collapsible.open .collapsible-content {
-  max-height: 2000px;
-}
-
-.collapsible-body {
-  padding: var(--spacing-md);
-  background: var(--color-bg-secondary);
-}
-
-/* Quote blocks */
-.quote-block {
-  padding: var(--spacing-lg);
-  margin: var(--spacing-lg) 0;
-  border-left: 4px solid var(--color-accent-primary);
-  background: var(--color-bg-tertiary);
-  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
-  position: relative;
-}
-
-.quote-block::before {
-  content: '"';
-  position: absolute;
-  top: -10px;
-  left: 10px;
-  font-size: 60px;
-  color: var(--color-accent-primary);
-  opacity: 0.3;
-  font-family: Georgia, serif;
-}
-
-.quote-text {
-  font-size: var(--font-size-lg);
-  font-style: italic;
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-sm);
-}
-
-.quote-attribution {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
-}
-
-/* Interactive elements */
-.interactive-action {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-  background: var(--color-bg-tertiary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  margin: var(--spacing-xs);
-}
-
-.interactive-action:hover {
-  background: var(--color-accent-primary);
-  color: var(--color-bg-primary);
-  border-color: var(--color-accent-primary);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SECTION 10: FOOTER & ZERO-HARM NOTE
-   ───────────────────────────────────────────────────────────────────────────
-   Purpose: Contains attribution, licensing, and ethical commitment notices.
-   How to extend: Add additional footer sections or links.
-   Expected outcome: Clear display of ethical commitments and legal notices.
-═══════════════════════════════════════════════════════════════════════════ */
-
-#main-footer {
-  background: var(--color-bg-secondary);
-  border-top: 1px solid var(--color-border);
-  padding: var(--spacing-xl) var(--spacing-lg);
-}
-
-.footer-content {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.zero-harm-notice {
-  background: var(--color-bg-tertiary);
-  border: 1px solid var(--color-accent-primary);
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-lg);
-}
-
-.zero-harm-title {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-lg);
-  font-weight: 600;
-  color: var(--color-accent-primary);
-  margin-bottom: var(--spacing-md);
-}
-
-.zero-harm-text {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  line-height: var(--line-height-relaxed);
-}
-
-.zero-harm-text strong {
-  color: var(--color-text-primary);
-}
-
-.anti-inversion-notice {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  padding: var(--spacing-md);
-  margin-top: var(--spacing-md);
-}
-
-.anti-inversion-title {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--color-warning);
-  margin-bottom: var(--spacing-xs);
-}
-
-.anti-inversion-text {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-}
-
-.footer-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-lg);
-  justify-content: space-between;
-  align-items: flex-start;
-  padding-top: var(--spacing-lg);
-  border-top: 1px solid var(--color-border);
-}
-
-.footer-section {
-  min-width: 200px;
-}
-
-.footer-section-title {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-sm);
-}
-
-.footer-links {
-  list-style: none;
-}
-
-.footer-links li {
-  margin-bottom: var(--spacing-xs);
-}
-
-.footer-links a {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
-}
-
-.footer-links a:hover {
-  color: var(--color-accent-primary);
-}
-
-.footer-copyright {
-  text-align: center;
-  padding-top: var(--spacing-lg);
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SECTION 11: MODALS & OVERLAYS
-   ───────────────────────────────────────────────────────────────────────────
-   Purpose: Reusable modal dialog system for settings and interactions.
-   How to extend: Add new modal types with specific content styles.
-   Expected outcome: Accessible modal dialogs with proper focus management.
-═══════════════════════════════════════════════════════════════════════════ */
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: var(--z-modal);
-  padding: var(--spacing-lg);
-}
-
-.modal-overlay.active {
-  display: flex;
-  animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.modal-container {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-xl);
-  max-width: 600px;
-  width: 100%;
-  max-height: 90vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  animation: modalSlideIn 0.3s ease;
-}
-
-@keyframes modalSlideIn {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.modal-title {
-  font-size: var(--font-size-xl);
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.modal-close {
-  width: 32px;
-  height: 32px;
-  background: var(--color-bg-tertiary);
-  border: none;
-  border-radius: var(--border-radius-md);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--transition-fast);
-}
-
-.modal-close:hover {
-  background: var(--color-error);
-  color: white;
-}
-
-.modal-body {
-  padding: var(--spacing-lg);
-  overflow-y: auto;
-  flex: 1;
-}
-
-.modal-footer {
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-top: 1px solid var(--color-border);
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-sm);
-}
-
-/* Settings form styles */
-.settings-group {
-  margin-bottom: var(--spacing-lg);
-}
-
-.settings-group:last-child {
-  margin-bottom: 0;
-}
-
-.settings-label
+:root{--bg:#0a1628;--bg2:#0f1f35;--bg3:#152844;--card:#1a3052;--text:#e8f4f8;--text2:#a8c5d4;--muted:#6b8fa8;--accent:#4fd1c5;--accent2:#63b3ed;--accent3:#9f7aea;--border:#2a4a6a;--success:#48bb78;--warn:#ecc94b;--error:#fc8181;--glow:rgba(79,209,197,0.3)}
+[data-theme="sunset"]{--bg:#1a0f0a;--bg2:#2d1810;--bg3:#3d2218;--card:#4d2c20;--text:#faf0e6;--text2:#d4a574;--muted:#a67c52;--accent:#f59e0b;--accent2:#ef4444;--accent3:#ec4899;--border:#5d3628;--success:#84cc16;--warn:#fbbf24;--error:#f87171;--glow:rgba(245,158,11,0.3)}
+[data-theme="forest"]{--bg:#0d1f14;--bg2:#14291c;--bg3:#1a3324;--card:#203d2c;--text:#e8f5e9;--text2:#a5d6a7;--muted:#66bb6a;--accent:#4caf50;--accent2:#8bc34a;--accent3:#009688;--border:#2e5a3a;--success:#66bb6a;--warn:#ffeb3b;--error:#ef5350;--glow:rgba(76,175,80,0.3)}
+[data-theme="ocean"]{--bg:#0a1929;--bg2:#0d2137;--bg3:#102945;--card:#133153;--text:#e3f2fd;--text2:#90caf9;--muted:#42a5f5;--accent:#00bcd4;--accent2:#03a9f4;--accent3:#3f51b5;--border:#1e4976;--success:#26a69a;--warn:#ffca28;--error:#ef5350;--glow:rgba(0,188,212,0.3)}
+[data-theme="cyber"]{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;--card:#222230;--text:#f0f0ff;--text2:#00ff88;--muted:#ff00ff;--accent:#00ffff;--accent2:#ff00ff;--accent3:#ffff00;--border:#333345;--success:#00ff88;--warn:#ffff00;--error:#ff3366;--glow:rgba(0,255,255,0.4)}
+[data-theme="sakura"]{--bg:#fdf2f8;--bg2:#fce7f3;--bg3:#fbcfe8;--card:#fff;--text:#831843;--text2:#be185d;--muted:#db2777;--accent:#ec4899;--accent2:#f472b6;--accent3:#a855f7;--border:#f9a8d4;--success:#34d399;--warn:#fbbf24;--error:#f87171;--glow:rgba(236,72,153,0.2)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Georgia,serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.hidden{display:none!important}
+#splash{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;transition:opacity .8s}
+#splash.hidden{opacity:0;pointer-events:none}
+#splash::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--glow) 0%,transparent 70%)}
+.splash-content{position:relative;z-index:1;max-width:700px}
+.splash-logo{width:120px;height:120px;margin:0 auto 2rem;animation:pulse 3s infinite}
+@keyframes pulse{0%,100%{filter:drop-shadow(0 0 10px var(--glow))}50%{filter:drop-shadow(0 0 30px var(--glow))}}
+.splash-title{font-size:clamp(2rem,5vw,3.5rem);letter-spacing:4px;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:fadeUp 1s ease .3s both}
+.splash-subtitle{font-size:1.1rem;color:var(--text2);max-width:550px;margin:0 auto 4rem;animation:fadeUp 1s ease .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.splash-btn{padding:1rem 4rem;font-size:1.1rem;font-weight:600;letter-spacing:2px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg);border-radius:16px;transition:transform .3s,box-shadow .3s;animation:fadeUp 1s ease .7s both}
+.splash-btn:hover{transform:scale(1.05);box-shadow:0 0 30px var(--glow)}
+#app{display:none;min-height:100vh}#app.visible{display:block}
+#header{position:sticky;top:0;z-index:200;background:var(--bg2);border-bottom:1px solid var(--border);backdrop-filter:blur(10px);padding:.5rem 1rem}
+.header-inner{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto}
+.site-title{font-size:1.3rem;font-weight:600;color:var(--accent);letter-spacing:2px}
+.theme-btns{display:flex;gap:.5rem}
+.theme-btn{padding:.5rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;font-size:1rem;transition:all .15s}
+.theme-btn:hover,.theme-btn.active{background:var(--accent);color:var(--bg)}
+#hud{position:fixed;top:80px;right:1rem;z-index:300;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1rem;width:280px;box-shadow:0 8px 32px rgba(0,0,0,.3);max-height:calc(100vh - 100px);overflow-y:auto;transition:transform .3s}
+#hud.collapsed{transform:translateX(calc(100% + 2rem))}
+.hud-toggle{position:absolute;left:-40px;top:.5rem;width:36px;height:36px;background:var(--card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .15s}
+.hud-toggle:hover{background:var(--accent);color:var(--bg)}
+.hud-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.hud-avatar{width:56px;height:56px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 20px var(--glow)}
+.hud-user{flex:1}
+.hud-name{font-weight:600;font-size:1rem}
+.hud-title{font-size:.8rem;color:var(--accent);display:flex;align-items:center;gap:4px}
+.hud-section{margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.hud-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.hud-section-title{font-size:.7rem;font-weight:600;color:var(--accent);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:1px}
+.level-display{display:flex;align-items:center;gap:1rem;margin-bottom:.5rem}
+.level-badge{width:50px;height:50px;background:linear-gradient(135deg,var(--accent),var(--accent3));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:700;color:var(--bg);box-shadow:0 0 25px var(--glow)}
+.level-info{flex:1}
+.level-name{font-size:.9rem;font-weight:600}
+.level-xp{font-size:.75rem;color:var(--muted)}
+.progress-bar{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:5px;transition:width .3s}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem}
+.stat-item{background:var(--bg3);padding:.75rem;border-radius:8px;text-align:center}
+.stat-number{font-size:1.3rem;font-weight:700;color:var(--accent)}
+.stat-label{font-size:.65rem;color:var(--muted)}
+.streak-display{display:flex;align-items:center;gap:1rem;padding:.75rem;background:linear-gradient(135deg,var(--warn),#f97316);border-radius:12px;color:var(--bg)}
+.streak-icon{font-size:32px;animation:flicker 1s infinite}
+@keyframes flicker{0%,100%{opacity:1}50%{opacity:.7}}
+.streak-info{flex:1}
+.streak-count{font-size:1.5rem;font-weight:700}
+.streak-label{font-size:.7rem;opacity:.8}
+.streak-bonus{font-size:.65rem;background:rgba(0,0,0,.2);padding:2px 8px;border-radius:8px}
+.quests-list{display:flex;flex-direction:column;gap:.5rem}
+.quest-item{background:var(--bg3);border-radius:10px;padding:.75rem;display:flex;align-items:center;gap:.75rem}
+.quest-item.completed{opacity:.5}
+.quest-item.completed .quest-check{background:var(--success);border-color:var(--success);color:#fff}
+.quest-icon{width:36px;height:36px;background:var(--card);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
+.quest-info{flex:1}
+.quest-name{font-size:.8rem;font-weight:600}
+.quest-progress{font-size:.65rem;color:var(--muted)}
+.quest-reward{font-size:.7rem;color:var(--warn);font-weight:600}
+.quest-check{width:22px;height:22px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent}
+.achievements-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
+.achievement{aspect-ratio:1;background:var(--bg3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:help;transition:all .15s}
+.achievement.earned{background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 15px var(--glow)}
+.achievement.locked{opacity:.3;filter:grayscale(1)}
+.achievement:hover{transform:scale(1.1)}
+.rewards-btn{width:100%;padding:.75rem;background:linear-gradient(135deg,var(--accent3),var(--accent));border-radius:12px;color:var(--bg);font-weight:600;font-size:.9rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.rewards-btn:hover{transform:translateY(-2px);box-shadow:0 4px 15px var(--glow)}
+.coins-display{background:rgba(0,0,0,.2);padding:4px 10px;border-radius:8px}
+.leaderboard{display:flex;flex-direction:column;gap:4px}
+.leader-item{display:flex;align-items:center;gap:.75rem;padding:.5rem;background:var(--bg3);border-radius:8px;font-size:.8rem}
+.leader-item.you{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg)}
+.leader-rank{width:20px;font-weight:700;text-align:center}
+.leader-name{flex:1}
+.leader-score{font-weight:600}
+#content{padding:2rem 1rem 2rem calc(1rem);max-width:900px;margin:0 auto}
+@media(min-width:1024px){#content{margin-right:320px}}
+.section{margin-bottom:4rem}
+.section-header{text-align:center;margin-bottom:2rem}
+.section-icon{width:80px;height:80px;margin:0 auto 1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 0 30px var(--glow);animation:float 6s infinite ease-in-out}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.section-title{font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.section-subtitle{font-size:1.1rem;color:var(--text2)}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:2rem}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:all .3s;position:relative}
+.feature-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.2);border-color:var(--accent)}
+.feature-xp{position:absolute;top:.75rem;right:.75rem;background:var(--accent);color:var(--bg);font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:8px}
+.feature-icon{width:56px;height:56px;background:var(--bg3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:1rem}
+.feature-title{font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+.feature-desc{font-size:.95rem;color:var(--text2);line-height:1.6}
+.quote{padding:1.5rem;margin:2rem 0;border-left:4px solid var(--accent);background:var(--bg3);border-radius:0 12px 12px 0;position:relative}
+.quote::before{content:'"';position:absolute;top:-10px;left:10px;font-size:50px;color:var(--accent);opacity:.3}
+.quote-text{font-size:1.1rem;font-style:italic;margin-bottom:.5rem}
+.quote-attr{font-size:.9rem;color:var(--muted)}
+.collapsible{margin:1rem 0;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.collapsible-header{display:flex;align-items:center;justify-content:space-between;padding:1rem;background:var(--bg3);cursor:pointer}
+.collapsible-header:hover{background:var(--card)}
+.collapsible-title{font-weight:600;display:flex;align-items:center;gap:.5rem}
+.collapsible-icon{transition:transform .15s}
+.collapsible.open .collapsible-icon{transform:rotate(180deg)}
+.collapsible-content{max-height:0;overflow:hidden;transition:max-height .3s}
+.collapsible.open .collapsible-content{max-height:1000px}
+.collapsible-body{padding:1rem;background:var(--bg2)}
+.collapsible-body h4{margin:1rem 0 .5rem;color:var(--accent)}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem}
+.action-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.25rem;background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--text2);font-size:.9rem;position:relative;transition:all .15s}
+.action-btn:hover{background:var(--accent);color:var(--bg);border-color:var(--accent);transform:translateY(-2px)}
+.action-btn .xp-badge{position:absolute;top:-8px;right:-8px;background:var(--warn);color:var(--bg);font-size:.65rem;font-weight:700;padding:2px 6px;border-radius:8px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:400;padding:2rem}
+.modal-overlay.active{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;max-width:500px;width:100%;max-height:90vh;overflow:hidden}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg)}
+.modal-title{font-size:1.2rem;font-weight:600}
+.modal-close{width:32px;height:32px;background:rgba(0,0,0,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.modal-close:hover{background:rgba(0,0,0,.4)}
+.modal-body{padding:1.5rem;overflow-y:auto;max-height:60vh}
+.modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.rewards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.reward-item{background:var(--bg3);border:2px solid var(--border);border-radius:12px;padding:1rem;text-align:center;cursor:pointer;transition:all .15s}
+.reward-item:hover{border-color:var(--accent);transform:translateY(-2px)}
+.reward-item.owned{border-color:var(--success);opacity:.6}
+.reward-icon{font-size:36px;margin-bottom:.5rem}
+.reward-name{font-size:.85rem;font-weight:600;margin-bottom:4px}
+.reward-cost{font-size:.75rem;color:var(--warn);font-weight:600}
+.levelup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:600}
+.levelup-overlay.active{display:flex}
+.levelup-content{text-align:center;animation:levelupBounce 1s ease}
+@keyframes levelupBounce{0%{transform:scale(0);opacity:0}50%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+.levelup-badge{width:140px;height:140px;background:linear-gradient(135deg,var(--accent),var(--accent3));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:56px;margin:0 auto 2rem;box-shadow:0 0 80px var(--glow);animation:levelupPulse 1s infinite}
+@keyframes levelupPulse{0%,100%{box-shadow:0 0 40px var(--glow)}50%{box-shadow:0 0 80px var(--glow)}}
+.levelup-title{font-size:2.5rem;color:var(--accent);margin-bottom:.5rem}
+.levelup-level{font-size:4rem;font-weight:700;margin-bottom:1rem}
+.levelup-rewards{font-size:1.2rem;color:var(--warn);margin-bottom:2rem}
+#toasts{position:fixed;top:80px;right:1rem;z-index:400;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
+.toast{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;min-width:300px;box-shadow:0 8px 32px rgba(0,0,0,.3);display:flex;align-items:flex-start;gap:12px;animation:toastIn .3s ease;pointer-events:auto}
+.toast.hiding{animation:toastOut .3s ease forwards}
+@keyframes toastIn{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(100%)}}
+.toast-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
+.toast.success .toast-icon{background:var(--success);color:#fff}
+.toast.warning .toast-icon{background:var(--warn);color:var(--bg)}
+.toast.error .toast-icon{background:var(--error);color:#fff}
+.toast.info .toast-icon{background:var(--accent);color:var(--bg)}
+.toast.xp .toast-icon{background:linear-gradient(135deg,var(--warn),#f97316);color:var(--bg)}
+.toast.achievement .toast-icon{background:linear-gradient(135deg,var(--accent),var(--accent3));color:var(--bg)}
+.toast-content{flex:1}
+.toast-title{font-weight:600;font-size:.95rem}
+.toast-message{font-size:.8rem;color:var(--muted);margin-top:2px}
+.toast-close{background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;padding:4px}
+#footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 1rem;margin-top:4rem}
+.footer-content{max-width:900px;margin:0 auto}
+.zero-harm{background:var(--bg3);border:1px solid var(--accent);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
+.zero-harm-title{display:flex;align-items:center;gap:.5rem;font-size:1.1rem;font-weight:600;color:var(--accent);margin-bottom:1rem}
+.zero-harm-text{font-size:.9rem;color:var(--text2);line-height:1.7}
+.zero-harm-text strong{color:var(--text)}
+.footer-copyright{text-align:center;font-size:.8rem;color:var(--muted)}
+@media(max-width:1024px){#hud{top:auto;bottom:1rem;width:260px;max-height:50vh}}
+</style>
+</head>
+<body>
+<div id="splash">
+<div class="splash-content">
+<div class="splash-logo"><svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" stroke="url(#g1)" stroke-width="2"/><path d="M50 20L65 45 50 40 35 45Z" fill="url(#g1)"/><path d="M50 80L35 55 50 60 65 55Z" fill="url(#g1)"/><circle cx="50" cy="50" r="8" fill="url(#g1)"/><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:var(--accent)"/><stop offset="100%" style="stop-color:var(--accent3)"/></linearGradient></defs></svg></div>
+<h1 class="splash-title">PEACEWEAVER</h1>
+<p class="splash-subtitle">A citizen-powered peace architecture with complete gamification system — XP, levels, achievements, daily quests, rewards shop, and leaderboard.</p>
+<button class="splash-btn" id="enter-btn">Begin Your Journey</button>
+</div>
+</div>
+
+<div id="app">
+<header id="header">
+<div class="header-inner">
+<h1 class="site-title">✦ PEACEWEAVER</h1>
+<div class="theme-btns">
+<button class="theme-btn active" data-theme="aurora" title="Aurora">🌌</button>
+<button class="theme-btn" data-theme="sunset" title="Sunset">🌅</button>
+<button class="theme-btn" data-theme="forest" title="Forest">🌲</button>
+<button class="theme-btn" data-theme="ocean" title="Ocean">🌊</button>
+<button class="theme-btn" data-theme="cyber" title="Cyber">💫</button>
+<button class="theme-btn" data-theme="sakura" title="Sakura">🌸</button>
+</div>
+</div>
+</header>
+
+<aside id="hud">
+<button class="hud-toggle">◀</button>
+<div class="hud-header">
+<div class="hud-avatar" id="hud-avatar">🌱</div>
+<div class="hud-user">
+<div class="hud-name">Peaceweaver</div>
+<div class="hud-title" id="hud-title">🌿 Seedling</div>
+</div>
+</div>
+<div class="hud-section">
+<div class="hud-section-title">⭐ Level Progress</div>
+<div class="level-display">
+<div class="level-badge" id="level-badge">1</div>
+<div class="level-info">
+<div class="level-name" id="level-name">Seedling</div>
+<div class="level-xp"><span id="current-xp">0</span> / <span id="next-xp">100</span> XP</div>
+</div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="xp-progress" style="width:0%"></div></div>
+</div>
+<div class="hud-section">
+<div class="hud-section-title">🔥 Streak</div>
+<div class="streak-display">
+<span class="streak-icon">🔥</span>
+<div class="streak-info">
+<div class="streak-count" id="streak-count">0</div>
+<div class="streak-label">day streak</div>
+</div>
+<span class="streak-bonus" id="streak-bonus">+0% XP</span>
+</div>
+</div>
+<div class="hud-section">
+<div class="hud-section-title">📊 Statistics</div>
+<div class="stats-grid">
+<div class="stat-item"><div class="stat-number" id="stat-sections">0</div><div class="stat-label">Explored</div></div>
+<div class="stat-item"><div class="stat-number" id="stat-actions">0</div><div class="stat-label">Actions</div></div>
+<div class="stat-item"><div class="stat-number" id="stat-time">0m</div><div class="stat-label">Time</div></div>
+<div class="stat-item"><div class="stat-number" id="stat-coins">0</div><div class="stat-label">✨ Coins</div></div>
+</div>
+</div>
+<div class="hud-section">
+<div class="hud-section-title">📋 Daily Quests</div>
+<div class="quests-list" id="quests-list"></div>
+</div>
+<div class="hud-section">
+<div class="hud-section-title">🏆 Achievements (<span id="achievement-count">0</span>/12)</div>
+<div class="achievements-grid" id="achievements-grid"></div>
+</div>
+<div class="hud-section">
+<div class="hud-section-title">🏅 Leaderboard</div>
+<div class="leaderboard" id="leaderboard"></div>
+</div>
+<div class="hud-section">
+<button class="rewards-btn" id="rewards-btn">🎁 Rewards Shop <span class="coins-display">✨ <span id="shop-coins">0</span></span></button>
+</div>
+</aside>
+
+<main id="content">
+<section class="section" id="biosphere">
+<div class="section-header">
+<div class="section-icon">🌍</div>
+<h2 class="section-title">Biospheric Cascades</h2>
+<p class="section-subtitle">Ecology as neutral ground for cooperation</p>
+</div>
+<p>The biosphere knows no borders. Rivers flow between nations, forests span boundaries, and migratory birds carry seeds across invisible lines. Ecological cooperation serves as the foundation for peace.</p>
+<div class="quote">
+<p class="quote-text">"The earth does not belong to us; we belong to the earth."</p>
+<p class="quote-attr">— Indigenous Wisdom</p>
+</div>
+<div class="feature-grid">
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🌳</div><h3 class="feature-title">Transboundary Forests</h3><p class="feature-desc">Joint forest management bringing communities together through shared conservation.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">💧</div><h3 class="feature-title">Shared Watersheds</h3><p class="feature-desc">River basin cooperation ensuring clean water flows freely for all communities.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🦅</div><h3 class="feature-title">Migration Corridors</h3><p class="feature-desc">Protected pathways for wildlife connecting ecosystems across borders.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🌾</div><h3 class="feature-title">Seed Networks</h3><p class="feature-desc">Community seed banks preserving heritage varieties and agricultural knowledge.</p></div>
+</div>
+<div class="collapsible" data-collapsible="bio">
+<div class="collapsible-header">
+<span class="collapsible-title">📖 Restoration Protocols (+25 XP)</span>
+<span class="collapsible-icon">▼</span>
+</div>
+<div class="collapsible-content">
+<div class="collapsible-body">
+<h4>Phase 1: Assessment</h4>
+<p>Comprehensive ecological surveys documenting shared ecosystems with local knowledge keepers from all sides.</p>
+<h4>Phase 2: Engagement</h4>
+<p>Cross-border gatherings where communities share observations, build trust through shared meals and storytelling.</p>
+<h4>Phase 3: Planning</h4>
+<p>Collaborative restoration plans respecting both ecological needs and community livelihoods.</p>
+<h4>Phase 4: Action</h4>
+<p>Joint restoration activities with ceremonies, cleanups, and ongoing monitoring programs.</p>
+</div>
+</div>
+</div>
+<div class="actions">
+<button class="action-btn" data-action="viewMap"><span class="xp-badge">+10</span>🗺️ View Map</button>
+<button class="action-btn" data-action="joinPlanting"><span class="xp-badge">+20</span>🌱 Join Planting</button>
+<button class="action-btn" data-action="reportWildlife"><span class="xp-badge">+15</span>📸 Report Wildlife</button>
+</div>
+</section>
+
+<section class="section" id="shadows">
+<div class="section-header">
+<div class="section-icon">🎭</div>
+<h2 class="section-title">Cultural Shadow Exchange</h2>
+<p class="section-subtitle">The unnoticed threads that unite peoples</p>
+</div>
+<p>Beneath the headlines of conflict lies vast shared heritage. The same lullabies sung to children, similar superstitions about weather, nearly identical recipes, common sayings that translate almost word-for-word.</p>
+<div class="feature-grid">
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🍲</div><h3 class="feature-title">Shared Recipes</h3><p class="feature-desc">Borscht, varenyky, blini—foods that cross borders and unite people around the table.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🎵</div><h3 class="feature-title">Lullabies & Songs</h3><p class="feature-desc">Melodies that rock children to sleep often share common roots across cultures.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">😄</div><h3 class="feature-title">Shared Humor</h3><p class="feature-desc">Jokes about weather, bureaucracy, and family life that connect humans everywhere.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🔮</div><h3 class="feature-title">Superstitions</h3><p class="feature-desc">Don't whistle indoors, knock on wood—shared beliefs revealing common heritage.</p></div>
+</div>
+<div class="actions">
+<button class="action-btn" data-action="shareRecipe"><span class="xp-badge">+25</span>🍳 Share Recipe</button>
+<button class="action-btn" data-action="recordSong"><span class="xp-badge">+30</span>🎤 Record Song</button>
+</div>
+</section>
+
+<section class="section" id="heroes">
+<div class="section-header">
+<div class="section-icon">⚔️</div>
+<h2 class="section-title">Parallel Hero Narratives</h2>
+<p class="section-subtitle">Mythic universes where heroes unite</p>
+</div>
+<p>Every culture has heroes—figures embodying courage and wisdom. What if we created stories where heroes from different nations stand together against shared threats: winter's cold, natural disasters, hunger?</p>
+<div class="quote">
+<p class="quote-text">"In the oldest stories, heroes did not fight each other. They fought against the darkness together."</p>
+<p class="quote-attr">— Storyteller's Wisdom</p>
+</div>
+<div class="feature-grid">
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">❄️</div><h3 class="feature-title">Winter Alliance</h3><p class="feature-desc">Stories of heroes joining forces to survive the harshest season—sharing fire, food, shelter.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🌪️</div><h3 class="feature-title">Chaos Guardians</h3><p class="feature-desc">Narratives of cooperation against natural disasters—floods, fires, earthquakes.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🏗️</div><h3 class="feature-title">The Builders</h3><p class="feature-desc">Tales of heroes who create rather than destroy—building bridges, schools, homes.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🌾</div><h3 class="feature-title">Harvest Keepers</h3><p class="feature-desc">Stories celebrating those who grow food and ensure no one goes hungry.</p></div>
+</div>
+<div class="collapsible" data-collapsible="story">
+<div class="collapsible-header">
+<span class="collapsible-title">✍️ Story Engine (+25 XP)</span>
+<span class="collapsible-icon">▼</span>
+</div>
+<div class="collapsible-content">
+<div class="collapsible-body">
+<p>The Story Engine allows communities to collaboratively create new hero narratives. Writers, artists, and storytellers from different backgrounds contribute chapters, illustrations, and plot branches to shared mythologies.</p>
+<div class="actions">
+<button class="action-btn" data-action="startStory"><span class="xp-badge">+50</span>📝 Begin Story</button>
+<button class="action-btn" data-action="continueStory"><span class="xp-badge">+30</span>➡️ Continue</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="tools">
+<div class="section-header">
+<div class="section-icon">🛠️</div>
+<h2 class="section-title">Citizen Peace Tools</h2>
+<p class="section-subtitle">Small tools anyone can use</p>
+</div>
+<p>Peace is not just the work of diplomats. It is built through countless small actions by ordinary people—kindness, skill-sharing, collaborative problem-solving.</p>
+<div class="feature-grid">
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">💰</div><h3 class="feature-title">Microgrants</h3><p class="feature-desc">Small grants for cross-border cooperation projects. Big peace starts with small seeds.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🔄</div><h3 class="feature-title">Skill Exchange</h3><p class="feature-desc">Match teachers with learners across borders. Every skill shared builds a bridge.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">💝</div><h3 class="feature-title">Kindness Quests</h3><p class="feature-desc">Daily challenges to perform small acts of kindness that cross divides.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🧩</div><h3 class="feature-title">Collaborative Puzzles</h3><p class="feature-desc">Online puzzles only solvable through cooperation between communities.</p></div>
+</div>
+<div class="actions">
+<button class="action-btn" data-action="applyGrant"><span class="xp-badge">+40</span>💰 Apply for Grant</button>
+<button class="action-btn" data-action="offerSkill"><span class="xp-badge">+25</span>🎓 Offer Skill</button>
+<button class="action-btn" data-action="startQuest"><span class="xp-badge">+15</span>💝 Start Quest</button>
+</div>
+</section>
+
+<section class="section" id="memory">
+<div class="section-header">
+<div class="section-icon">🕯️</div>
+<h2 class="section-title">Memory Weaving</h2>
+<p class="section-subtitle">Honoring all who have suffered</p>
+</div>
+<p>Every conflict leaves behind grief that transcends political boundaries. Memory Weaving creates a shared space where losses on all sides can be mourned together—acknowledging our common humanity.</p>
+<div class="quote">
+<p class="quote-text">"We remember not to reopen wounds, but so that wounds may finally heal."</p>
+<p class="quote-attr">— Memorial Inscription</p>
+</div>
+<div class="feature-grid">
+<div class="feature-card"><span class="feature-xp">+20 XP</span><div class="feature-icon">🕯️</div><h3 class="feature-title">Digital Candles</h3><p class="feature-desc">Light a candle in memory of someone lost. Watch thousands of flames flicker together.</p></div>
+<div class="feature-card"><span class="feature-xp">+20 XP</span><div class="feature-icon">📖</div><h3 class="feature-title">Life Stories</h3><p class="feature-desc">Share stories of those who have passed—their dreams, their humor, their kindness.</p></div>
+<div class="feature-card"><span class="feature-xp">+20 XP</span><div class="feature-icon">✍️</div><h3 class="feature-title">Memorial Poems</h3><p class="feature-desc">A collection of poems written in remembrance. Poetry speaks across every language.</p></div>
+<div class="feature-card"><span class="feature-xp">+20 XP</span><div class="feature-icon">🎵</div><h3 class="feature-title">Voices Preserved</h3><p class="feature-desc">Audio recordings preserving the voices of those we've lost.</p></div>
+</div>
+<div class="actions">
+<button class="action-btn" data-action="lightCandle"><span class="xp-badge">+10</span>🕯️ Light Candle</button>
+<button class="action-btn" data-action="shareStory"><span class="xp-badge">+35</span>📖 Share Story</button>
+</div>
+</section>
+</main>
+
+<footer id="footer">
+<div class="footer-content">
+<div class="zero-harm">
+<h3 class="zero-harm-title">🕊️ Zero-Harm Commitment</h3>
+<p class="zero-harm-text"><strong>This platform is designed exclusively for peaceful, restorative purposes.</strong> No tracking, surveillance, or weaponization. All data stored locally on your device via IndexedDB. Nothing is transmitted externally.</p>
+</div>
+<p class="footer-copyright">Peaceweaver © 2025 — Built for humanity, not extraction.</p>
+</div>
+</footer>
+</div>
+
+<div id="toasts"></div>
+
+<div id="rewards-modal" class="modal-overlay">
+<div class="modal">
+<div class="modal-header">
+<h2 class="modal-title">🎁 Rewards Shop</h2>
+<button class="modal-close">✕</button>
+</div>
+<div class="modal-body">
+<div class="rewards-grid" id="rewards-grid"></div>
+</div>
+<div class="modal-footer">
+<span style="color:var(--muted);font-size:.85rem">Your coins: <strong style="color:var(--warn)">✨ <span id="modal-coins">0</span></strong></span>
+<button class="action-btn" onclick="document.getElementById('rewards-modal').classList.remove('active')">Close</button>
+</div>
+</div>
+</div>
+
+<div id="levelup-overlay" class="levelup-overlay">
+<div class="levelup-content">
+<div class="levelup-badge" id="levelup-icon">🌱</div>
+<div class="levelup-title">LEVEL UP!</div>
+<div class="levelup-level">Level <span id="levelup-number">2</span></div>
+<div class="levelup-rewards">+50 ✨ Coins Earned!</div>
+<button class="splash-btn" onclick="document.getElementById('levelup-overlay').classList.remove('active')">Continue</button>
+</div>
+</div>
+
+<script>
+// GAMIFICATION SYSTEM
+const LEVELS=[{name:'Seedling',icon:'🌱',xp:0},{name:'Sprout',icon:'🌿',xp:100},{name:'Sapling',icon:'🌳',xp:250},{name:'Gardener',icon:'👨‍🌾',xp:500},{name:'Grove Keeper',icon:'🏕️',xp:1000},{name:'Forest Guardian',icon:'🦌',xp:2000},{name:'Watershed Protector',icon:'🌊',xp:3500},{name:'Bridge Builder',icon:'🌉',xp:5500},{name:'Peace Architect',icon:'🏛️',xp:8000},{name:'Harmony Weaver',icon:'✨',xp:12000},{name:'World Healer',icon:'🌍',xp:18000},{name:'Cosmic Peacekeeper',icon:'🌌',xp:25000}];
+const ACHIEVEMENTS=[{id:'first',name:'First Steps',desc:'Enter platform',icon:'👣'},{id:'explorer',name:'Explorer',desc:'Visit 5 sections',icon:'🧭'},{id:'engaged',name:'Engaged',desc:'10 actions',icon:'⭐'},{id:'dedicated',name:'Dedicated',desc:'7-day streak',icon:'🔥'},{id:'scholar',name:'Scholar',desc:'Read all protocols',icon:'📚'},{id:'storyteller',name:'Storyteller',desc:'Start a story',icon:'✍️'},{id:'connector',name:'Connector',desc:'25 actions',icon:'🤝'},{id:'veteran',name:'Veteran',desc:'30-day streak',icon:'🏆'},{id:'peacemaker',name:'Peacemaker',desc:'Level 5',icon:'🕊️'},{id:'master',name:'Master',desc:'Level 10',icon:'👑'},{id:'collector',name:'Collector',desc:'500 coins',icon:'💎'},{id:'legend',name:'Legend',desc:'10000 XP',icon:'🌟'}];
+const REWARDS=[{id:'avatar_phoenix',name:'Phoenix Avatar',cost:150,icon:'🔥'},{id:'avatar_dragon',name:'Dragon Avatar',cost:200,icon:'🐉'},{id:'avatar_unicorn',name:'Unicorn Avatar',cost:200,icon:'🦄'},{id:'title_champion',name:'"Champion" Title',cost:250,icon:'🏅'},{id:'title_legend',name:'"Legend" Title',cost:500,icon:'⚡'},{id:'xp_boost',name:'2x XP Boost',cost:75,icon:'🚀'}];
+const QUESTS=[{id:'visit3',name:'Explore 3 Sections',target:3,xp:30,icon:'🗺️',type:'visit'},{id:'actions5',name:'Complete 5 Actions',target:5,xp:40,icon:'⚡',type:'actions'},{id:'collapsible2',name:'Read 2 Protocols',target:2,xp:25,icon:'📖',type:'collapsible'}];
+
+let db,state={xp:0,level:1,coins:0,streak:0,lastVisit:null,sections:[],actions:0,collapsibles:[],achievements:{},rewards:[],avatar:'🌱',title:'Seedling',questProgress:{},questDate:null,start:Date.now()};
+
+// IndexedDB
+async function initDB(){return new Promise((r,j)=>{const q=indexedDB.open('peaceweaver_game',1);q.onerror=()=>j();q.onsuccess=()=>{db=q.result;r()};q.onupgradeneeded=e=>e.target.result.createObjectStore('state',{keyPath:'id'})})}
+async function save(){if(db)db.transaction('state','readwrite').objectStore('state').put({id:'s',...state})}
+async function load(){if(!db)return;return new Promise(r=>{const q=db.transaction('state','readonly').objectStore('state').get('s');q.onsuccess=()=>{if(q.result)state={...state,...q.result};state.start=Date.now();r()};q.onerror=()=>r()})}
+
+// Level system
+function getLvl(xp){let l=1;for(let i=LEVELS.length-1;i>=0;i--)if(xp>=LEVELS[i].xp){l=i+1;break}const c=LEVELS[Math.min(l-1,11)],n=LEVELS[Math.min(l,11)];return{level:l,name:c.name,icon:c.icon,into:xp-c.xp,need:n.xp-c.xp,pct:(xp-c.xp)/(n.xp-c.xp)}}
+
+function addXP(amt,reason=''){const bonus=Math.min(state.streak*5,50),total=Math.floor(amt*(1+bonus/100)),old=getLvl(state.xp).level;state.xp+=total;state.coins+=Math.floor(total/10);const info=getLvl(state.xp);state.level=info.level;toast('xp',`+${total} XP`,reason);if(info.level>old){document.getElementById('levelup-icon').textContent=info.icon;document.getElementById('levelup-number').textContent=info.level;document.getElementById('levelup-overlay').classList.add('active');state.coins+=50}checkAchievements();updateHUD();save()}
+
+function unlock(id){if(state.achievements[id])return;state.achievements[id]=true;const a=ACHIEVEMENTS.find(x=>x.id===id);toast('achievement','🏆 Achievement!',a?.name||id);updateAchievements();save()}
+
+function checkAchievements(){if(state.xp>=10000)unlock('legend');if(state.level>=5)unlock('peacemaker');if(state.level>=10)unlock('master');if(state.coins>=500)unlock('collector');if(state.actions>=10)unlock('engaged');if(state.actions>=25)unlock('connector');if(state.streak>=7)unlock('dedicated');if(state.streak>=30)unlock('veteran');if(state.sections.length>=5)unlock('explorer');if(state.collapsibles.length>=2)unlock('scholar')}
+
+function updateAchievements(){const g=document.getElementById('achievements-grid');g.innerHTML=ACHIEVEMENTS.map(a=>`<div class="achievement ${state.achievements[a.id]?'earned':'locked'}" title="${a.name}: ${a.desc}">${a.icon}</div>`).join('');document.getElementById('achievement-count').textContent=Object.keys(state.achievements).length}
+
+function initQuests(){const today=new Date().toDateString();if(state.questDate!==today){state.questProgress={};state.questDate=today}updateQuests()}
+
+function questProgress(type,n=1){state.questProgress[type]=(state.questProgress[type]||0)+n;QUESTS.forEach(q=>{if(q.type===type&&!state.questProgress[q.id+'_done']&&(state.questProgress[type]||0)>=q.target){state.questProgress[q.id+'_done']=true;addXP(q.xp,`Quest: ${q.name}`);toast('success','📋 Quest Complete!',q.name)}});updateQuests();save()}
+
+function updateQuests(){const l=document.getElementById('quests-list');l.innerHTML=QUESTS.map(q=>{const p=state.questProgress[q.type]||0,done=state.questProgress[q.id+'_done'];return`<div class="quest-item ${done?'completed':''}"><div class="quest-icon">${q.icon}</div><div class="quest-info"><div class="quest-name">${q.name}</div><div class="quest-progress">${Math.min(p,q.target)}/${q.target}</div></div><div class="quest-reward">+${q.xp}</div><div class="quest-check">${done?'✓':''}</div></div>`}).join('')}
+
+function initRewards(){const g=document.getElementById('rewards-grid');g.innerHTML=REWARDS.map(r=>{const owned=state.rewards.includes(r.id);return`<div class="reward-item ${owned?'owned':''}" onclick="buyReward('${r.id}')"><div class="reward-icon">${r.icon}</div><div class="reward-name">${r.name}</div><div class="reward-cost">${owned?'✓ Owned':'✨ '+r.cost}</div></div>`}).join('')}
+
+function buyReward(id){if(state.rewards.includes(id)){toast('info','Already Owned','');return}const r=REWARDS.find(x=>x.id===id);if(!r)return;if(state.coins<r.cost){toast('error','Not Enough Coins',`Need ${r.cost-state.coins} more`);return}state.coins-=r.cost;state.rewards.push(id);if(id.startsWith('avatar_'))state.avatar=r.icon;if(id.startsWith('title_'))state.title=r.name.replace(/"/g,'');toast('success','🎁 Purchased!',r.name);updateHUD();initRewards();save()}
+
+function updateStreak(){const today=new Date().toDateString(),yest=new Date(Date.now()-86400000).toDateString();if(state.lastVisit===today)return;if(state.lastVisit===yest){state.streak++;toast('success','🔥 Streak!',`${state.streak} days`)}else{if(state.streak>0)toast('warning','Streak Lost','');state.streak=1}state.lastVisit=today;checkAchievements();save()}
+
+function updateLeaderboard(){const l=document.getElementById('leaderboard'),fake=[{n:'HarmonySeeker',s:15420},{n:'PeaceBuilder',s:12350},{n:'BridgeMaker',s:9870}],all=[...fake,{n:'You',s:state.xp,you:true}].sort((a,b)=>b.s-a.s);l.innerHTML=all.slice(0,4).map((e,i)=>`<div class="leader-item ${e.you?'you':''}"><span class="leader-rank">${i+1}</span><span class="leader-name">${e.n}</span><span class="leader-score">${e.s.toLocaleString()}</span></div>`).join('')}
+
+function updateHUD(){const i=getLvl(state.xp);document.getElementById('hud-avatar').textContent=state.avatar;document.getElementById('hud-title').textContent=`${i.icon} ${state.title}`;document.getElementById('level-badge').textContent=i.level;document.getElementById('level-name').textContent=i.name;document.getElementById('current-xp').textContent=i.into;document.getElementById('next-xp').textContent=i.need;document.getElementById('xp-progress').style.width=Math.min(100,Math.round(i.pct*100))+'%';document.getElementById('streak-count').textContent=state.streak;document.getElementById('streak-bonus').textContent=`+${Math.min(state.streak*5,50)}% XP`;document.getElementById('stat-sections').textContent=state.sections.length;document.getElementById('stat-actions').textContent=state.actions;document.getElementById('stat-coins').textContent=state.coins;document.getElementById('stat-time').textContent=Math.floor((Date.now()-state.start)/60000)+'m';document.getElementById('shop-coins').textContent=state.coins;document.getElementById('modal-coins').textContent=state.coins;updateLeaderboard()}
+
+function visit(id){if(!state.sections.includes(id)){state.sections.push(id);addXP(15,'Explored: '+id);questProgress('visit')}save()}
+
+function action(name){state.actions++;questProgress('actions');const xp={viewMap:10,joinPlanting:20,reportWildlife:15,shareRecipe:25,recordSong:30,startStory:50,continueStory:30,applyGrant:40,offerSkill:25,startQuest:15,lightCandle:10,shareStory:35};addXP(xp[name]||10,name);if(name==='startStory')unlock('storyteller');save()}
+
+function toast(type,title,msg){const c=document.getElementById('toasts'),t=document.createElement('div');t.className=`toast ${type}`;const icons={success:'✓',error:'✕',warning:'!',info:'i',xp:'⭐',achievement:'🏆'};t.innerHTML=`<div class="toast-icon">${icons[type]||'i'}</div><div class="toast-content"><div class="toast-title">${title}</div>${msg?`<div class="toast-message">${msg}</div>`:''}</div><button class="toast-close" onclick="this.closest('.toast').remove()">✕</button>`;c.appendChild(t);setTimeout(()=>{t.classList.add('hiding');setTimeout(()=>t.remove(),300)},4000)}
+
+// Init
+document.getElementById('enter-btn').addEventListener('click',()=>{document.getElementById('splash').classList.add('hidden');document.getElementById('app').classList.add('visible');unlock('first');toast('success','Welcome, Peaceweaver!','Your journey begins now.')});
+
+document.querySelectorAll('.theme-btn').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.theme-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.documentElement.dataset.theme=b.dataset.theme})});
+
+document.querySelector('.hud-toggle').addEventListener('click',()=>document.getElementById('hud').classList.toggle('collapsed'));
+
+document.querySelectorAll('.collapsible-header').forEach(h=>{h.addEventListener('click',()=>{const c=h.closest('.collapsible'),id=c.dataset.collapsible;c.classList.toggle('open');if(c.classList.contains('open')&&id&&!state.collapsibles.includes(id)){state.collapsibles.push(id);addXP(25,'Read: '+id);questProgress('collapsible');save()}})});
+
+document.querySelectorAll('[data-action]').forEach(b=>{b.addEventListener('click',()=>{action(b.dataset.action);toast('info','Action Triggered',`"${b.dataset.action}" coming soon!`)})});
+
+document.getElementById('rewards-btn').addEventListener('click',()=>{initRewards();document.getElementById('rewards-modal').classList.add('active')});
+document.querySelector('.modal-close').addEventListener('click',()=>document.getElementById('rewards-modal').classList.remove('active'));
+document.getElementById('rewards-modal').addEventListener('click',e=>{if(e.target.id==='rewards-modal')e.target.classList.remove('active')});
+
+// Section observer
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)visit(en.target.id)})},{threshold:.3});
+document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+
+// Time tracking
+setInterval(()=>{document.getElementById('stat-time').textContent=Math.floor((Date.now()-state.start)/60000)+'m'},60000);
+
+// Start
+(async()=>{try{await initDB();await load()}catch(e){}updateStreak();initQuests();updateAchievements();updateHUD()})();
+</script>
+</body>
+</html>
