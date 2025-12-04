@@ -103,12 +103,59 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .companion-display::before{content:"";position:absolute;inset:0;background:linear-gradient(45deg,transparent,rgba(255,255,255,.1),transparent);transform:translateX(-100%);transition:transform .6s}
 .companion-display:hover::before{transform:translateX(100%)}
 .companion-display:hover{transform:scale(1.02)}
-.companion-avatar{width:60px;height:60px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 4px 15px rgba(0,0,0,.3);animation:companion-bounce 2s infinite}
+.companion-avatar{width:60px;height:60px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 4px 15px rgba(0,0,0,.3);animation:companion-bounce 2s infinite;position:relative}
 @keyframes companion-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.companion-avatar.wiggle{animation:companion-wiggle 1s infinite}
+@keyframes companion-wiggle{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+.companion-avatar.float{animation:companion-float 3s infinite ease-in-out}
+@keyframes companion-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.companion-avatar.spin{animation:companion-spin 2s infinite linear}
+@keyframes companion-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.companion-avatar.pulse{animation:companion-pulse 1.5s infinite}
+@keyframes companion-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 .companion-info{flex:1;color:var(--bg)}
 .companion-name{font-weight:700;font-size:.95rem}
 .companion-level{font-size:.7rem;opacity:.85}
 .companion-xp{font-size:.65rem;background:rgba(0,0,0,.2);padding:2px 6px;border-radius:6px;margin-top:2px;display:inline-block}
+
+/* Companion Animated Canvas */
+.companion-canvas-container{position:relative;width:200px;height:200px;margin:0 auto}
+.companion-canvas{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle,var(--card),var(--bg3));box-shadow:0 8px 30px rgba(0,0,0,.3),inset 0 4px 20px rgba(0,0,0,.2);position:relative;overflow:hidden}
+.companion-character{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:80px;animation:idle-animation 3s infinite ease-in-out;filter:drop-shadow(0 8px 15px rgba(0,0,0,.3))}
+@keyframes idle-animation{0%,100%{transform:translate(-50%,-50%) translateY(0) scale(1)}50%{transform:translate(-50%,-50%) translateY(-8px) scale(1.05)}}
+.companion-character.happy{animation:happy-animation 1s infinite}
+@keyframes happy-animation{0%,100%{transform:translate(-50%,-50%) scale(1) rotate(0deg)}25%{transform:translate(-50%,-50%) scale(1.1) rotate(-5deg)}75%{transform:translate(-50%,-50%) scale(1.1) rotate(5deg)}}
+.companion-character.sleeping{animation:sleep-animation 2s infinite}
+@keyframes sleep-animation{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-50%) scale(.95);opacity:.8}}
+.companion-particles{position:absolute;inset:0;pointer-events:none}
+.particle{position:absolute;width:6px;height:6px;background:var(--accent);border-radius:50%;opacity:0;animation:particle-float 2s infinite}
+@keyframes particle-float{0%{opacity:0;transform:translateY(0)}50%{opacity:.8}100%{opacity:0;transform:translateY(-100px)}}
+
+/* Character Creation */
+.character-creator{display:flex;flex-direction:column;gap:2rem}
+.pet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.pet-option{background:var(--bg3);border:3px solid transparent;border-radius:16px;padding:1.5rem;text-align:center;cursor:pointer;transition:all .3s;position:relative}
+.pet-option:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 8px 25px rgba(0,0,0,.3)}
+.pet-option.selected{border-color:var(--accent);background:linear-gradient(135deg,var(--accent3),var(--accent));color:var(--bg)}
+.pet-option.selected::after{content:"✓";position:absolute;top:8px;right:8px;width:24px;height:24px;background:var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:700}
+.pet-icon{font-size:48px;margin-bottom:.5rem;animation:pet-preview 2s infinite}
+@keyframes pet-preview{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.pet-name{font-size:1rem;font-weight:600;margin-bottom:.25rem}
+.pet-desc{font-size:.75rem;opacity:.8}
+.trait-selector{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+.trait-chip{padding:.5rem 1rem;background:var(--bg3);border:2px solid var(--border);border-radius:20px;font-size:.85rem;cursor:pointer;transition:all .3s}
+.trait-chip:hover{border-color:var(--accent);background:var(--card)}
+.trait-chip.selected{border-color:var(--accent);background:var(--accent);color:var(--bg)}
+.name-input{width:100%;padding:1rem;background:var(--bg3);border:2px solid var(--border);border-radius:12px;color:var(--text);font-size:1rem;font-family:inherit;text-align:center}
+.name-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 20px var(--glow)}
+
+/* Companion Stats Display */
+.companion-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0}
+.stat-circle{background:var(--bg3);border:2px solid var(--border);border-radius:12px;padding:1rem;text-align:center;transition:all .3s}
+.stat-circle:hover{border-color:var(--accent);transform:scale(1.05)}
+.stat-icon{font-size:28px;margin-bottom:.5rem}
+.stat-value{font-size:1.2rem;font-weight:700;color:var(--accent)}
+.stat-name{font-size:.75rem;color:var(--muted)}
 
 /* Quest Items */
 .quests-list{display:flex;flex-direction:column;gap:.5rem}
@@ -435,12 +482,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 <!-- Companion -->
 <div class="hud-section">
 <div class="hud-section-title">🦋 Companion</div>
-<div class="companion-display" onclick="openModal('companion-modal')">
-<div class="companion-avatar" id="companion-avatar">🌱</div>
+<div class="companion-display" onclick="handleCompanionClick()">
+<div class="companion-avatar" id="companion-avatar">❓</div>
 <div class="companion-info">
-<div class="companion-name" id="companion-name">Seedling</div>
-<div class="companion-level">Level <span id="companion-level">1</span></div>
-<div class="companion-xp"><span id="companion-xp">0</span>/100 XP</div>
+<div class="companion-name" id="companion-name">No Companion</div>
+<div class="companion-level">Click to create</div>
+<div class="companion-xp" id="companion-xp-hud"></div>
 </div>
 </div>
 </div>
@@ -717,37 +764,63 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 <button class="modal-close" onclick="closeModal('companion-modal')">✕</button>
 </div>
 <div class="modal-body">
-<div style="text-align:center;margin-bottom:2rem">
-<div style="width:120px;height:120px;margin:0 auto 1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:64px;box-shadow:0 0 40px var(--glow);" id="companion-modal-avatar">🌱</div>
-<h3 id="companion-modal-name" style="font-size:1.5rem;margin-bottom:.5rem">Seedling</h3>
-<p style="color:var(--muted)">Level <span id="companion-modal-level">1</span> • <span id="companion-modal-xp">0</span>/100 XP</p>
+<div class="companion-canvas-container">
+<div class="companion-canvas">
+<div class="companion-character" id="companion-character">🐕</div>
+<div class="companion-particles" id="companion-particles"></div>
 </div>
-<p style="margin-bottom:1rem;color:var(--text2)">Your companion grows alongside you, evolving as you complete actions and earn XP. Feed your companion by taking peaceful actions!</p>
-<div class="feature-grid" style="margin-top:1.5rem">
-<div class="feature-card">
-<div class="feature-icon">🌱</div>
-<h4>Seedling</h4>
-<p style="font-size:.85rem;color:var(--muted)">Level 1-2</p>
 </div>
-<div class="feature-card">
-<div class="feature-icon">🌿</div>
-<h4>Sprout</h4>
-<p style="font-size:.85rem;color:var(--muted)">Level 3-5</p>
+<div style="text-align:center;margin:1.5rem 0">
+<h3 id="companion-modal-name" style="font-size:1.5rem;margin-bottom:.5rem">Buddy</h3>
+<p style="color:var(--muted);margin-bottom:.25rem">Level <span id="companion-modal-level">1</span> • <span id="companion-modal-xp">0</span>/100 XP</p>
+<p style="color:var(--accent);font-size:.9rem"><span id="companion-modal-type">Loyal Dog</span></p>
 </div>
-<div class="feature-card">
-<div class="feature-icon">🦋</div>
-<h4>Butterfly</h4>
-<p style="font-size:.85rem;color:var(--muted)">Level 6-8</p>
+<div class="companion-stats">
+<div class="stat-circle">
+<div class="stat-icon">❤️</div>
+<div class="stat-value" id="companion-happiness">100</div>
+<div class="stat-name">Happiness</div>
 </div>
-<div class="feature-card">
-<div class="feature-icon">🕊️</div>
-<h4>Dove</h4>
-<p style="font-size:.85rem;color:var(--muted)">Level 9+</p>
+<div class="stat-circle">
+<div class="stat-icon">⚡</div>
+<div class="stat-value" id="companion-energy">100</div>
+<div class="stat-name">Energy</div>
 </div>
+<div class="stat-circle">
+<div class="stat-icon">🎯</div>
+<div class="stat-value" id="companion-loyalty">100</div>
+<div class="stat-name">Loyalty</div>
+</div>
+<div class="stat-circle">
+<div class="stat-icon">✨</div>
+<div class="stat-value" id="companion-magic">50</div>
+<div class="stat-name">Magic</div>
+</div>
+</div>
+<div style="background:var(--bg3);padding:1rem;border-radius:12px;margin-top:1rem">
+<h4 style="color:var(--accent);margin-bottom:.5rem">Evolution Path</h4>
+<div class="feature-grid" style="margin-top:1rem">
+<div class="feature-card" style="padding:1rem">
+<div style="font-size:32px;margin-bottom:.5rem" id="evo-stage-1">🐕</div>
+<p style="font-size:.85rem;color:var(--muted)">Stage 1</p>
+</div>
+<div class="feature-card" style="padding:1rem">
+<div style="font-size:32px;margin-bottom:.5rem" id="evo-stage-2">🦮</div>
+<p style="font-size:.85rem;color:var(--muted)">Stage 2</p>
+</div>
+<div class="feature-card" style="padding:1rem">
+<div style="font-size:32px;margin-bottom:.5rem" id="evo-stage-3">🐺</div>
+<p style="font-size:.85rem;color:var(--muted)">Stage 3</p>
+</div>
+</div>
+</div>
+<div style="margin-top:1rem;padding:1rem;background:var(--bg3);border-radius:12px;border-left:4px solid var(--accent)">
+<p style="font-size:.9rem;color:var(--text2)"><strong>Trait:</strong> <span id="companion-trait">Loyal</span> - Your companion boosts reputation gains and provides comfort during difficult times.</p>
 </div>
 </div>
 <div class="modal-footer">
-<button class="action-btn" onclick="feedCompanion()">🍃 Feed (+50 XP)</button>
+<button class="action-btn" onclick="feedCompanion()">🍖 Feed (+50 XP)</button>
+<button class="action-btn" onclick="playWithCompanion()">🎾 Play</button>
 <button class="action-btn" onclick="closeModal('companion-modal')">Close</button>
 </div>
 </div>
@@ -839,6 +912,35 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </div>
 <div class="modal-footer">
 <button class="action-btn" onclick="closeModal('calendar-modal')">Close</button>
+</div>
+</div>
+</div>
+
+<!-- Character Creator Modal -->
+<div id="character-creator-modal" class="modal-overlay">
+<div class="modal" style="max-width:800px">
+<div class="modal-header">
+<h2 class="modal-title">🦋 Create Your Companion</h2>
+</div>
+<div class="modal-body">
+<div class="character-creator">
+<div>
+<h3 style="margin-bottom:1rem;text-align:center;color:var(--accent)">Choose Your Pet Companion</h3>
+<div class="pet-grid" id="pet-grid"></div>
+</div>
+<div>
+<h3 style="margin-bottom:1rem;text-align:center;color:var(--accent)">Choose Personality Trait</h3>
+<div class="trait-selector" id="trait-selector"></div>
+</div>
+<div>
+<h3 style="margin-bottom:1rem;text-align:center;color:var(--accent)">Name Your Companion</h3>
+<input type="text" class="name-input" id="companion-name-input" placeholder="Enter a name..." maxlength="20">
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<div style="color:var(--muted);font-size:.85rem">Your companion will grow with you on your peace journey</div>
+<button class="action-btn" onclick="createCompanion()" id="create-companion-btn">Create Companion</button>
 </div>
 </div>
 </div>
@@ -976,6 +1078,121 @@ const CHALLENGES=[
 {id:'share20',name:'Share 20 Recipes',desc:'Cultural exchange',target:20,reward:150,icon:'🍲',expires:5}
 ];
 
+// PET TYPES AND COMPANION SYSTEM
+const PET_TYPES=[
+{
+id:'dog',
+name:'Loyal Dog',
+icon:'🐕',
+desc:'Faithful and protective',
+stages:[{level:1,icon:'🐕'},{level:3,icon:'🦮'},{level:6,icon:'🐺'}],
+stats:{happiness:100,energy:100,loyalty:100,magic:50},
+animation:'bounce',
+food:'🍖',
+trait:'loyal'
+},
+{
+id:'cat',
+name:'Mystic Cat',
+icon:'🐈',
+desc:'Independent and wise',
+stages:[{level:1,icon:'🐈'},{level:3,icon:'🐈‍⬛'},{level:6,icon:'🦁'}],
+stats:{happiness:90,energy:80,loyalty:70,magic:100},
+animation:'wiggle',
+food:'🐟',
+trait:'wise'
+},
+{
+id:'bird',
+name:'Free Bird',
+icon:'🐦',
+desc:'Soaring and uplifting',
+stages:[{level:1,icon:'🐦'},{level:3,icon:'🦅'},{level:6,icon:'🦜'}],
+stats:{happiness:100,energy:100,loyalty:80,magic:80},
+animation:'float',
+food:'🌾',
+trait:'free'
+},
+{
+id:'rabbit',
+name:'Gentle Rabbit',
+icon:'🐰',
+desc:'Peaceful and nurturing',
+stages:[{level:1,icon:'🐰'},{level:3,icon:'🐇'},{level:6,icon:'🦌'}],
+stats:{happiness:100,energy:90,loyalty:90,magic:70},
+animation:'bounce',
+food:'🥕',
+trait:'gentle'
+},
+{
+id:'fish',
+name:'Calm Fish',
+icon:'🐠',
+desc:'Tranquil and flowing',
+stages:[{level:1,icon:'🐠'},{level:3,icon:'🐡'},{level:6,icon:'🐋'}],
+stats:{happiness:80,energy:70,loyalty:60,magic:90},
+animation:'float',
+food:'🌊',
+trait:'calm'
+},
+{
+id:'turtle',
+name:'Wise Turtle',
+icon:'🐢',
+desc:'Patient and enduring',
+stages:[{level:1,icon:'🐢'},{level:3,icon:'🐊'},{level:6,icon:'🐉'}],
+stats:{happiness:80,energy:60,loyalty:100,magic:95},
+animation:'pulse',
+food:'🌿',
+trait:'patient'
+},
+{
+id:'hamster',
+name:'Cheerful Hamster',
+icon:'🐹',
+desc:'Energetic and playful',
+stages:[{level:1,icon:'🐹'},{level:3,icon:'🐿️'},{level:6,icon:'🦊'}],
+stats:{happiness:100,energy:100,loyalty:85,magic:60},
+animation:'spin',
+food:'🥜',
+trait:'cheerful'
+},
+{
+id:'owl',
+name:'Night Owl',
+icon:'🦉',
+desc:'Watchful and knowing',
+stages:[{level:1,icon:'🦉'},{level:3,icon:'🦅'},{level:6,icon:'🦜'}],
+stats:{happiness:85,energy:75,loyalty:90,magic:100},
+animation:'pulse',
+food:'🌙',
+trait:'watchful'
+},
+{
+id:'butterfly',
+name:'Peace Butterfly',
+icon:'🦋',
+desc:'Transformative and beautiful',
+stages:[{level:1,icon:'🦋'},{level:3,icon:'🦚'},{level:6,icon:'🕊️'}],
+stats:{happiness:95,energy:85,loyalty:75,magic:100},
+animation:'float',
+food:'🌸',
+trait:'transformative'
+}
+];
+
+const COMPANION_TRAITS={
+loyal:{name:'Loyal',desc:'Boosts reputation gains',bonus:'reputation'},
+wise:{name:'Wise',desc:'Increases XP from learning',bonus:'xp_learn'},
+free:{name:'Free-spirited',desc:'Extra exploration XP',bonus:'xp_explore'},
+gentle:{name:'Gentle',desc:'Healing presence',bonus:'healing'},
+calm:{name:'Calm',desc:'Reduces stress, steady progress',bonus:'steady'},
+patient:{name:'Patient',desc:'Long-term rewards',bonus:'longterm'},
+cheerful:{name:'Cheerful',desc:'Daily happiness bonus',bonus:'daily'},
+watchful:{name:'Watchful',desc:'Protection from setbacks',bonus:'protection'},
+transformative:{name:'Transformative',desc:'Evolution bonuses',bonus:'evolution'}
+};
+
 // GAME STATE
 let db;
 let state={
@@ -996,7 +1213,21 @@ title:'Seedling',
 questProgress:{},
 questDate:null,
 start:Date.now(),
-companion:{name:'Seedling',icon:'🌱',level:1,xp:0,feeds:0},
+companion:{
+name:'',
+type:null,
+icon:'🐕',
+level:1,
+xp:0,
+feeds:0,
+happiness:100,
+energy:100,
+loyalty:100,
+magic:50,
+trait:'loyal',
+animation:'bounce',
+created:false
+},
 inventory:{seed:5,water:3,wood:2,stone:1},
 crafted:0,
 reputation:[...REPUTATION_FACTIONS],
@@ -1088,9 +1319,19 @@ state.xp+=total;
 state.coins+=Math.floor(total/10);
 const info=getLvl(state.xp);
 state.level=info.level;
-// Companion gains XP too
-state.companion.xp+=Math.floor(total*0.3);
+// Companion gains XP too (if created)
+if(state.companion.created){
+const companionXP=Math.floor(total*0.3);
+state.companion.xp+=companionXP;
+// Check companion level up
+const needed=state.companion.level*100;
+if(state.companion.xp>=needed){
+state.companion.xp-=needed;
+state.companion.level++;
 updateCompanionLevel();
+toast('achievement','🎉 Companion Level Up!',`${state.companion.name} is now level ${state.companion.level}!`);
+}
+}
 // Reputation gain
 gainReputation('peace',Math.floor(total*0.1));
 toast('xp',`+${total} XP`,reason);
@@ -1186,47 +1427,227 @@ return`
 }
 
 // COMPANION SYSTEM
-function updateCompanionLevel(){
-const levels=[
-{min:0,max:100,name:'Seedling',icon:'🌱'},
-{min:100,max:300,name:'Sprout',icon:'🌿'},
-{min:300,max:600,name:'Butterfly',icon:'🦋'},
-{min:600,max:Infinity,name:'Dove',icon:'🕊️'}
-];
-const xp=state.companion.xp;
-const tier=levels.find(l=>xp>=l.min&&xp<l.max);
-if(tier){
-state.companion.name=tier.name;
-state.companion.icon=tier.icon;
-state.companion.level=levels.indexOf(tier)+1;
+// COMPANION SYSTEM
+let selectedPetType=null;
+let selectedTrait=null;
+
+function initCharacterCreator(){
+const petGrid=document.getElementById('pet-grid');
+petGrid.innerHTML=PET_TYPES.map(pet=>`
+<div class="pet-option" onclick="selectPet('${pet.id}')">
+<div class="pet-icon">${pet.icon}</div>
+<div class="pet-name">${pet.name}</div>
+<div class="pet-desc">${pet.desc}</div>
+</div>
+`).join('');
+const traitSelector=document.getElementById('trait-selector');
+traitSelector.innerHTML=Object.entries(COMPANION_TRAITS).map(([id,trait])=>`
+<div class="trait-chip" onclick="selectTrait('${id}')">${trait.name}</div>
+`).join('');
 }
+
+function selectPet(petId){
+selectedPetType=petId;
+document.querySelectorAll('.pet-option').forEach(el=>{
+el.classList.remove('selected');
+});
+event.target.closest('.pet-option').classList.add('selected');
+// Auto-select matching trait
+const pet=PET_TYPES.find(p=>p.id===petId);
+if(pet&&pet.trait){
+selectTrait(pet.trait);
+}
+}
+
+function selectTrait(traitId){
+selectedTrait=traitId;
+document.querySelectorAll('.trait-chip').forEach(el=>{
+el.classList.remove('selected');
+if(el.textContent===COMPANION_TRAITS[traitId].name){
+el.classList.add('selected');
+}
+});
+}
+
+function createCompanion(){
+const nameInput=document.getElementById('companion-name-input');
+const name=nameInput.value.trim();
+if(!selectedPetType){
+toast('error','Select a Pet','Choose your companion type');
+return;
+}
+if(!name||name.length<2){
+toast('error','Enter a Name','Give your companion a name (2+ characters)');
+return;
+}
+const petType=PET_TYPES.find(p=>p.id===selectedPetType);
+state.companion={
+name:name,
+type:selectedPetType,
+icon:petType.icon,
+level:1,
+xp:0,
+feeds:0,
+happiness:petType.stats.happiness,
+energy:petType.stats.energy,
+loyalty:petType.stats.loyalty,
+magic:petType.stats.magic,
+trait:selectedTrait||petType.trait,
+animation:petType.animation,
+created:true,
+stages:petType.stages,
+food:petType.food
+};
+state.avatar=petType.icon;
+closeModal('character-creator-modal');
+toast('success','🎉 Companion Created!',`${name} joins your journey!`);
+updateCompanionDisplay();
+updateHUD();
+initCompanionParticles();
+save();
+}
+
+function updateCompanionLevel(){
+if(!state.companion.type)return;
+const petType=PET_TYPES.find(p=>p.id===state.companion.type);
+if(!petType)return;
+// Determine evolution stage based on level
+let currentStage=petType.stages[0];
+for(let stage of petType.stages){
+if(state.companion.level>=stage.level){
+currentStage=stage;
+}
+}
+state.companion.icon=currentStage.icon;
+// Update stats based on level
+const levelBonus=state.companion.level*5;
+state.companion.happiness=Math.min(100,petType.stats.happiness+levelBonus);
+state.companion.energy=Math.min(100,petType.stats.energy+levelBonus);
+state.companion.loyalty=Math.min(100,petType.stats.loyalty+levelBonus);
+state.companion.magic=Math.min(100,petType.stats.magic+levelBonus);
 updateCompanionDisplay();
 }
 
 function updateCompanionDisplay(){
+if(!state.companion.created){
+// No companion created yet
+document.getElementById('companion-avatar').textContent='❓';
+document.getElementById('companion-avatar').className='companion-avatar pulse';
+document.getElementById('companion-name').textContent='No Companion';
+const levelDiv=document.querySelector('.companion-display .companion-level');
+if(levelDiv)levelDiv.textContent='Click to create';
+const xpDiv=document.getElementById('companion-xp-hud');
+if(xpDiv)xpDiv.textContent='';
+return;
+}
+// HUD display
 document.getElementById('companion-avatar').textContent=state.companion.icon;
-document.getElementById('companion-name').textContent=state.companion.name;
-document.getElementById('companion-level').textContent=state.companion.level;
-document.getElementById('companion-xp').textContent=state.companion.xp;
-// Modal
-document.getElementById('companion-modal-avatar').textContent=state.companion.icon;
-document.getElementById('companion-modal-name').textContent=state.companion.name;
+document.getElementById('companion-avatar').className=`companion-avatar ${state.companion.animation}`;
+document.getElementById('companion-name').textContent=state.companion.name||'No Companion';
+const levelDiv=document.querySelector('.companion-display .companion-level');
+if(levelDiv)levelDiv.textContent=`Level ${state.companion.level}`;
+const xpDiv=document.getElementById('companion-xp-hud');
+if(xpDiv)xpDiv.textContent=`${state.companion.xp}/${state.companion.level*100} XP`;
+// Modal display
+document.getElementById('companion-character').textContent=state.companion.icon;
+document.getElementById('companion-modal-name').textContent=state.companion.name||'No Companion';
 document.getElementById('companion-modal-level').textContent=state.companion.level;
 document.getElementById('companion-modal-xp').textContent=state.companion.xp;
+const petType=PET_TYPES.find(p=>p.id===state.companion.type);
+document.getElementById('companion-modal-type').textContent=petType?petType.name:'Unknown';
+// Stats
+document.getElementById('companion-happiness').textContent=state.companion.happiness;
+document.getElementById('companion-energy').textContent=state.companion.energy;
+document.getElementById('companion-loyalty').textContent=state.companion.loyalty;
+document.getElementById('companion-magic').textContent=state.companion.magic;
+// Trait
+const trait=COMPANION_TRAITS[state.companion.trait];
+if(trait){
+document.getElementById('companion-trait').textContent=`${trait.name} - ${trait.desc}`;
+}
+// Evolution stages
+if(petType&&petType.stages){
+document.getElementById('evo-stage-1').textContent=petType.stages[0].icon;
+document.getElementById('evo-stage-2').textContent=petType.stages[1]?.icon||'?';
+document.getElementById('evo-stage-3').textContent=petType.stages[2]?.icon||'?';
+}
+}
+
+function handleCompanionClick(){
+if(!state.companion.created){
+openModal('character-creator-modal');
+}else{
+openModal('companion-modal');
+}
+}
+
+function initCompanionParticles(){
+const container=document.getElementById('companion-particles');
+if(!container)return;
+container.innerHTML='';
+for(let i=0;i<8;i++){
+const particle=document.createElement('div');
+particle.className='particle';
+particle.style.left=Math.random()*100+'%';
+particle.style.animationDelay=Math.random()*2+'s';
+container.appendChild(particle);
+}
 }
 
 function feedCompanion(){
-if(state.coins<10){
-toast('error','Not Enough Coins','Need 10 coins to feed');
+if(!state.companion.created){
+toast('error','No Companion','Create a companion first');
 return;
 }
-state.coins-=10;
+const petType=PET_TYPES.find(p=>p.id===state.companion.type);
+const cost=10;
+if(state.coins<cost){
+toast('error','Not Enough Coins',`Need ${cost} coins to feed`);
+return;
+}
+state.coins-=cost;
 state.companion.xp+=50;
 state.companion.feeds++;
+state.companion.happiness=Math.min(100,state.companion.happiness+10);
+// Level up companion
+const needed=state.companion.level*100;
+if(state.companion.xp>=needed){
+state.companion.xp-=needed;
+state.companion.level++;
+updateCompanionLevel();
+toast('achievement','🎉 Companion Level Up!',`${state.companion.name} is now level ${state.companion.level}!`);
+}
 updateCompanionLevel();
 questProgress('companion');
-toast('success','🦋 Companion Fed!','+50 XP');
+toast('success',`${petType.food} Companion Fed!`,'+50 XP');
+// Animate character
+const char=document.getElementById('companion-character');
+if(char){
+char.classList.remove('happy');
+setTimeout(()=>char.classList.add('happy'),50);
+setTimeout(()=>char.classList.remove('happy'),1000);
+}
 updateHUD();
+save();
+}
+
+function playWithCompanion(){
+if(!state.companion.created){
+toast('error','No Companion','Create a companion first');
+return;
+}
+state.companion.happiness=Math.min(100,state.companion.happiness+5);
+state.companion.energy=Math.max(0,state.companion.energy-10);
+state.companion.xp+=25;
+// Animate character
+const char=document.getElementById('companion-character');
+if(char){
+char.classList.remove('happy');
+setTimeout(()=>char.classList.add('happy'),50);
+setTimeout(()=>char.classList.remove('happy'),2000);
+}
+toast('success','🎾 Played Together!','+25 XP & happiness');
+updateCompanionDisplay();
 save();
 }
 
@@ -1717,6 +2138,8 @@ if(id==='skills-modal')initSkillTree();
 if(id==='craft-modal')initCrafting();
 if(id==='challenges-modal')initChallenges();
 if(id==='calendar-modal')initCalendar();
+if(id==='character-creator-modal')initCharacterCreator();
+if(id==='companion-modal')initCompanionParticles();
 }
 
 function closeModal(id){
@@ -1769,7 +2192,11 @@ document.getElementById('enter-btn').addEventListener('click',()=>{
 document.getElementById('splash').classList.add('hidden');
 document.getElementById('app').classList.add('visible');
 unlock('first');
-toast('success','Welcome, Peaceweaver!','Your journey begins');
+if(!state.companion.created){
+toast('info','Welcome, Peaceweaver!','Choose your companion to begin');
+}else{
+toast('success',`Welcome back, ${state.companion.name}!`,'Continue your peace journey');
+}
 });
 // Theme buttons
 document.querySelectorAll('.theme-btn').forEach(btn=>{
@@ -1842,9 +2269,17 @@ initQuests();
 updateAchievements();
 updateHUD();
 initRewards();
-// Show calendar on first visit
-if(!state.calendar.length){
-setTimeout(()=>openModal('calendar-modal'),2000);
+// Show character creator on first visit
+if(!state.companion.created){
+setTimeout(()=>openModal('character-creator-modal'),1500);
+}else{
+updateCompanionDisplay();
+initCompanionParticles();
+}
+// Show calendar if first time today
+const today=new Date().getDate();
+if(!state.calendar.includes(today)&&state.companion.created){
+setTimeout(()=>openModal('calendar-modal'),3000);
 }
 });
 </script>
