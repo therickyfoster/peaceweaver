@@ -3,189 +3,398 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Peaceweaver - Enhanced Gamification</title>
+<title>Peaceweaver - Advanced Gamification Edition</title>
 <style>
+/* === ROOT THEME VARIABLES === */
 :root{--bg:#0a1628;--bg2:#0f1f35;--bg3:#152844;--card:#1a3052;--text:#e8f4f8;--text2:#a8c5d4;--muted:#6b8fa8;--accent:#4fd1c5;--accent2:#63b3ed;--accent3:#9f7aea;--border:#2a4a6a;--success:#48bb78;--warn:#ecc94b;--error:#fc8181;--glow:rgba(79,209,197,0.3)}
 [data-theme="sunset"]{--bg:#1a0f0a;--bg2:#2d1810;--bg3:#3d2218;--card:#4d2c20;--text:#faf0e6;--text2:#d4a574;--muted:#a67c52;--accent:#f59e0b;--accent2:#ef4444;--accent3:#ec4899;--border:#5d3628;--success:#84cc16;--warn:#fbbf24;--error:#f87171;--glow:rgba(245,158,11,0.3)}
 [data-theme="forest"]{--bg:#0d1f14;--bg2:#14291c;--bg3:#1a3324;--card:#203d2c;--text:#e8f5e9;--text2:#a5d6a7;--muted:#66bb6a;--accent:#4caf50;--accent2:#8bc34a;--accent3:#009688;--border:#2e5a3a;--success:#66bb6a;--warn:#ffeb3b;--error:#ef5350;--glow:rgba(76,175,80,0.3)}
 [data-theme="ocean"]{--bg:#0a1929;--bg2:#0d2137;--bg3:#102945;--card:#133153;--text:#e3f2fd;--text2:#90caf9;--muted:#42a5f5;--accent:#00bcd4;--accent2:#03a9f4;--accent3:#3f51b5;--border:#1e4976;--success:#26a69a;--warn:#ffca28;--error:#ef5350;--glow:rgba(0,188,212,0.3)}
 [data-theme="cyber"]{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;--card:#222230;--text:#f0f0ff;--text2:#00ff88;--muted:#ff00ff;--accent:#00ffff;--accent2:#ff00ff;--accent3:#ffff00;--border:#333345;--success:#00ff88;--warn:#ffff00;--error:#ff3366;--glow:rgba(0,255,255,0.4)}
 [data-theme="sakura"]{--bg:#fdf2f8;--bg2:#fce7f3;--bg3:#fbcfe8;--card:#fff;--text:#831843;--text2:#be185d;--muted:#db2777;--accent:#ec4899;--accent2:#f472b6;--accent3:#a855f7;--border:#f9a8d4;--success:#34d399;--warn:#fbbf24;--error:#f87171;--glow:rgba(236,72,153,0.2)}
+
+/* === GLOBAL STYLES === */
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Georgia,serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+body{font-family:Georgia,serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;overflow-x:hidden}
 ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 .hidden{display:none!important}
-#splash{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;transition:opacity .8s}
+
+/* === SPLASH SCREEN WITH PARTICLES === */
+#splash{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;transition:opacity .8s;overflow:hidden}
 #splash.hidden{opacity:0;pointer-events:none}
-#splash::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--glow) 0%,transparent 70%)}
+#splash::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--glow) 0%,transparent 70%);animation:pulse-glow 4s infinite}
+@keyframes pulse-glow{0%,100%{opacity:.5}50%{opacity:1}}
+
+/* Canvas for particle effects */
+#particle-canvas{position:absolute;inset:0;pointer-events:none}
 .splash-content{position:relative;z-index:1;max-width:700px}
-.splash-logo{width:120px;height:120px;margin:0 auto 2rem;animation:pulse 3s infinite}
-@keyframes pulse{0%,100%{filter:drop-shadow(0 0 10px var(--glow))}50%{filter:drop-shadow(0 0 30px var(--glow))}}
-.splash-title{font-size:clamp(2rem,5vw,3.5rem);letter-spacing:4px;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:fadeUp 1s ease .3s both}
+.splash-logo{width:120px;height:120px;margin:0 auto 2rem;animation:logo-float 3s infinite;filter:drop-shadow(0 0 20px var(--glow))}
+@keyframes logo-float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-15px) rotate(5deg)}}
+.splash-title{font-size:clamp(2rem,5vw,3.5rem);letter-spacing:4px;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:fadeUp 1s ease .3s both;text-shadow:0 0 30px var(--glow)}
 .splash-subtitle{font-size:1.1rem;color:var(--text2);max-width:550px;margin:0 auto 4rem;animation:fadeUp 1s ease .5s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.splash-btn{padding:1rem 4rem;font-size:1.1rem;font-weight:600;letter-spacing:2px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg);border-radius:16px;transition:transform .3s,box-shadow .3s;animation:fadeUp 1s ease .7s both}
-.splash-btn:hover{transform:scale(1.05);box-shadow:0 0 30px var(--glow)}
-#app{display:none;min-height:100vh}#app.visible{display:block}
-#header{position:sticky;top:0;z-index:200;background:var(--bg2);border-bottom:1px solid var(--border);backdrop-filter:blur(10px);padding:.5rem 1rem}
-.header-inner{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto}
-.site-title{font-size:1.3rem;font-weight:600;color:var(--accent);letter-spacing:2px}
+.splash-btn{padding:1rem 4rem;font-size:1.1rem;font-weight:600;letter-spacing:2px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg);border-radius:16px;transition:all .3s;animation:fadeUp 1s ease .7s both;box-shadow:0 8px 25px var(--glow)}
+.splash-btn:hover{transform:scale(1.05) translateY(-2px);box-shadow:0 12px 40px var(--glow)}
+
+/* === MAIN APP === */
+#app{display:none;min-height:100vh}
+#app.visible{display:block}
+
+/* === HEADER === */
+#header{position:sticky;top:0;z-index:200;background:var(--bg2);border-bottom:1px solid var(--border);backdrop-filter:blur(10px);padding:.5rem 1rem;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.header-inner{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;gap:1rem}
+.site-title{font-size:1.3rem;font-weight:600;color:var(--accent);letter-spacing:2px;text-shadow:0 0 10px var(--glow)}
+.header-nav{display:flex;gap:.5rem;flex-wrap:wrap}
+.nav-btn{padding:.5rem 1rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;font-size:.85rem;transition:all .15s;color:var(--text2)}
+.nav-btn:hover,.nav-btn.active{background:var(--accent);color:var(--bg);transform:translateY(-2px)}
 .theme-btns{display:flex;gap:.5rem}
 .theme-btn{padding:.5rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;font-size:1rem;transition:all .15s}
-.theme-btn:hover,.theme-btn.active{background:var(--accent);color:var(--bg)}
-#hud{position:fixed;top:80px;right:1rem;z-index:300;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1rem;width:280px;box-shadow:0 8px 32px rgba(0,0,0,.3);max-height:calc(100vh - 100px);overflow-y:auto;transition:transform .3s}
+.theme-btn:hover,.theme-btn.active{background:var(--accent);color:var(--bg);transform:scale(1.1)}
+
+/* === HUD (Player Stats Panel) === */
+#hud{position:fixed;top:80px;right:1rem;z-index:300;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1rem;width:300px;box-shadow:0 8px 32px rgba(0,0,0,.3),0 0 40px var(--glow);max-height:calc(100vh - 100px);overflow-y:auto;transition:transform .3s}
 #hud.collapsed{transform:translateX(calc(100% + 2rem))}
-.hud-toggle{position:absolute;left:-40px;top:.5rem;width:36px;height:36px;background:var(--card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .15s}
-.hud-toggle:hover{background:var(--accent);color:var(--bg)}
+.hud-toggle{position:absolute;left:-40px;top:.5rem;width:36px;height:36px;background:var(--card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .15s;box-shadow:0 4px 15px rgba(0,0,0,.2)}
+.hud-toggle:hover{background:var(--accent);color:var(--bg);transform:scale(1.1)}
+
+/* HUD Header with Avatar */
 .hud-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
-.hud-avatar{width:56px;height:56px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 20px var(--glow)}
+.hud-avatar{width:64px;height:64px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 0 25px var(--glow);animation:avatar-glow 3s infinite;cursor:pointer;transition:transform .3s}
+.hud-avatar:hover{transform:scale(1.1) rotate(5deg)}
+@keyframes avatar-glow{0%,100%{box-shadow:0 0 20px var(--glow)}50%{box-shadow:0 0 35px var(--glow)}}
 .hud-user{flex:1}
 .hud-name{font-weight:600;font-size:1rem}
 .hud-title{font-size:.8rem;color:var(--accent);display:flex;align-items:center;gap:4px}
+
+/* HUD Sections */
 .hud-section{margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
 .hud-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
-.hud-section-title{font-size:.7rem;font-weight:600;color:var(--accent);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:1px}
+.hud-section-title{font-size:.7rem;font-weight:600;color:var(--accent);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;justify-content:space-between}
+
+/* Level Display */
 .level-display{display:flex;align-items:center;gap:1rem;margin-bottom:.5rem}
-.level-badge{width:50px;height:50px;background:linear-gradient(135deg,var(--accent),var(--accent3));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:700;color:var(--bg);box-shadow:0 0 25px var(--glow)}
+.level-badge{width:56px;height:56px;background:linear-gradient(135deg,var(--accent),var(--accent3));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;color:var(--bg);box-shadow:0 0 30px var(--glow);animation:level-pulse 2s infinite}
+@keyframes level-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 .level-info{flex:1}
-.level-name{font-size:.9rem;font-weight:600}
+.level-name{font-size:.95rem;font-weight:600}
 .level-xp{font-size:.75rem;color:var(--muted)}
-.progress-bar{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:5px;transition:width .3s}
+.progress-bar{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.3)}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:5px;transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 10px var(--glow)}
+
+/* Stats Grid */
 .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem}
-.stat-item{background:var(--bg3);padding:.75rem;border-radius:8px;text-align:center}
-.stat-number{font-size:1.3rem;font-weight:700;color:var(--accent)}
+.stat-item{background:var(--bg3);padding:.75rem;border-radius:8px;text-align:center;transition:all .3s;cursor:pointer;border:1px solid transparent}
+.stat-item:hover{background:var(--card);border-color:var(--border);transform:translateY(-2px)}
+.stat-number{font-size:1.4rem;font-weight:700;color:var(--accent);text-shadow:0 0 10px var(--glow)}
 .stat-label{font-size:.65rem;color:var(--muted)}
-.streak-display{display:flex;align-items:center;gap:1rem;padding:.75rem;background:linear-gradient(135deg,var(--warn),#f97316);border-radius:12px;color:var(--bg)}
-.streak-icon{font-size:32px;animation:flicker 1s infinite}
-@keyframes flicker{0%,100%{opacity:1}50%{opacity:.7}}
+
+/* Streak Display */
+.streak-display{display:flex;align-items:center;gap:1rem;padding:.75rem;background:linear-gradient(135deg,var(--warn),#f97316);border-radius:12px;color:var(--bg);box-shadow:0 4px 15px rgba(245,158,11,.3)}
+.streak-icon{font-size:36px;animation:flame-flicker 1.5s infinite}
+@keyframes flame-flicker{0%,100%{transform:scale(1);opacity:1}25%{transform:scale(1.1);opacity:.9}50%{transform:scale(.95);opacity:1}75%{transform:scale(1.05);opacity:.95}}
 .streak-info{flex:1}
-.streak-count{font-size:1.5rem;font-weight:700}
-.streak-label{font-size:.7rem;opacity:.8}
-.streak-bonus{font-size:.65rem;background:rgba(0,0,0,.2);padding:2px 8px;border-radius:8px}
+.streak-count{font-size:1.6rem;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.3)}
+.streak-label{font-size:.7rem;opacity:.9}
+.streak-bonus{font-size:.65rem;background:rgba(0,0,0,.2);padding:3px 8px;border-radius:8px;margin-top:4px;display:inline-block}
+
+/* Companion Display - NEW */
+.companion-display{display:flex;align-items:center;gap:1rem;padding:1rem;background:linear-gradient(135deg,var(--accent3),var(--accent));border-radius:12px;position:relative;overflow:hidden;cursor:pointer;transition:all .3s}
+.companion-display::before{content:"";position:absolute;inset:0;background:linear-gradient(45deg,transparent,rgba(255,255,255,.1),transparent);transform:translateX(-100%);transition:transform .6s}
+.companion-display:hover::before{transform:translateX(100%)}
+.companion-display:hover{transform:scale(1.02)}
+.companion-avatar{width:60px;height:60px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 4px 15px rgba(0,0,0,.3);animation:companion-bounce 2s infinite}
+@keyframes companion-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.companion-info{flex:1;color:var(--bg)}
+.companion-name{font-weight:700;font-size:.95rem}
+.companion-level{font-size:.7rem;opacity:.85}
+.companion-xp{font-size:.65rem;background:rgba(0,0,0,.2);padding:2px 6px;border-radius:6px;margin-top:2px;display:inline-block}
+
+/* Quest Items */
 .quests-list{display:flex;flex-direction:column;gap:.5rem}
-.quest-item{background:var(--bg3);border-radius:10px;padding:.75rem;display:flex;align-items:center;gap:.75rem}
+.quest-item{background:var(--bg3);border-radius:10px;padding:.75rem;display:flex;align-items:center;gap:.75rem;transition:all .3s;border:1px solid transparent;cursor:pointer}
+.quest-item:hover{background:var(--card);border-color:var(--border);transform:translateX(4px)}
 .quest-item.completed{opacity:.5}
 .quest-item.completed .quest-check{background:var(--success);border-color:var(--success);color:#fff}
-.quest-icon{width:36px;height:36px;background:var(--card);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
+.quest-icon{width:36px;height:36px;background:var(--card);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 .quest-info{flex:1}
 .quest-name{font-size:.8rem;font-weight:600}
 .quest-progress{font-size:.65rem;color:var(--muted)}
 .quest-reward{font-size:.7rem;color:var(--warn);font-weight:600}
-.quest-check{width:22px;height:22px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent}
+.quest-check{width:22px;height:22px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .3s}
+
+/* Achievements Grid */
 .achievements-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
-.achievement{aspect-ratio:1;background:var(--bg3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:help;transition:all .15s}
-.achievement.earned{background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 15px var(--glow)}
+.achievement{aspect-ratio:1;background:var(--bg3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:help;transition:all .3s;border:2px solid transparent;position:relative}
+.achievement.earned{background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 20px var(--glow);border-color:var(--accent2)}
+.achievement.earned::after{content:"✓";position:absolute;bottom:2px;right:2px;width:14px;height:14px;background:var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff}
 .achievement.locked{opacity:.3;filter:grayscale(1)}
-.achievement:hover{transform:scale(1.1)}
-.rewards-btn{width:100%;padding:.75rem;background:linear-gradient(135deg,var(--accent3),var(--accent));border-radius:12px;color:var(--bg);font-weight:600;font-size:.9rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
-.rewards-btn:hover{transform:translateY(-2px);box-shadow:0 4px 15px var(--glow)}
+.achievement:hover{transform:scale(1.15) rotate(5deg)}
+
+/* Reputation Bars - NEW */
+.reputation-list{display:flex;flex-direction:column;gap:.75rem}
+.rep-item{background:var(--bg3);padding:.75rem;border-radius:10px;transition:all .3s}
+.rep-item:hover{background:var(--card);transform:translateX(4px)}
+.rep-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.rep-name{font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:.5rem}
+.rep-level{font-size:.7rem;color:var(--accent);background:var(--bg);padding:2px 8px;border-radius:8px}
+.rep-bar{height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
+.rep-fill{height:100%;background:linear-gradient(90deg,var(--accent3),var(--accent));border-radius:4px;transition:width .6s;box-shadow:0 0 8px var(--glow)}
+
+/* Action Buttons */
+.rewards-btn{width:100%;padding:.75rem;background:linear-gradient(135deg,var(--accent3),var(--accent));border-radius:12px;color:var(--bg);font-weight:600;font-size:.9rem;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.2)}
+.rewards-btn:hover{transform:translateY(-2px);box-shadow:0 6px 25px var(--glow)}
 .coins-display{background:rgba(0,0,0,.2);padding:4px 10px;border-radius:8px}
+
+/* Leaderboard */
 .leaderboard{display:flex;flex-direction:column;gap:4px}
-.leader-item{display:flex;align-items:center;gap:.75rem;padding:.5rem;background:var(--bg3);border-radius:8px;font-size:.8rem}
-.leader-item.you{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg)}
-.leader-rank{width:20px;font-weight:700;text-align:center}
+.leader-item{display:flex;align-items:center;gap:.75rem;padding:.5rem;background:var(--bg3);border-radius:8px;font-size:.8rem;transition:all .3s;border:1px solid transparent}
+.leader-item:hover{background:var(--card);border-color:var(--border)}
+.leader-item.you{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg);box-shadow:0 4px 15px var(--glow)}
+.leader-rank{width:20px;font-weight:700;text-align:center;font-size:.9rem}
 .leader-name{flex:1}
 .leader-score{font-weight:600}
-#content{padding:2rem 1rem 2rem calc(1rem);max-width:900px;margin:0 auto}
-@media(min-width:1024px){#content{margin-right:320px}}
-.section{margin-bottom:4rem}
+
+/* === CONTENT AREA === */
+#content{padding:2rem 1rem 2rem calc(1rem);max-width:900px;margin:0 auto;transition:opacity .3s}
+@media(min-width:1024px){#content{margin-right:340px}}
+
+/* Section Styles */
+.section{margin-bottom:4rem;opacity:0;animation:section-fade-in .8s forwards}
+@keyframes section-fade-in{to{opacity:1}}
 .section-header{text-align:center;margin-bottom:2rem}
-.section-icon{width:80px;height:80px;margin:0 auto 1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 0 30px var(--glow);animation:float 6s infinite ease-in-out}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.section-title{font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.section-icon{width:90px;height:90px;margin:0 auto 1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:0 0 40px var(--glow),0 8px 25px rgba(0,0,0,.3);animation:icon-float 6s infinite ease-in-out;position:relative}
+.section-icon::after{content:"";position:absolute;inset:-10px;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent);opacity:.3;z-index:-1;animation:pulse-ring 3s infinite}
+@keyframes icon-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes pulse-ring{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.2);opacity:.1}}
+.section-title{font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 20px var(--glow)}
 .section-subtitle{font-size:1.1rem;color:var(--text2)}
+
+/* Feature Grid */
 .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:2rem}
-.feature-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:all .3s;position:relative}
-.feature-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.2);border-color:var(--accent)}
-.feature-xp{position:absolute;top:.75rem;right:.75rem;background:var(--accent);color:var(--bg);font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:8px}
-.feature-icon{width:56px;height:56px;background:var(--bg3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:1rem}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:all .3s;position:relative;overflow:hidden}
+.feature-card::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,var(--glow),transparent);opacity:0;transition:opacity .3s}
+.feature-card:hover::before{opacity:.1}
+.feature-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,.3),0 0 30px var(--glow);border-color:var(--accent)}
+.feature-xp{position:absolute;top:.75rem;right:.75rem;background:var(--accent);color:var(--bg);font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:8px;box-shadow:0 2px 8px var(--glow)}
+.feature-icon{width:60px;height:60px;background:var(--bg3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:1rem;box-shadow:0 4px 15px rgba(0,0,0,.2);transition:all .3s}
+.feature-card:hover .feature-icon{transform:scale(1.1) rotate(5deg)}
 .feature-title{font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
 .feature-desc{font-size:.95rem;color:var(--text2);line-height:1.6}
-.quote{padding:1.5rem;margin:2rem 0;border-left:4px solid var(--accent);background:var(--bg3);border-radius:0 12px 12px 0;position:relative}
-.quote::before{content:'"';position:absolute;top:-10px;left:10px;font-size:50px;color:var(--accent);opacity:.3}
+
+/* Quote Blocks */
+.quote{padding:1.5rem;margin:2rem 0;border-left:4px solid var(--accent);background:var(--bg3);border-radius:0 12px 12px 0;position:relative;box-shadow:0 4px 15px rgba(0,0,0,.2)}
+.quote::before{content:'"';position:absolute;top:-15px;left:10px;font-size:60px;color:var(--accent);opacity:.2}
 .quote-text{font-size:1.1rem;font-style:italic;margin-bottom:.5rem}
 .quote-attr{font-size:.9rem;color:var(--muted)}
-.collapsible{margin:1rem 0;border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.collapsible-header{display:flex;align-items:center;justify-content:space-between;padding:1rem;background:var(--bg3);cursor:pointer}
+
+/* Collapsible Panels */
+.collapsible{margin:1rem 0;border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .3s}
+.collapsible:hover{border-color:var(--accent)}
+.collapsible-header{display:flex;align-items:center;justify-content:space-between;padding:1rem;background:var(--bg3);cursor:pointer;transition:all .3s}
 .collapsible-header:hover{background:var(--card)}
 .collapsible-title{font-weight:600;display:flex;align-items:center;gap:.5rem}
-.collapsible-icon{transition:transform .15s}
+.collapsible-icon{transition:transform .3s}
 .collapsible.open .collapsible-icon{transform:rotate(180deg)}
-.collapsible-content{max-height:0;overflow:hidden;transition:max-height .3s}
-.collapsible.open .collapsible-content{max-height:1000px}
+.collapsible-content{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1)}
+.collapsible.open .collapsible-content{max-height:2000px}
 .collapsible-body{padding:1rem;background:var(--bg2)}
 .collapsible-body h4{margin:1rem 0 .5rem;color:var(--accent)}
+
+/* Action Buttons */
 .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem}
-.action-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.25rem;background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--text2);font-size:.9rem;position:relative;transition:all .15s}
-.action-btn:hover{background:var(--accent);color:var(--bg);border-color:var(--accent);transform:translateY(-2px)}
-.action-btn .xp-badge{position:absolute;top:-8px;right:-8px;background:var(--warn);color:var(--bg);font-size:.65rem;font-weight:700;padding:2px 6px;border-radius:8px}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:400;padding:2rem}
+.action-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.25rem;background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--text2);font-size:.9rem;position:relative;transition:all .3s}
+.action-btn:hover{background:var(--accent);color:var(--bg);border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 15px var(--glow)}
+.action-btn .xp-badge{position:absolute;top:-8px;right:-8px;background:var(--warn);color:var(--bg);font-size:.65rem;font-weight:700;padding:3px 7px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+
+/* === MODALS === */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:400;padding:2rem;animation:fade-in .3s}
 .modal-overlay.active{display:flex}
-.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;max-width:500px;width:100%;max-height:90vh;overflow:hidden}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;max-width:600px;width:100%;max-height:90vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:modal-slide-up .3s}
+@keyframes modal-slide-up{from{transform:translateY(50px);opacity:0}to{transform:translateY(0);opacity:1}}
 .modal-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg)}
 .modal-title{font-size:1.2rem;font-weight:600}
-.modal-close{width:32px;height:32px;background:rgba(0,0,0,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
-.modal-close:hover{background:rgba(0,0,0,.4)}
+.modal-close{width:32px;height:32px;background:rgba(0,0,0,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .3s}
+.modal-close:hover{background:rgba(0,0,0,.4);transform:rotate(90deg)}
 .modal-body{padding:1.5rem;overflow-y:auto;max-height:60vh}
 .modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+
+/* Rewards Grid */
 .rewards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
-.reward-item{background:var(--bg3);border:2px solid var(--border);border-radius:12px;padding:1rem;text-align:center;cursor:pointer;transition:all .15s}
-.reward-item:hover{border-color:var(--accent);transform:translateY(-2px)}
+.reward-item{background:var(--bg3);border:2px solid var(--border);border-radius:12px;padding:1rem;text-align:center;cursor:pointer;transition:all .3s;position:relative}
+.reward-item:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 8px 25px rgba(0,0,0,.3)}
 .reward-item.owned{border-color:var(--success);opacity:.6}
-.reward-icon{font-size:36px;margin-bottom:.5rem}
+.reward-item.owned::after{content:"✓ OWNED";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--success);color:#fff;padding:4px 12px;border-radius:8px;font-size:.7rem;font-weight:700}
+.reward-icon{font-size:42px;margin-bottom:.5rem}
 .reward-name{font-size:.85rem;font-weight:600;margin-bottom:4px}
 .reward-cost{font-size:.75rem;color:var(--warn);font-weight:600}
-.levelup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:600}
+
+/* Skill Tree - NEW */
+.skill-tree{display:flex;flex-direction:column;gap:2rem}
+.skill-path{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.path-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.path-icon{width:50px;height:50px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 20px var(--glow)}
+.path-info{flex:1}
+.path-name{font-size:1.1rem;font-weight:600}
+.path-desc{font-size:.8rem;color:var(--muted)}
+.skills-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem}
+.skill-node{background:var(--bg2);border:2px solid var(--border);border-radius:10px;padding:1rem;text-align:center;cursor:pointer;transition:all .3s;position:relative}
+.skill-node.unlocked{border-color:var(--success);background:var(--card)}
+.skill-node.locked{opacity:.5;cursor:not-allowed}
+.skill-node:not(.locked):hover{border-color:var(--accent);transform:scale(1.05)}
+.skill-icon{font-size:28px;margin-bottom:.5rem}
+.skill-name{font-size:.8rem;font-weight:600;margin-bottom:.25rem}
+.skill-cost{font-size:.7rem;color:var(--warn)}
+.skill-node.unlocked .skill-cost{color:var(--success)}
+.skill-node.unlocked .skill-cost::after{content:" ✓"}
+
+/* Daily Login Calendar - NEW */
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.5rem}
+.calendar-day{aspect-ratio:1;background:var(--bg3);border:2px solid var(--border);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.7rem;cursor:pointer;transition:all .3s;position:relative}
+.calendar-day.claimed{background:linear-gradient(135deg,var(--success),var(--accent));border-color:var(--success);color:var(--bg)}
+.calendar-day.claimed::after{content:"✓";position:absolute;top:2px;right:2px;width:14px;height:14px;background:rgba(0,0,0,.3);border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center}
+.calendar-day.today{border-color:var(--warn);box-shadow:0 0 20px var(--warn)}
+.calendar-day:hover:not(.claimed){border-color:var(--accent);transform:scale(1.1)}
+.day-number{font-weight:700;font-size:.85rem}
+.day-reward{font-size:.65rem;color:var(--warn)}
+.calendar-day.claimed .day-reward{color:var(--bg);opacity:.8}
+
+/* Crafting Interface - NEW */
+.crafting-area{display:grid;grid-template-columns:1fr 80px 1fr;gap:1rem;align-items:center}
+.ingredient-slots{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem}
+.craft-slot{aspect-ratio:1;background:var(--bg3);border:2px dashed var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;transition:all .3s}
+.craft-slot.filled{background:var(--card);border-style:solid;border-color:var(--accent)}
+.craft-slot:hover{border-color:var(--accent);transform:scale(1.05)}
+.craft-arrow{font-size:36px;color:var(--accent);text-align:center}
+.result-slot{aspect-ratio:1;background:var(--bg3);border:2px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:40px;animation:result-glow 2s infinite}
+@keyframes result-glow{0%,100%{box-shadow:0 0 10px var(--glow)}50%{box-shadow:0 0 25px var(--glow)}}
+.inventory-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:.5rem;margin-top:1rem}
+.inventory-item{aspect-ratio:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:24px;cursor:pointer;transition:all .3s;position:relative}
+.inventory-item:hover{background:var(--card);border-color:var(--accent);transform:scale(1.1)}
+.item-count{position:absolute;bottom:2px;right:2px;background:var(--accent);color:var(--bg);font-size:.6rem;padding:2px 4px;border-radius:4px;font-weight:700}
+
+/* Mini-game Canvas - NEW */
+.minigame-container{background:var(--bg2);border:2px solid var(--border);border-radius:12px;padding:1rem;text-align:center}
+.game-canvas{width:100%;max-width:500px;height:300px;background:var(--bg3);border-radius:8px;margin:1rem auto;box-shadow:inset 0 4px 15px rgba(0,0,0,.3)}
+.game-controls{display:flex;gap:1rem;justify-content:center;margin-top:1rem}
+.game-score{font-size:1.2rem;font-weight:700;color:var(--accent);margin-bottom:.5rem}
+
+/* Challenge Cards - NEW */
+.challenge-card{background:linear-gradient(135deg,var(--accent3),var(--accent));border-radius:16px;padding:1.5rem;color:var(--bg);position:relative;overflow:hidden;margin:1rem 0}
+.challenge-card::before{content:"";position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.2),transparent);animation:challenge-shine 3s infinite}
+@keyframes challenge-shine{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.challenge-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.challenge-icon{font-size:42px}
+.challenge-info{flex:1}
+.challenge-name{font-size:1.2rem;font-weight:700}
+.challenge-desc{font-size:.85rem;opacity:.9}
+.challenge-progress{margin-top:1rem}
+.challenge-bar{height:12px;background:rgba(0,0,0,.3);border-radius:6px;overflow:hidden;margin-bottom:.5rem}
+.challenge-fill{height:100%;background:#fff;border-radius:6px;transition:width .6s}
+.challenge-reward{display:flex;align-items:center;justify-content:space-between;font-size:.9rem;font-weight:600}
+
+/* Power-ups Display - NEW */
+.powerups-list{display:flex;flex-direction:column;gap:.5rem}
+.powerup-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.75rem;display:flex;align-items:center;gap:.75rem;transition:all .3s}
+.powerup-item.active{background:linear-gradient(135deg,var(--warn),#f97316);border-color:var(--warn);color:var(--bg);box-shadow:0 0 20px var(--warn)}
+.powerup-item:hover{transform:translateX(4px)}
+.powerup-icon{font-size:28px}
+.powerup-info{flex:1}
+.powerup-name{font-size:.85rem;font-weight:600}
+.powerup-timer{font-size:.7rem;opacity:.8}
+
+/* Level Up Overlay */
+.levelup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:600}
 .levelup-overlay.active{display:flex}
-.levelup-content{text-align:center;animation:levelupBounce 1s ease}
-@keyframes levelupBounce{0%{transform:scale(0);opacity:0}50%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
-.levelup-badge{width:140px;height:140px;background:linear-gradient(135deg,var(--accent),var(--accent3));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:56px;margin:0 auto 2rem;box-shadow:0 0 80px var(--glow);animation:levelupPulse 1s infinite}
-@keyframes levelupPulse{0%,100%{box-shadow:0 0 40px var(--glow)}50%{box-shadow:0 0 80px var(--glow)}}
-.levelup-title{font-size:2.5rem;color:var(--accent);margin-bottom:.5rem}
-.levelup-level{font-size:4rem;font-weight:700;margin-bottom:1rem}
-.levelup-rewards{font-size:1.2rem;color:var(--warn);margin-bottom:2rem}
+.levelup-content{text-align:center;animation:levelup-bounce 1s ease}
+@keyframes levelup-bounce{0%{transform:scale(0) rotate(-180deg);opacity:0}60%{transform:scale(1.2) rotate(10deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+.levelup-badge{width:160px;height:160px;background:linear-gradient(135deg,var(--accent),var(--accent3));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:64px;margin:0 auto 2rem;box-shadow:0 0 100px var(--glow);animation:levelup-pulse 1.5s infinite}
+@keyframes levelup-pulse{0%,100%{box-shadow:0 0 50px var(--glow)}50%{box-shadow:0 0 100px var(--glow)}}
+.levelup-title{font-size:3rem;color:var(--accent);margin-bottom:.5rem;text-shadow:0 0 30px var(--glow)}
+.levelup-level{font-size:5rem;font-weight:700;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.levelup-rewards{font-size:1.3rem;color:var(--warn);margin-bottom:2rem}
+
+/* Toast Notifications */
 #toasts{position:fixed;top:80px;right:1rem;z-index:400;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
-.toast{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;min-width:300px;box-shadow:0 8px 32px rgba(0,0,0,.3);display:flex;align-items:flex-start;gap:12px;animation:toastIn .3s ease;pointer-events:auto}
-.toast.hiding{animation:toastOut .3s ease forwards}
-@keyframes toastIn{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
-@keyframes toastOut{to{opacity:0;transform:translateX(100%)}}
-.toast-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
-.toast.success .toast-icon{background:var(--success);color:#fff}
-.toast.warning .toast-icon{background:var(--warn);color:var(--bg)}
-.toast.error .toast-icon{background:var(--error);color:#fff}
-.toast.info .toast-icon{background:var(--accent);color:var(--bg)}
-.toast.xp .toast-icon{background:linear-gradient(135deg,var(--warn),#f97316);color:var(--bg)}
-.toast.achievement .toast-icon{background:linear-gradient(135deg,var(--accent),var(--accent3));color:var(--bg)}
+.toast{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;min-width:300px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 20px var(--glow);display:flex;align-items:flex-start;gap:12px;animation:toast-in .4s cubic-bezier(.4,0,.2,1);pointer-events:auto}
+.toast.hiding{animation:toast-out .4s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes toast-in{from{opacity:0;transform:translateX(100%) scale(.8)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes toast-out{to{opacity:0;transform:translateX(100%) scale(.8)}}
+.toast-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.toast.success .toast-icon{background:var(--success);color:#fff;box-shadow:0 0 15px var(--success)}
+.toast.warning .toast-icon{background:var(--warn);color:var(--bg);box-shadow:0 0 15px var(--warn)}
+.toast.error .toast-icon{background:var(--error);color:#fff;box-shadow:0 0 15px var(--error)}
+.toast.info .toast-icon{background:var(--accent);color:var(--bg);box-shadow:0 0 15px var(--accent)}
+.toast.xp .toast-icon{background:linear-gradient(135deg,var(--warn),#f97316);color:var(--bg);box-shadow:0 0 15px var(--warn)}
+.toast.achievement .toast-icon{background:linear-gradient(135deg,var(--accent),var(--accent3));color:var(--bg);box-shadow:0 0 15px var(--accent)}
 .toast-content{flex:1}
 .toast-title{font-weight:600;font-size:.95rem}
 .toast-message{font-size:.8rem;color:var(--muted);margin-top:2px}
-.toast-close{background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;padding:4px}
+.toast-close{background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;padding:4px;transition:all .3s}
+.toast-close:hover{color:var(--text);transform:rotate(90deg)}
+
+/* Footer */
 #footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 1rem;margin-top:4rem}
 .footer-content{max-width:900px;margin:0 auto}
-.zero-harm{background:var(--bg3);border:1px solid var(--accent);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
+.zero-harm{background:var(--bg3);border:1px solid var(--accent);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,.2)}
 .zero-harm-title{display:flex;align-items:center;gap:.5rem;font-size:1.1rem;font-weight:600;color:var(--accent);margin-bottom:1rem}
 .zero-harm-text{font-size:.9rem;color:var(--text2);line-height:1.7}
 .zero-harm-text strong{color:var(--text)}
 .footer-copyright{text-align:center;font-size:.8rem;color:var(--muted)}
-@media(max-width:1024px){#hud{top:auto;bottom:1rem;width:260px;max-height:50vh}}
+
+/* Responsive */
+@media(max-width:1024px){
+#hud{top:auto;bottom:1rem;width:280px;max-height:60vh}
+#content{margin-right:0}
+}
+@media(max-width:640px){
+.stats-grid{grid-template-columns:1fr 1fr}
+.achievements-grid{grid-template-columns:repeat(3,1fr)}
+.calendar-grid{grid-template-columns:repeat(4,1fr)}
+}
 </style>
 </head>
 <body>
+
+<!-- SPLASH SCREEN -->
 <div id="splash">
+<canvas id="particle-canvas"></canvas>
 <div class="splash-content">
-<div class="splash-logo"><svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" stroke="url(#g1)" stroke-width="2"/><path d="M50 20L65 45 50 40 35 45Z" fill="url(#g1)"/><path d="M50 80L35 55 50 60 65 55Z" fill="url(#g1)"/><circle cx="50" cy="50" r="8" fill="url(#g1)"/><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:var(--accent)"/><stop offset="100%" style="stop-color:var(--accent3)"/></linearGradient></defs></svg></div>
+<div class="splash-logo">
+<svg viewBox="0 0 100 100" fill="none">
+<circle cx="50" cy="50" r="45" stroke="url(#g1)" stroke-width="2"/>
+<path d="M50 20L65 45 50 40 35 45Z" fill="url(#g1)"/>
+<path d="M50 80L35 55 50 60 65 55Z" fill="url(#g1)"/>
+<circle cx="50" cy="50" r="8" fill="url(#g1)"/>
+<defs>
+<linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" style="stop-color:var(--accent)"/>
+<stop offset="100%" style="stop-color:var(--accent3)"/>
+</linearGradient>
+</defs>
+</svg>
+</div>
 <h1 class="splash-title">PEACEWEAVER</h1>
-<p class="splash-subtitle">A citizen-powered peace architecture with complete gamification system — XP, levels, achievements, daily quests, rewards shop, and leaderboard.</p>
+<p class="splash-subtitle">Next-generation peace architecture with complete gamification: XP, levels, skill trees, companions, crafting, challenges, mini-games, reputation, and more.</p>
 <button class="splash-btn" id="enter-btn">Begin Your Journey</button>
 </div>
 </div>
 
+<!-- MAIN APP -->
 <div id="app">
+
+<!-- HEADER -->
 <header id="header">
 <div class="header-inner">
 <h1 class="site-title">✦ PEACEWEAVER</h1>
+<nav class="header-nav">
+<button class="nav-btn" data-nav="skills">🌳 Skills</button>
+<button class="nav-btn" data-nav="companion">🦋 Companion</button>
+<button class="nav-btn" data-nav="craft">🛠️ Craft</button>
+<button class="nav-btn" data-nav="challenges">⚔️ Challenges</button>
+<button class="nav-btn" data-nav="games">🎮 Games</button>
+</nav>
 <div class="theme-btns">
 <button class="theme-btn active" data-theme="aurora" title="Aurora">🌌</button>
 <button class="theme-btn" data-theme="sunset" title="Sunset">🌅</button>
@@ -197,8 +406,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </div>
 </header>
 
+<!-- HUD (Player Stats) -->
 <aside id="hud">
 <button class="hud-toggle">◀</button>
+
+<!-- Avatar & User Info -->
 <div class="hud-header">
 <div class="hud-avatar" id="hud-avatar">🌱</div>
 <div class="hud-user">
@@ -206,6 +418,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 <div class="hud-title" id="hud-title">🌿 Seedling</div>
 </div>
 </div>
+
+<!-- Level Progress -->
 <div class="hud-section">
 <div class="hud-section-title">⭐ Level Progress</div>
 <div class="level-display">
@@ -217,6 +431,21 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </div>
 <div class="progress-bar"><div class="progress-fill" id="xp-progress" style="width:0%"></div></div>
 </div>
+
+<!-- Companion -->
+<div class="hud-section">
+<div class="hud-section-title">🦋 Companion</div>
+<div class="companion-display" onclick="openModal('companion-modal')">
+<div class="companion-avatar" id="companion-avatar">🌱</div>
+<div class="companion-info">
+<div class="companion-name" id="companion-name">Seedling</div>
+<div class="companion-level">Level <span id="companion-level">1</span></div>
+<div class="companion-xp"><span id="companion-xp">0</span>/100 XP</div>
+</div>
+</div>
+</div>
+
+<!-- Streak -->
 <div class="hud-section">
 <div class="hud-section-title">🔥 Streak</div>
 <div class="streak-display">
@@ -228,6 +457,16 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 <span class="streak-bonus" id="streak-bonus">+0% XP</span>
 </div>
 </div>
+
+<!-- Active Power-ups -->
+<div class="hud-section">
+<div class="hud-section-title">⚡ Power-ups</div>
+<div class="powerups-list" id="powerups-list">
+<div style="text-align:center;color:var(--muted);font-size:.8rem;padding:1rem 0">No active power-ups</div>
+</div>
+</div>
+
+<!-- Statistics -->
 <div class="hud-section">
 <div class="hud-section-title">📊 Statistics</div>
 <div class="stats-grid">
@@ -237,24 +476,41 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 <div class="stat-item"><div class="stat-number" id="stat-coins">0</div><div class="stat-label">✨ Coins</div></div>
 </div>
 </div>
+
+<!-- Daily Quests -->
 <div class="hud-section">
 <div class="hud-section-title">📋 Daily Quests</div>
 <div class="quests-list" id="quests-list"></div>
 </div>
+
+<!-- Reputation -->
 <div class="hud-section">
-<div class="hud-section-title">🏆 Achievements (<span id="achievement-count">0</span>/12)</div>
+<div class="hud-section-title">🏛️ Reputation</div>
+<div class="reputation-list" id="reputation-list"></div>
+</div>
+
+<!-- Achievements -->
+<div class="hud-section">
+<div class="hud-section-title">🏆 Achievements (<span id="achievement-count">0</span>/16)</div>
 <div class="achievements-grid" id="achievements-grid"></div>
 </div>
+
+<!-- Leaderboard -->
 <div class="hud-section">
 <div class="hud-section-title">🏅 Leaderboard</div>
 <div class="leaderboard" id="leaderboard"></div>
 </div>
+
+<!-- Rewards Button -->
 <div class="hud-section">
-<button class="rewards-btn" id="rewards-btn">🎁 Rewards Shop <span class="coins-display">✨ <span id="shop-coins">0</span></span></button>
+<button class="rewards-btn" onclick="openModal('rewards-modal')">🎁 Rewards Shop <span class="coins-display">✨ <span id="shop-coins">0</span></span></button>
 </div>
 </aside>
 
+<!-- MAIN CONTENT -->
 <main id="content">
+
+<!-- Biospheric Cascades Section -->
 <section class="section" id="biosphere">
 <div class="section-header">
 <div class="section-icon">🌍</div>
@@ -297,6 +553,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </div>
 </section>
 
+<!-- Cultural Shadow Exchange Section -->
 <section class="section" id="shadows">
 <div class="section-header">
 <div class="section-icon">🎭</div>
@@ -305,7 +562,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </div>
 <p>Beneath the headlines of conflict lies vast shared heritage. The same lullabies sung to children, similar superstitions about weather, nearly identical recipes, common sayings that translate almost word-for-word.</p>
 <div class="feature-grid">
-<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🍲</div><h3 class="feature-title">Shared Recipes</h3><p class="feature-desc">Borscht, varenyky, blini—foods that cross borders and unite people around the table.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🍲</div><h3 class="feature-title">Shared Recipes</h3><p class="feature-desc">Foods that cross borders and unite people around the table.</p></div>
 <div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🎵</div><h3 class="feature-title">Lullabies & Songs</h3><p class="feature-desc">Melodies that rock children to sleep often share common roots across cultures.</p></div>
 <div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">😄</div><h3 class="feature-title">Shared Humor</h3><p class="feature-desc">Jokes about weather, bureaucracy, and family life that connect humans everywhere.</p></div>
 <div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🔮</div><h3 class="feature-title">Superstitions</h3><p class="feature-desc">Don't whistle indoors, knock on wood—shared beliefs revealing common heritage.</p></div>
@@ -316,6 +573,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </div>
 </section>
 
+<!-- Hero Narratives Section -->
 <section class="section" id="heroes">
 <div class="section-header">
 <div class="section-icon">⚔️</div>
@@ -328,9 +586,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 <p class="quote-attr">— Storyteller's Wisdom</p>
 </div>
 <div class="feature-grid">
-<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">❄️</div><h3 class="feature-title">Winter Alliance</h3><p class="feature-desc">Stories of heroes joining forces to survive the harshest season—sharing fire, food, shelter.</p></div>
-<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🌪️</div><h3 class="feature-title">Chaos Guardians</h3><p class="feature-desc">Narratives of cooperation against natural disasters—floods, fires, earthquakes.</p></div>
-<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🏗️</div><h3 class="feature-title">The Builders</h3><p class="feature-desc">Tales of heroes who create rather than destroy—building bridges, schools, homes.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">❄️</div><h3 class="feature-title">Winter Alliance</h3><p class="feature-desc">Stories of heroes joining forces to survive the harshest season.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🌪️</div><h3 class="feature-title">Chaos Guardians</h3><p class="feature-desc">Narratives of cooperation against natural disasters.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🏗️</div><h3 class="feature-title">The Builders</h3><p class="feature-desc">Tales of heroes who create rather than destroy.</p></div>
 <div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🌾</div><h3 class="feature-title">Harvest Keepers</h3><p class="feature-desc">Stories celebrating those who grow food and ensure no one goes hungry.</p></div>
 </div>
 <div class="collapsible" data-collapsible="story">
@@ -350,6 +608,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </div>
 </section>
 
+<!-- Citizen Peace Tools Section -->
 <section class="section" id="tools">
 <div class="section-header">
 <div class="section-icon">🛠️</div>
@@ -358,10 +617,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </div>
 <p>Peace is not just the work of diplomats. It is built through countless small actions by ordinary people—kindness, skill-sharing, collaborative problem-solving.</p>
 <div class="feature-grid">
-<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">💰</div><h3 class="feature-title">Microgrants</h3><p class="feature-desc">Small grants for cross-border cooperation projects. Big peace starts with small seeds.</p></div>
-<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🔄</div><h3 class="feature-title">Skill Exchange</h3><p class="feature-desc">Match teachers with learners across borders. Every skill shared builds a bridge.</p></div>
-<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">💝</div><h3 class="feature-title">Kindness Quests</h3><p class="feature-desc">Daily challenges to perform small acts of kindness that cross divides.</p></div>
-<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🧩</div><h3 class="feature-title">Collaborative Puzzles</h3><p class="feature-desc">Online puzzles only solvable through cooperation between communities.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">💰</div><h3 class="feature-title">Microgrants</h3><p class="feature-desc">Small grants for cross-border cooperation projects.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🔄</div><h3 class="feature-title">Skill Exchange</h3><p class="feature-desc">Match teachers with learners across borders.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">💝</div><h3 class="feature-title">Kindness Quests</h3><p class="feature-desc">Daily challenges to perform small acts of kindness.</p></div>
+<div class="feature-card"><span class="feature-xp">+15 XP</span><div class="feature-icon">🧩</div><h3 class="feature-title">Collaborative Puzzles</h3><p class="feature-desc">Online puzzles only solvable through cooperation.</p></div>
 </div>
 <div class="actions">
 <button class="action-btn" data-action="applyGrant"><span class="xp-badge">+40</span>💰 Apply for Grant</button>
@@ -370,6 +629,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </div>
 </section>
 
+<!-- Memory Weaving Section -->
 <section class="section" id="memory">
 <div class="section-header">
 <div class="section-icon">🕯️</div>
@@ -382,9 +642,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 <p class="quote-attr">— Memorial Inscription</p>
 </div>
 <div class="feature-grid">
-<div class="feature-card"><span class="feature-xp">+20 XP</span><div class="feature-icon">🕯️</div><h3 class="feature-title">Digital Candles</h3><p class="feature-desc">Light a candle in memory of someone lost. Watch thousands of flames flicker together.</p></div>
-<div class="feature-card"><span class="feature-xp">+20 XP</span><div class="feature-icon">📖</div><h3 class="feature-title">Life Stories</h3><p class="feature-desc">Share stories of those who have passed—their dreams, their humor, their kindness.</p></div>
-<div class="feature-card"><span class="feature-xp">+20 XP</span><div class="feature-icon">✍️</div><h3 class="feature-title">Memorial Poems</h3><p class="feature-desc">A collection of poems written in remembrance. Poetry speaks across every language.</p></div>
+<div class="feature-card"><span class="feature-xp">+20 XP</span><div class="feature-icon">🕯️</div><h3 class="feature-title">Digital Candles</h3><p class="feature-desc">Light a candle in memory. Watch thousands of flames flicker together.</p></div>
+<div class="feature-card"><span class="feature-xp">+20 XP</span><div class="feature-icon">📖</div><h3 class="feature-title">Life Stories</h3><p class="feature-desc">Share stories of those who have passed—their dreams, humor, kindness.</p></div>
+<div class="feature-card"><span class="feature-xp">+20 XP</span><div class="feature-icon">✍️</div><h3 class="feature-title">Memorial Poems</h3><p class="feature-desc">Poetry speaks across every language.</p></div>
 <div class="feature-card"><span class="feature-xp">+20 XP</span><div class="feature-icon">🎵</div><h3 class="feature-title">Voices Preserved</h3><p class="feature-desc">Audio recordings preserving the voices of those we've lost.</p></div>
 </div>
 <div class="actions">
@@ -392,118 +652,1201 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 <button class="action-btn" data-action="shareStory"><span class="xp-badge">+35</span>📖 Share Story</button>
 </div>
 </section>
+
 </main>
 
+<!-- FOOTER -->
 <footer id="footer">
 <div class="footer-content">
 <div class="zero-harm">
-<h3 class="zero-harm-title">🕊️ Zero-Harm Commitment</h3>
-<p class="zero-harm-text"><strong>This platform is designed exclusively for peaceful, restorative purposes.</strong> No tracking, surveillance, or weaponization. All data stored locally on your device via IndexedDB. Nothing is transmitted externally.</p>
+<h3 class="zero-harm-title">🕊️ Zero-Harm & Anti-Coercion Commitment</h3>
+<p class="zero-harm-text"><strong>This platform is designed exclusively for peaceful, restorative purposes.</strong> No tracking, surveillance, or weaponization. All data stored locally on your device via IndexedDB. Nothing is transmitted externally. No analytics, no telemetry, no hidden data collection. You maintain complete control over your information and can reset it at any time. This tool cannot be repurposed for harm, coercion, manipulation, or harassment.</p>
+<p class="zero-harm-text" style="margin-top:1rem"><strong>Privacy & Safety:</strong> Your gaming progress, achievements, and personal data never leave your device. No external servers, no accounts required, no email collection. You are anonymous and safe.</p>
 </div>
-<p class="footer-copyright">Peaceweaver © 2025 — Built for humanity, not extraction.</p>
+<p class="footer-copyright">Peaceweaver © 2025 — Built for humanity, not extraction. Open source & regenerative by design.</p>
 </div>
 </footer>
+
 </div>
 
+<!-- TOAST NOTIFICATIONS -->
 <div id="toasts"></div>
 
+<!-- MODALS -->
+
+<!-- Rewards Shop Modal -->
 <div id="rewards-modal" class="modal-overlay">
 <div class="modal">
 <div class="modal-header">
 <h2 class="modal-title">🎁 Rewards Shop</h2>
-<button class="modal-close">✕</button>
+<button class="modal-close" onclick="closeModal('rewards-modal')">✕</button>
 </div>
 <div class="modal-body">
 <div class="rewards-grid" id="rewards-grid"></div>
 </div>
 <div class="modal-footer">
 <span style="color:var(--muted);font-size:.85rem">Your coins: <strong style="color:var(--warn)">✨ <span id="modal-coins">0</span></strong></span>
-<button class="action-btn" onclick="document.getElementById('rewards-modal').classList.remove('active')">Close</button>
+<button class="action-btn" onclick="closeModal('rewards-modal')">Close</button>
 </div>
 </div>
 </div>
 
+<!-- Skill Tree Modal -->
+<div id="skills-modal" class="modal-overlay">
+<div class="modal">
+<div class="modal-header">
+<h2 class="modal-title">🌳 Skill Tree</h2>
+<button class="modal-close" onclick="closeModal('skills-modal')">✕</button>
+</div>
+<div class="modal-body">
+<p style="margin-bottom:1.5rem;color:var(--text2)">Choose your path and unlock powerful abilities. Each skill costs skill points (SP) earned through leveling up.</p>
+<div class="skill-tree" id="skill-tree"></div>
+</div>
+<div class="modal-footer">
+<span style="color:var(--muted);font-size:.85rem">Skill Points: <strong style="color:var(--accent)">⭐ <span id="skill-points">0</span></strong></span>
+<button class="action-btn" onclick="closeModal('skills-modal')">Close</button>
+</div>
+</div>
+</div>
+
+<!-- Companion Modal -->
+<div id="companion-modal" class="modal-overlay">
+<div class="modal">
+<div class="modal-header">
+<h2 class="modal-title">🦋 Your Companion</h2>
+<button class="modal-close" onclick="closeModal('companion-modal')">✕</button>
+</div>
+<div class="modal-body">
+<div style="text-align:center;margin-bottom:2rem">
+<div style="width:120px;height:120px;margin:0 auto 1rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:64px;box-shadow:0 0 40px var(--glow);" id="companion-modal-avatar">🌱</div>
+<h3 id="companion-modal-name" style="font-size:1.5rem;margin-bottom:.5rem">Seedling</h3>
+<p style="color:var(--muted)">Level <span id="companion-modal-level">1</span> • <span id="companion-modal-xp">0</span>/100 XP</p>
+</div>
+<p style="margin-bottom:1rem;color:var(--text2)">Your companion grows alongside you, evolving as you complete actions and earn XP. Feed your companion by taking peaceful actions!</p>
+<div class="feature-grid" style="margin-top:1.5rem">
+<div class="feature-card">
+<div class="feature-icon">🌱</div>
+<h4>Seedling</h4>
+<p style="font-size:.85rem;color:var(--muted)">Level 1-2</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🌿</div>
+<h4>Sprout</h4>
+<p style="font-size:.85rem;color:var(--muted)">Level 3-5</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🦋</div>
+<h4>Butterfly</h4>
+<p style="font-size:.85rem;color:var(--muted)">Level 6-8</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🕊️</div>
+<h4>Dove</h4>
+<p style="font-size:.85rem;color:var(--muted)">Level 9+</p>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="action-btn" onclick="feedCompanion()">🍃 Feed (+50 XP)</button>
+<button class="action-btn" onclick="closeModal('companion-modal')">Close</button>
+</div>
+</div>
+</div>
+
+<!-- Crafting Modal -->
+<div id="craft-modal" class="modal-overlay">
+<div class="modal">
+<div class="modal-header">
+<h2 class="modal-title">🛠️ Peace Crafting</h2>
+<button class="modal-close" onclick="closeModal('craft-modal')">✕</button>
+</div>
+<div class="modal-body">
+<p style="margin-bottom:1.5rem;color:var(--text2)">Combine materials to craft peace tools and items. Earn materials through actions and exploration.</p>
+<div class="crafting-area">
+<div class="ingredient-slots">
+<div class="craft-slot" onclick="selectIngredient(0)"></div>
+<div class="craft-slot" onclick="selectIngredient(1)"></div>
+</div>
+<div class="craft-arrow">→</div>
+<div class="result-slot" id="craft-result">?</div>
+</div>
+<button class="action-btn" onclick="craftItem()" style="width:100%;margin-top:1rem;justify-content:center">⚒️ Craft Item</button>
+<h4 style="margin:1.5rem 0 .5rem;color:var(--accent)">Your Materials</h4>
+<div class="inventory-grid" id="inventory-grid"></div>
+</div>
+<div class="modal-footer">
+<button class="action-btn" onclick="closeModal('craft-modal')">Close</button>
+</div>
+</div>
+</div>
+
+<!-- Challenges Modal -->
+<div id="challenges-modal" class="modal-overlay">
+<div class="modal">
+<div class="modal-header">
+<h2 class="modal-title">⚔️ Peace Challenges</h2>
+<button class="modal-close" onclick="closeModal('challenges-modal')">✕</button>
+</div>
+<div class="modal-body">
+<p style="margin-bottom:1.5rem;color:var(--text2)">Time-limited challenges with special rewards. Complete before time runs out!</p>
+<div id="challenges-list"></div>
+</div>
+<div class="modal-footer">
+<button class="action-btn" onclick="closeModal('challenges-modal')">Close</button>
+</div>
+</div>
+</div>
+
+<!-- Mini-Games Modal -->
+<div id="games-modal" class="modal-overlay">
+<div class="modal">
+<div class="modal-header">
+<h2 class="modal-title">🎮 Peace Games</h2>
+<button class="modal-close" onclick="closeModal('games-modal')">✕</button>
+</div>
+<div class="modal-body">
+<div class="minigame-container">
+<h3 style="margin-bottom:1rem">🌱 Seed Planter</h3>
+<p style="color:var(--text2);margin-bottom:1rem;font-size:.9rem">Click to plant seeds and grow a peaceful garden. Earn bonus XP for combos!</p>
+<div class="game-score">Score: <span id="game-score">0</span></div>
+<canvas id="game-canvas" class="game-canvas" width="500" height="300"></canvas>
+<div class="game-controls">
+<button class="action-btn" onclick="startGame()">▶️ Start Game</button>
+<button class="action-btn" onclick="resetGame()">🔄 Reset</button>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<span style="color:var(--muted);font-size:.85rem">High Score: <strong style="color:var(--accent)" id="high-score">0</strong></span>
+<button class="action-btn" onclick="closeModal('games-modal')">Close</button>
+</div>
+</div>
+</div>
+
+<!-- Daily Login Calendar Modal -->
+<div id="calendar-modal" class="modal-overlay">
+<div class="modal">
+<div class="modal-header">
+<h2 class="modal-title">📅 Daily Rewards</h2>
+<button class="modal-close" onclick="closeModal('calendar-modal')">✕</button>
+</div>
+<div class="modal-body">
+<p style="margin-bottom:1.5rem;color:var(--text2)">Log in daily to claim rewards! The longer your streak, the better the rewards.</p>
+<div class="calendar-grid" id="calendar-grid"></div>
+<div style="margin-top:1.5rem;text-align:center">
+<button class="action-btn" onclick="claimDailyReward()" id="claim-btn">🎁 Claim Today's Reward</button>
+</div>
+</div>
+<div class="modal-footer">
+<button class="action-btn" onclick="closeModal('calendar-modal')">Close</button>
+</div>
+</div>
+</div>
+
+<!-- Level Up Overlay -->
 <div id="levelup-overlay" class="levelup-overlay">
 <div class="levelup-content">
 <div class="levelup-badge" id="levelup-icon">🌱</div>
 <div class="levelup-title">LEVEL UP!</div>
 <div class="levelup-level">Level <span id="levelup-number">2</span></div>
-<div class="levelup-rewards">+50 ✨ Coins Earned!</div>
-<button class="splash-btn" onclick="document.getElementById('levelup-overlay').classList.remove('active')">Continue</button>
+<div class="levelup-rewards">+50 ✨ Coins • +1 ⭐ Skill Point</div>
+<button class="splash-btn" onclick="closeLevelUp()">Continue</button>
 </div>
 </div>
 
 <script>
-// GAMIFICATION SYSTEM
-const LEVELS=[{name:'Seedling',icon:'🌱',xp:0},{name:'Sprout',icon:'🌿',xp:100},{name:'Sapling',icon:'🌳',xp:250},{name:'Gardener',icon:'👨‍🌾',xp:500},{name:'Grove Keeper',icon:'🏕️',xp:1000},{name:'Forest Guardian',icon:'🦌',xp:2000},{name:'Watershed Protector',icon:'🌊',xp:3500},{name:'Bridge Builder',icon:'🌉',xp:5500},{name:'Peace Architect',icon:'🏛️',xp:8000},{name:'Harmony Weaver',icon:'✨',xp:12000},{name:'World Healer',icon:'🌍',xp:18000},{name:'Cosmic Peacekeeper',icon:'🌌',xp:25000}];
-const ACHIEVEMENTS=[{id:'first',name:'First Steps',desc:'Enter platform',icon:'👣'},{id:'explorer',name:'Explorer',desc:'Visit 5 sections',icon:'🧭'},{id:'engaged',name:'Engaged',desc:'10 actions',icon:'⭐'},{id:'dedicated',name:'Dedicated',desc:'7-day streak',icon:'🔥'},{id:'scholar',name:'Scholar',desc:'Read all protocols',icon:'📚'},{id:'storyteller',name:'Storyteller',desc:'Start a story',icon:'✍️'},{id:'connector',name:'Connector',desc:'25 actions',icon:'🤝'},{id:'veteran',name:'Veteran',desc:'30-day streak',icon:'🏆'},{id:'peacemaker',name:'Peacemaker',desc:'Level 5',icon:'🕊️'},{id:'master',name:'Master',desc:'Level 10',icon:'👑'},{id:'collector',name:'Collector',desc:'500 coins',icon:'💎'},{id:'legend',name:'Legend',desc:'10000 XP',icon:'🌟'}];
-const REWARDS=[{id:'avatar_phoenix',name:'Phoenix Avatar',cost:150,icon:'🔥'},{id:'avatar_dragon',name:'Dragon Avatar',cost:200,icon:'🐉'},{id:'avatar_unicorn',name:'Unicorn Avatar',cost:200,icon:'🦄'},{id:'title_champion',name:'"Champion" Title',cost:250,icon:'🏅'},{id:'title_legend',name:'"Legend" Title',cost:500,icon:'⚡'},{id:'xp_boost',name:'2x XP Boost',cost:75,icon:'🚀'}];
-const QUESTS=[{id:'visit3',name:'Explore 3 Sections',target:3,xp:30,icon:'🗺️',type:'visit'},{id:'actions5',name:'Complete 5 Actions',target:5,xp:40,icon:'⚡',type:'actions'},{id:'collapsible2',name:'Read 2 Protocols',target:2,xp:25,icon:'📖',type:'collapsible'}];
+/* ========================================
+   GAMIFICATION SYSTEM - MAIN ENGINE
+   This system handles XP, levels, achievements, 
+   quests, companions, crafting, and more.
+   All data is stored locally in IndexedDB.
+======================================== */
 
-let db,state={xp:0,level:1,coins:0,streak:0,lastVisit:null,sections:[],actions:0,collapsibles:[],achievements:{},rewards:[],avatar:'🌱',title:'Seedling',questProgress:{},questDate:null,start:Date.now()};
+// GAME DATA CONSTANTS
+const LEVELS=[
+{name:'Seedling',icon:'🌱',xp:0},
+{name:'Sprout',icon:'🌿',xp:100},
+{name:'Sapling',icon:'🌳',xp:250},
+{name:'Gardener',icon:'👨‍🌾',xp:500},
+{name:'Grove Keeper',icon:'🏕️',xp:1000},
+{name:'Forest Guardian',icon:'🦌',xp:2000},
+{name:'Watershed Protector',icon:'🌊',xp:3500},
+{name:'Bridge Builder',icon:'🌉',xp:5500},
+{name:'Peace Architect',icon:'🏛️',xp:8000},
+{name:'Harmony Weaver',icon:'✨',xp:12000},
+{name:'World Healer',icon:'🌍',xp:18000},
+{name:'Cosmic Peacekeeper',icon:'🌌',xp:25000}
+];
 
-// IndexedDB
-async function initDB(){return new Promise((r,j)=>{const q=indexedDB.open('peaceweaver_game',1);q.onerror=()=>j();q.onsuccess=()=>{db=q.result;r()};q.onupgradeneeded=e=>e.target.result.createObjectStore('state',{keyPath:'id'})})}
-async function save(){if(db)db.transaction('state','readwrite').objectStore('state').put({id:'s',...state})}
-async function load(){if(!db)return;return new Promise(r=>{const q=db.transaction('state','readonly').objectStore('state').get('s');q.onsuccess=()=>{if(q.result)state={...state,...q.result};state.start=Date.now();r()};q.onerror=()=>r()})}
+const ACHIEVEMENTS=[
+{id:'first',name:'First Steps',desc:'Enter platform',icon:'👣'},
+{id:'explorer',name:'Explorer',desc:'Visit 5 sections',icon:'🧭'},
+{id:'engaged',name:'Engaged',desc:'10 actions',icon:'⭐'},
+{id:'dedicated',name:'Dedicated',desc:'7-day streak',icon:'🔥'},
+{id:'scholar',name:'Scholar',desc:'Read all protocols',icon:'📚'},
+{id:'storyteller',name:'Storyteller',desc:'Start a story',icon:'✍️'},
+{id:'connector',name:'Connector',desc:'25 actions',icon:'🤝'},
+{id:'veteran',name:'Veteran',desc:'30-day streak',icon:'🏆'},
+{id:'peacemaker',name:'Peacemaker',desc:'Level 5',icon:'🕊️'},
+{id:'master',name:'Master',desc:'Level 10',icon:'👑'},
+{id:'collector',name:'Collector',desc:'500 coins',icon:'💎'},
+{id:'legend',name:'Legend',desc:'10000 XP',icon:'🌟'},
+{id:'companion',name:'Companion',desc:'Feed companion 10x',icon:'🦋'},
+{id:'crafter',name:'Crafter',desc:'Craft 5 items',icon:'⚒️'},
+{id:'challenger',name:'Challenger',desc:'Complete challenge',icon:'⚔️'},
+{id:'gamer',name:'Gamer',desc:'Score 100 in game',icon:'🎮'}
+];
 
-// Level system
-function getLvl(xp){let l=1;for(let i=LEVELS.length-1;i>=0;i--)if(xp>=LEVELS[i].xp){l=i+1;break}const c=LEVELS[Math.min(l-1,11)],n=LEVELS[Math.min(l,11)];return{level:l,name:c.name,icon:c.icon,into:xp-c.xp,need:n.xp-c.xp,pct:(xp-c.xp)/(n.xp-c.xp)}}
+const REWARDS=[
+{id:'avatar_phoenix',name:'Phoenix Avatar',cost:150,icon:'🔥'},
+{id:'avatar_dragon',name:'Dragon Avatar',cost:200,icon:'🐉'},
+{id:'avatar_unicorn',name:'Unicorn Avatar',cost:200,icon:'🦄'},
+{id:'title_champion',name:'"Champion" Title',cost:250,icon:'🏅'},
+{id:'title_legend',name:'"Legend" Title',cost:500,icon:'⚡'},
+{id:'xp_boost',name:'2x XP Boost (1h)',cost:100,icon:'🚀'}
+];
 
-function addXP(amt,reason=''){const bonus=Math.min(state.streak*5,50),total=Math.floor(amt*(1+bonus/100)),old=getLvl(state.xp).level;state.xp+=total;state.coins+=Math.floor(total/10);const info=getLvl(state.xp);state.level=info.level;toast('xp',`+${total} XP`,reason);if(info.level>old){document.getElementById('levelup-icon').textContent=info.icon;document.getElementById('levelup-number').textContent=info.level;document.getElementById('levelup-overlay').classList.add('active');state.coins+=50}checkAchievements();updateHUD();save()}
+const QUESTS=[
+{id:'visit3',name:'Explore 3 Sections',target:3,xp:30,icon:'🗺️',type:'visit'},
+{id:'actions5',name:'Complete 5 Actions',target:5,xp:40,icon:'⚡',type:'actions'},
+{id:'collapsible2',name:'Read 2 Protocols',target:2,xp:25,icon:'📖',type:'collapsible'},
+{id:'companion1',name:'Feed Companion',target:1,xp:20,icon:'🦋',type:'companion'},
+{id:'craft1',name:'Craft 1 Item',target:1,xp:35,icon:'⚒️',type:'craft'}
+];
 
-function unlock(id){if(state.achievements[id])return;state.achievements[id]=true;const a=ACHIEVEMENTS.find(x=>x.id===id);toast('achievement','🏆 Achievement!',a?.name||id);updateAchievements();save()}
+const SKILL_PATHS=[
+{
+id:'ecology',
+name:'Ecological Restoration',
+icon:'🌳',
+desc:'Master biosphere healing and conservation',
+skills:[
+{id:'watersheds',name:'Watersheds',icon:'💧',cost:1,bonus:'+10% Bio XP'},
+{id:'forests',name:'Forests',icon:'🌲',cost:2,bonus:'+15% Bio XP'},
+{id:'wildlife',name:'Wildlife',icon:'🦅',cost:3,bonus:'Unlock tracking'}
+]
+},
+{
+id:'culture',
+name:'Cultural Bridge',
+icon:'🎭',
+desc:'Connect communities through shared heritage',
+skills:[
+{id:'recipes',name:'Recipes',icon:'🍲',cost:1,bonus:'+10% Culture XP'},
+{id:'music',name:'Music',icon:'🎵',cost:2,bonus:'+15% Culture XP'},
+{id:'stories',name:'Stories',icon:'📖',cost:3,bonus:'Unlock archive'}
+]
+},
+{
+id:'peace',
+name:'Peace Diplomacy',
+icon:'🕊️',
+desc:'Tools for conflict resolution',
+skills:[
+{id:'mediation',name:'Mediation',icon:'⚖️',cost:1,bonus:'+10% Peace XP'},
+{id:'dialogue',name:'Dialogue',icon:'💬',cost:2,bonus:'+15% Peace XP'},
+{id:'treaties',name:'Treaties',icon:'📜',cost:3,bonus:'Unlock tools'}
+]
+}
+];
 
-function checkAchievements(){if(state.xp>=10000)unlock('legend');if(state.level>=5)unlock('peacemaker');if(state.level>=10)unlock('master');if(state.coins>=500)unlock('collector');if(state.actions>=10)unlock('engaged');if(state.actions>=25)unlock('connector');if(state.streak>=7)unlock('dedicated');if(state.streak>=30)unlock('veteran');if(state.sections.length>=5)unlock('explorer');if(state.collapsibles.length>=2)unlock('scholar')}
+const MATERIALS=[
+{id:'seed',name:'Seed',icon:'🌱'},
+{id:'water',name:'Water',icon:'💧'},
+{id:'wood',name:'Wood',icon:'🪵'},
+{id:'stone',name:'Stone',icon:'🪨'},
+{id:'flower',name:'Flower',icon:'🌸'},
+{id:'mushroom',name:'Mushroom',icon:'🍄'}
+];
 
-function updateAchievements(){const g=document.getElementById('achievements-grid');g.innerHTML=ACHIEVEMENTS.map(a=>`<div class="achievement ${state.achievements[a.id]?'earned':'locked'}" title="${a.name}: ${a.desc}">${a.icon}</div>`).join('');document.getElementById('achievement-count').textContent=Object.keys(state.achievements).length}
+const CRAFTING_RECIPES=[
+{ingredients:['seed','water'],result:'flower',name:'Growing Flower'},
+{ingredients:['wood','stone'],result:'tool',name:'Peace Tool'},
+{ingredients:['flower','flower'],result:'bouquet',name:'Bouquet'}
+];
 
-function initQuests(){const today=new Date().toDateString();if(state.questDate!==today){state.questProgress={};state.questDate=today}updateQuests()}
+const REPUTATION_FACTIONS=[
+{id:'forest',name:'Forest Council',icon:'🌲',level:1,xp:0},
+{id:'water',name:'Water Alliance',icon:'💧',level:1,xp:0},
+{id:'peace',name:'Peace Guild',icon:'🕊️',level:1,xp:0}
+];
 
-function questProgress(type,n=1){state.questProgress[type]=(state.questProgress[type]||0)+n;QUESTS.forEach(q=>{if(q.type===type&&!state.questProgress[q.id+'_done']&&(state.questProgress[type]||0)>=q.target){state.questProgress[q.id+'_done']=true;addXP(q.xp,`Quest: ${q.name}`);toast('success','📋 Quest Complete!',q.name)}});updateQuests();save()}
+const CHALLENGES=[
+{id:'plant100',name:'Plant 100 Seeds',desc:'Join planting events',target:100,reward:200,icon:'🌱',expires:7},
+{id:'share20',name:'Share 20 Recipes',desc:'Cultural exchange',target:20,reward:150,icon:'🍲',expires:5}
+];
 
-function updateQuests(){const l=document.getElementById('quests-list');l.innerHTML=QUESTS.map(q=>{const p=state.questProgress[q.type]||0,done=state.questProgress[q.id+'_done'];return`<div class="quest-item ${done?'completed':''}"><div class="quest-icon">${q.icon}</div><div class="quest-info"><div class="quest-name">${q.name}</div><div class="quest-progress">${Math.min(p,q.target)}/${q.target}</div></div><div class="quest-reward">+${q.xp}</div><div class="quest-check">${done?'✓':''}</div></div>`}).join('')}
+// GAME STATE
+let db;
+let state={
+xp:0,
+level:1,
+coins:0,
+streak:0,
+lastVisit:null,
+sections:[],
+actions:0,
+collapsibles:[],
+achievements:{},
+rewards:[],
+skills:[],
+skillPoints:0,
+avatar:'🌱',
+title:'Seedling',
+questProgress:{},
+questDate:null,
+start:Date.now(),
+companion:{name:'Seedling',icon:'🌱',level:1,xp:0,feeds:0},
+inventory:{seed:5,water:3,wood:2,stone:1},
+crafted:0,
+reputation:[...REPUTATION_FACTIONS],
+powerups:[],
+challenges:[],
+calendar:[],
+gameHighScore:0
+};
 
-function initRewards(){const g=document.getElementById('rewards-grid');g.innerHTML=REWARDS.map(r=>{const owned=state.rewards.includes(r.id);return`<div class="reward-item ${owned?'owned':''}" onclick="buyReward('${r.id}')"><div class="reward-icon">${r.icon}</div><div class="reward-name">${r.name}</div><div class="reward-cost">${owned?'✓ Owned':'✨ '+r.cost}</div></div>`}).join('')}
+// INDEXEDDB SETUP
+async function initDB(){
+return new Promise((resolve,reject)=>{
+const request=indexedDB.open('peaceweaver_advanced',2);
+request.onerror=()=>reject();
+request.onsuccess=()=>{
+db=request.result;
+resolve();
+};
+request.onupgradeneeded=e=>{
+const database=e.target.result;
+if(!database.objectStoreNames.contains('state')){
+database.createObjectStore('state',{keyPath:'id'});
+}
+};
+});
+}
 
-function buyReward(id){if(state.rewards.includes(id)){toast('info','Already Owned','');return}const r=REWARDS.find(x=>x.id===id);if(!r)return;if(state.coins<r.cost){toast('error','Not Enough Coins',`Need ${r.cost-state.coins} more`);return}state.coins-=r.cost;state.rewards.push(id);if(id.startsWith('avatar_'))state.avatar=r.icon;if(id.startsWith('title_'))state.title=r.name.replace(/"/g,'');toast('success','🎁 Purchased!',r.name);updateHUD();initRewards();save()}
+async function save(){
+if(db){
+try{
+const tx=db.transaction('state','readwrite');
+const store=tx.objectStore('state');
+store.put({id:'s',...state});
+}catch(e){
+console.log('Save error:',e);
+}
+}
+}
 
-function updateStreak(){const today=new Date().toDateString(),yest=new Date(Date.now()-86400000).toDateString();if(state.lastVisit===today)return;if(state.lastVisit===yest){state.streak++;toast('success','🔥 Streak!',`${state.streak} days`)}else{if(state.streak>0)toast('warning','Streak Lost','');state.streak=1}state.lastVisit=today;checkAchievements();save()}
+async function load(){
+if(!db)return;
+return new Promise(resolve=>{
+const tx=db.transaction('state','readonly');
+const store=tx.objectStore('state');
+const request=store.get('s');
+request.onsuccess=()=>{
+if(request.result){
+state={...state,...request.result};
+}
+state.start=Date.now();
+resolve();
+};
+request.onerror=()=>resolve();
+});
+}
 
-function updateLeaderboard(){const l=document.getElementById('leaderboard'),fake=[{n:'HarmonySeeker',s:15420},{n:'PeaceBuilder',s:12350},{n:'BridgeMaker',s:9870}],all=[...fake,{n:'You',s:state.xp,you:true}].sort((a,b)=>b.s-a.s);l.innerHTML=all.slice(0,4).map((e,i)=>`<div class="leader-item ${e.you?'you':''}"><span class="leader-rank">${i+1}</span><span class="leader-name">${e.n}</span><span class="leader-score">${e.s.toLocaleString()}</span></div>`).join('')}
+// LEVEL SYSTEM
+function getLvl(xp){
+let lvl=1;
+for(let i=LEVELS.length-1;i>=0;i--){
+if(xp>=LEVELS[i].xp){
+lvl=i+1;
+break;
+}
+}
+const current=LEVELS[Math.min(lvl-1,11)];
+const next=LEVELS[Math.min(lvl,11)];
+return{
+level:lvl,
+name:current.name,
+icon:current.icon,
+into:xp-current.xp,
+need:next.xp-current.xp,
+pct:(xp-current.xp)/(next.xp-current.xp)
+};
+}
 
-function updateHUD(){const i=getLvl(state.xp);document.getElementById('hud-avatar').textContent=state.avatar;document.getElementById('hud-title').textContent=`${i.icon} ${state.title}`;document.getElementById('level-badge').textContent=i.level;document.getElementById('level-name').textContent=i.name;document.getElementById('current-xp').textContent=i.into;document.getElementById('next-xp').textContent=i.need;document.getElementById('xp-progress').style.width=Math.min(100,Math.round(i.pct*100))+'%';document.getElementById('streak-count').textContent=state.streak;document.getElementById('streak-bonus').textContent=`+${Math.min(state.streak*5,50)}% XP`;document.getElementById('stat-sections').textContent=state.sections.length;document.getElementById('stat-actions').textContent=state.actions;document.getElementById('stat-coins').textContent=state.coins;document.getElementById('stat-time').textContent=Math.floor((Date.now()-state.start)/60000)+'m';document.getElementById('shop-coins').textContent=state.coins;document.getElementById('modal-coins').textContent=state.coins;updateLeaderboard()}
+function addXP(amt,reason=''){
+// Apply power-up multipliers
+let multiplier=1;
+state.powerups.forEach(p=>{
+if(p.active&&p.type==='xp')multiplier=2;
+});
+// Apply streak bonus
+const bonus=Math.min(state.streak*5,50);
+const total=Math.floor(amt*multiplier*(1+bonus/100));
+const oldLvl=getLvl(state.xp).level;
+state.xp+=total;
+state.coins+=Math.floor(total/10);
+const info=getLvl(state.xp);
+state.level=info.level;
+// Companion gains XP too
+state.companion.xp+=Math.floor(total*0.3);
+updateCompanionLevel();
+// Reputation gain
+gainReputation('peace',Math.floor(total*0.1));
+toast('xp',`+${total} XP`,reason);
+if(info.level>oldLvl){
+state.skillPoints+=1;
+document.getElementById('levelup-icon').textContent=info.icon;
+document.getElementById('levelup-number').textContent=info.level;
+document.getElementById('levelup-overlay').classList.add('active');
+state.coins+=50;
+}
+checkAchievements();
+updateHUD();
+save();
+}
 
-function visit(id){if(!state.sections.includes(id)){state.sections.push(id);addXP(15,'Explored: '+id);questProgress('visit')}save()}
+// ACHIEVEMENTS
+function unlock(id){
+if(state.achievements[id])return;
+state.achievements[id]=true;
+const a=ACHIEVEMENTS.find(x=>x.id===id);
+toast('achievement','🏆 Achievement!',a?.name||id);
+updateAchievements();
+save();
+}
 
-function action(name){state.actions++;questProgress('actions');const xp={viewMap:10,joinPlanting:20,reportWildlife:15,shareRecipe:25,recordSong:30,startStory:50,continueStory:30,applyGrant:40,offerSkill:25,startQuest:15,lightCandle:10,shareStory:35};addXP(xp[name]||10,name);if(name==='startStory')unlock('storyteller');save()}
+function checkAchievements(){
+if(state.xp>=10000)unlock('legend');
+if(state.level>=5)unlock('peacemaker');
+if(state.level>=10)unlock('master');
+if(state.coins>=500)unlock('collector');
+if(state.actions>=10)unlock('engaged');
+if(state.actions>=25)unlock('connector');
+if(state.streak>=7)unlock('dedicated');
+if(state.streak>=30)unlock('veteran');
+if(state.sections.length>=5)unlock('explorer');
+if(state.collapsibles.length>=2)unlock('scholar');
+if(state.companion.feeds>=10)unlock('companion');
+if(state.crafted>=5)unlock('crafter');
+if(state.gameHighScore>=100)unlock('gamer');
+}
 
-function toast(type,title,msg){const c=document.getElementById('toasts'),t=document.createElement('div');t.className=`toast ${type}`;const icons={success:'✓',error:'✕',warning:'!',info:'i',xp:'⭐',achievement:'🏆'};t.innerHTML=`<div class="toast-icon">${icons[type]||'i'}</div><div class="toast-content"><div class="toast-title">${title}</div>${msg?`<div class="toast-message">${msg}</div>`:''}</div><button class="toast-close" onclick="this.closest('.toast').remove()">✕</button>`;c.appendChild(t);setTimeout(()=>{t.classList.add('hiding');setTimeout(()=>t.remove(),300)},4000)}
+function updateAchievements(){
+const grid=document.getElementById('achievements-grid');
+grid.innerHTML=ACHIEVEMENTS.map(a=>`
+<div class="achievement ${state.achievements[a.id]?'earned':'locked'}" 
+title="${a.name}: ${a.desc}">
+${a.icon}
+</div>
+`).join('');
+document.getElementById('achievement-count').textContent=Object.keys(state.achievements).length;
+}
 
-// Init
-document.getElementById('enter-btn').addEventListener('click',()=>{document.getElementById('splash').classList.add('hidden');document.getElementById('app').classList.add('visible');unlock('first');toast('success','Welcome, Peaceweaver!','Your journey begins now.')});
+// QUEST SYSTEM
+function initQuests(){
+const today=new Date().toDateString();
+if(state.questDate!==today){
+state.questProgress={};
+state.questDate=today;
+}
+updateQuests();
+}
 
-document.querySelectorAll('.theme-btn').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.theme-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.documentElement.dataset.theme=b.dataset.theme})});
+function questProgress(type,n=1){
+state.questProgress[type]=(state.questProgress[type]||0)+n;
+QUESTS.forEach(q=>{
+if(q.type===type&&!state.questProgress[q.id+'_done']&&(state.questProgress[type]||0)>=q.target){
+state.questProgress[q.id+'_done']=true;
+addXP(q.xp,`Quest: ${q.name}`);
+toast('success','📋 Quest Complete!',q.name);
+}
+});
+updateQuests();
+save();
+}
 
-document.querySelector('.hud-toggle').addEventListener('click',()=>document.getElementById('hud').classList.toggle('collapsed'));
+function updateQuests(){
+const list=document.getElementById('quests-list');
+list.innerHTML=QUESTS.map(q=>{
+const p=state.questProgress[q.type]||0;
+const done=state.questProgress[q.id+'_done'];
+return`
+<div class="quest-item ${done?'completed':''}" title="${q.name}">
+<div class="quest-icon">${q.icon}</div>
+<div class="quest-info">
+<div class="quest-name">${q.name}</div>
+<div class="quest-progress">${Math.min(p,q.target)}/${q.target}</div>
+</div>
+<div class="quest-reward">+${q.xp}</div>
+<div class="quest-check">${done?'✓':''}</div>
+</div>
+`;
+}).join('');
+}
 
-document.querySelectorAll('.collapsible-header').forEach(h=>{h.addEventListener('click',()=>{const c=h.closest('.collapsible'),id=c.dataset.collapsible;c.classList.toggle('open');if(c.classList.contains('open')&&id&&!state.collapsibles.includes(id)){state.collapsibles.push(id);addXP(25,'Read: '+id);questProgress('collapsible');save()}})});
+// COMPANION SYSTEM
+function updateCompanionLevel(){
+const levels=[
+{min:0,max:100,name:'Seedling',icon:'🌱'},
+{min:100,max:300,name:'Sprout',icon:'🌿'},
+{min:300,max:600,name:'Butterfly',icon:'🦋'},
+{min:600,max:Infinity,name:'Dove',icon:'🕊️'}
+];
+const xp=state.companion.xp;
+const tier=levels.find(l=>xp>=l.min&&xp<l.max);
+if(tier){
+state.companion.name=tier.name;
+state.companion.icon=tier.icon;
+state.companion.level=levels.indexOf(tier)+1;
+}
+updateCompanionDisplay();
+}
 
-document.querySelectorAll('[data-action]').forEach(b=>{b.addEventListener('click',()=>{action(b.dataset.action);toast('info','Action Triggered',`"${b.dataset.action}" coming soon!`)})});
+function updateCompanionDisplay(){
+document.getElementById('companion-avatar').textContent=state.companion.icon;
+document.getElementById('companion-name').textContent=state.companion.name;
+document.getElementById('companion-level').textContent=state.companion.level;
+document.getElementById('companion-xp').textContent=state.companion.xp;
+// Modal
+document.getElementById('companion-modal-avatar').textContent=state.companion.icon;
+document.getElementById('companion-modal-name').textContent=state.companion.name;
+document.getElementById('companion-modal-level').textContent=state.companion.level;
+document.getElementById('companion-modal-xp').textContent=state.companion.xp;
+}
 
-document.getElementById('rewards-btn').addEventListener('click',()=>{initRewards();document.getElementById('rewards-modal').classList.add('active')});
-document.querySelector('.modal-close').addEventListener('click',()=>document.getElementById('rewards-modal').classList.remove('active'));
-document.getElementById('rewards-modal').addEventListener('click',e=>{if(e.target.id==='rewards-modal')e.target.classList.remove('active')});
+function feedCompanion(){
+if(state.coins<10){
+toast('error','Not Enough Coins','Need 10 coins to feed');
+return;
+}
+state.coins-=10;
+state.companion.xp+=50;
+state.companion.feeds++;
+updateCompanionLevel();
+questProgress('companion');
+toast('success','🦋 Companion Fed!','+50 XP');
+updateHUD();
+save();
+}
 
+// REPUTATION SYSTEM
+function gainReputation(factionId,amt){
+const faction=state.reputation.find(f=>f.id===factionId);
+if(!faction)return;
+faction.xp+=amt;
+// Level up reputation
+const needed=faction.level*100;
+if(faction.xp>=needed){
+faction.xp-=needed;
+faction.level++;
+toast('success','🏛️ Reputation Up!',`${faction.name} Level ${faction.level}`);
+}
+updateReputation();
+save();
+}
+
+function updateReputation(){
+const list=document.getElementById('reputation-list');
+list.innerHTML=state.reputation.map(f=>{
+const needed=f.level*100;
+const pct=(f.xp/needed)*100;
+return`
+<div class="rep-item">
+<div class="rep-header">
+<div class="rep-name">${f.icon} ${f.name}</div>
+<div class="rep-level">Lv ${f.level}</div>
+</div>
+<div class="rep-bar">
+<div class="rep-fill" style="width:${pct}%"></div>
+</div>
+</div>
+`;
+}).join('');
+}
+
+// REWARDS SHOP
+function initRewards(){
+const grid=document.getElementById('rewards-grid');
+grid.innerHTML=REWARDS.map(r=>{
+const owned=state.rewards.includes(r.id);
+return`
+<div class="reward-item ${owned?'owned':''}" onclick="buyReward('${r.id}')">
+<div class="reward-icon">${r.icon}</div>
+<div class="reward-name">${r.name}</div>
+<div class="reward-cost">${owned?'':'✨ '+r.cost}</div>
+</div>
+`;
+}).join('');
+}
+
+function buyReward(id){
+if(state.rewards.includes(id)){
+toast('info','Already Owned','');
+return;
+}
+const r=REWARDS.find(x=>x.id===id);
+if(!r)return;
+if(state.coins<r.cost){
+toast('error','Not Enough Coins',`Need ${r.cost-state.coins} more`);
+return;
+}
+state.coins-=r.cost;
+state.rewards.push(id);
+if(id.startsWith('avatar_'))state.avatar=r.icon;
+if(id.startsWith('title_'))state.title=r.name.replace(/"/g,'');
+if(id==='xp_boost'){
+activatePowerup('xp',3600000); // 1 hour
+}
+toast('success','🎁 Purchased!',r.name);
+updateHUD();
+initRewards();
+save();
+}
+
+// POWER-UPS
+function activatePowerup(type,duration){
+const powerup={type,active:true,expires:Date.now()+duration};
+state.powerups.push(powerup);
+updatePowerups();
+setTimeout(()=>{
+powerup.active=false;
+updatePowerups();
+toast('warning','Power-up Expired','');
+},duration);
+}
+
+function updatePowerups(){
+const list=document.getElementById('powerups-list');
+const active=state.powerups.filter(p=>p.active);
+if(active.length===0){
+list.innerHTML='<div style="text-align:center;color:var(--muted);font-size:.8rem;padding:1rem 0">No active power-ups</div>';
+return;
+}
+list.innerHTML=active.map(p=>{
+const remaining=Math.floor((p.expires-Date.now())/60000);
+return`
+<div class="powerup-item active">
+<div class="powerup-icon">🚀</div>
+<div class="powerup-info">
+<div class="powerup-name">2x XP Boost</div>
+<div class="powerup-timer">${remaining}m remaining</div>
+</div>
+</div>
+`;
+}).join('');
+}
+
+// SKILL TREE
+function initSkillTree(){
+const tree=document.getElementById('skill-tree');
+tree.innerHTML=SKILL_PATHS.map(path=>`
+<div class="skill-path">
+<div class="path-header">
+<div class="path-icon">${path.icon}</div>
+<div class="path-info">
+<div class="path-name">${path.name}</div>
+<div class="path-desc">${path.desc}</div>
+</div>
+</div>
+<div class="skills-row">
+${path.skills.map(skill=>{
+const unlocked=state.skills.includes(skill.id);
+const locked=!unlocked&&skill.cost>state.skillPoints;
+return`
+<div class="skill-node ${unlocked?'unlocked':locked?'locked':''}" 
+onclick="unlockSkill('${skill.id}',${skill.cost})">
+<div class="skill-icon">${skill.icon}</div>
+<div class="skill-name">${skill.name}</div>
+<div class="skill-cost">${unlocked?'Unlocked':`${skill.cost} SP`}</div>
+</div>
+`;
+}).join('')}
+</div>
+</div>
+`).join('');
+document.getElementById('skill-points').textContent=state.skillPoints;
+}
+
+function unlockSkill(id,cost){
+if(state.skills.includes(id))return;
+if(state.skillPoints<cost){
+toast('error','Not Enough SP','');
+return;
+}
+state.skillPoints-=cost;
+state.skills.push(id);
+toast('success','🌟 Skill Unlocked!',id);
+initSkillTree();
+save();
+}
+
+// CRAFTING SYSTEM
+let craftSlots=[null,null];
+
+function initCrafting(){
+updateInventory();
+}
+
+function updateInventory(){
+const grid=document.getElementById('inventory-grid');
+grid.innerHTML=MATERIALS.map(mat=>{
+const count=state.inventory[mat.id]||0;
+if(count===0)return'';
+return`
+<div class="inventory-item" onclick="selectMaterial('${mat.id}')">
+${mat.icon}
+<div class="item-count">${count}</div>
+</div>
+`;
+}).join('');
+}
+
+function selectMaterial(id){
+if(craftSlots[0]===null){
+craftSlots[0]=id;
+}else if(craftSlots[1]===null){
+craftSlots[1]=id;
+}else{
+craftSlots=[id,null];
+}
+updateCraftSlots();
+}
+
+function updateCraftSlots(){
+const slots=document.querySelectorAll('.craft-slot');
+slots[0].textContent=craftSlots[0]?MATERIALS.find(m=>m.id===craftSlots[0]).icon:'';
+slots[0].classList.toggle('filled',craftSlots[0]!==null);
+slots[1].textContent=craftSlots[1]?MATERIALS.find(m=>m.id===craftSlots[1]).icon:'';
+slots[1].classList.toggle('filled',craftSlots[1]!==null);
+}
+
+function selectIngredient(slot){
+craftSlots[slot]=null;
+updateCraftSlots();
+}
+
+function craftItem(){
+if(!craftSlots[0]||!craftSlots[1]){
+toast('error','Need 2 Materials','');
+return;
+}
+const recipe=CRAFTING_RECIPES.find(r=>
+(r.ingredients[0]===craftSlots[0]&&r.ingredients[1]===craftSlots[1])||
+(r.ingredients[0]===craftSlots[1]&&r.ingredients[1]===craftSlots[0])
+);
+if(!recipe){
+toast('error','Invalid Recipe','Try different combinations');
+return;
+}
+// Consume materials
+state.inventory[craftSlots[0]]--;
+state.inventory[craftSlots[1]]--;
+// Add result
+state.inventory[recipe.result]=(state.inventory[recipe.result]||0)+1;
+state.crafted++;
+craftSlots=[null,null];
+addXP(50,`Crafted: ${recipe.name}`);
+questProgress('craft');
+toast('success','⚒️ Crafted!',recipe.name);
+updateCraftSlots();
+updateInventory();
+save();
+}
+
+// CHALLENGES
+function initChallenges(){
+const list=document.getElementById('challenges-list');
+list.innerHTML=CHALLENGES.map(c=>{
+const progress=state.questProgress[c.id]||0;
+const pct=(progress/c.target)*100;
+return`
+<div class="challenge-card">
+<div class="challenge-header">
+<div class="challenge-icon">${c.icon}</div>
+<div class="challenge-info">
+<div class="challenge-name">${c.name}</div>
+<div class="challenge-desc">${c.desc}</div>
+</div>
+</div>
+<div class="challenge-progress">
+<div class="challenge-bar">
+<div class="challenge-fill" style="width:${pct}%"></div>
+</div>
+<div class="challenge-reward">
+<span>${progress}/${c.target}</span>
+<span>🏆 ${c.reward} coins</span>
+</div>
+</div>
+</div>
+`;
+}).join('');
+}
+
+// DAILY CALENDAR
+function initCalendar(){
+const grid=document.getElementById('calendar-grid');
+const today=new Date().getDate();
+const daysInMonth=new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate();
+const rewards=[10,15,20,25,30,40,50,60,75,90,100,120,150,180,200,250,300,350,400,450,500,600,700,800,900,1000];
+grid.innerHTML='';
+for(let i=1;i<=Math.min(daysInMonth,28);i++){
+const claimed=state.calendar.includes(i);
+const isToday=i===today;
+grid.innerHTML+=`
+<div class="calendar-day ${claimed?'claimed':''} ${isToday?'today':''}" 
+onclick="claimDay(${i})"
+title="Day ${i}: ${rewards[i-1]} coins">
+<div class="day-number">${i}</div>
+<div class="day-reward">+${rewards[i-1]}</div>
+</div>
+`;
+}
+}
+
+function claimDay(day){
+if(state.calendar.includes(day)){
+toast('info','Already Claimed','');
+return;
+}
+const today=new Date().getDate();
+if(day!==today){
+toast('error','Not Today','Can only claim today');
+return;
+}
+const rewards=[10,15,20,25,30,40,50,60,75,90,100,120,150,180,200,250,300,350,400,450,500,600,700,800,900,1000];
+const reward=rewards[day-1];
+state.coins+=reward;
+state.calendar.push(day);
+toast('success','📅 Daily Reward!',`+${reward} coins`);
+initCalendar();
+updateHUD();
+save();
+}
+
+function claimDailyReward(){
+const today=new Date().getDate();
+claimDay(today);
+}
+
+// MINI-GAME
+let gameActive=false;
+let gameScore=0;
+let gameCanvas;
+let gameCtx;
+let seeds=[];
+
+function initGame(){
+gameCanvas=document.getElementById('game-canvas');
+gameCtx=gameCanvas.getContext('2d');
+gameCanvas.addEventListener('click',plantSeed);
+}
+
+function startGame(){
+gameActive=true;
+gameScore=0;
+seeds=[];
+updateGameScore();
+requestAnimationFrame(gameLoop);
+}
+
+function resetGame(){
+gameActive=false;
+gameScore=0;
+seeds=[];
+updateGameScore();
+gameCtx.clearRect(0,0,gameCanvas.width,gameCanvas.height);
+}
+
+function plantSeed(e){
+if(!gameActive)return;
+const rect=gameCanvas.getBoundingClientRect();
+const x=(e.clientX-rect.left)*(gameCanvas.width/rect.width);
+const y=(e.clientY-rect.top)*(gameCanvas.height/rect.height);
+seeds.push({x,y,size:5,color:`hsl(${Math.random()*360},70%,60%)`});
+gameScore+=10;
+updateGameScore();
+if(gameScore>state.gameHighScore){
+state.gameHighScore=gameScore;
+document.getElementById('high-score').textContent=gameScore;
+save();
+}
+}
+
+function gameLoop(){
+if(!gameActive)return;
+gameCtx.clearRect(0,0,gameCanvas.width,gameCanvas.height);
+// Draw growing seeds
+seeds.forEach(seed=>{
+seed.size+=0.5;
+gameCtx.fillStyle=seed.color;
+gameCtx.beginPath();
+gameCtx.arc(seed.x,seed.y,seed.size,0,Math.PI*2);
+gameCtx.fill();
+});
+requestAnimationFrame(gameLoop);
+}
+
+function updateGameScore(){
+document.getElementById('game-score').textContent=gameScore;
+}
+
+// STREAK SYSTEM
+function updateStreak(){
+const today=new Date().toDateString();
+const yesterday=new Date(Date.now()-86400000).toDateString();
+if(state.lastVisit===today)return;
+if(state.lastVisit===yesterday){
+state.streak++;
+toast('success','🔥 Streak!',`${state.streak} days`);
+}else{
+if(state.streak>0)toast('warning','Streak Lost','Starting over');
+state.streak=1;
+}
+state.lastVisit=today;
+checkAchievements();
+save();
+}
+
+// LEADERBOARD
+function updateLeaderboard(){
+const list=document.getElementById('leaderboard');
+const fakeLeaders=[
+{n:'HarmonySeeker',s:15420},
+{n:'PeaceBuilder',s:12350},
+{n:'BridgeMaker',s:9870}
+];
+const all=[...fakeLeaders,{n:'You',s:state.xp,you:true}]
+.sort((a,b)=>b.s-a.s);
+list.innerHTML=all.slice(0,5).map((e,i)=>`
+<div class="leader-item ${e.you?'you':''}">
+<span class="leader-rank">${i+1}</span>
+<span class="leader-name">${e.n}</span>
+<span class="leader-score">${e.s.toLocaleString()}</span>
+</div>
+`).join('');
+}
+
+// HUD UPDATE
+function updateHUD(){
+const info=getLvl(state.xp);
+document.getElementById('hud-avatar').textContent=state.avatar;
+document.getElementById('hud-title').textContent=`${info.icon} ${state.title}`;
+document.getElementById('level-badge').textContent=info.level;
+document.getElementById('level-name').textContent=info.name;
+document.getElementById('current-xp').textContent=info.into;
+document.getElementById('next-xp').textContent=info.need;
+document.getElementById('xp-progress').style.width=Math.min(100,Math.round(info.pct*100))+'%';
+document.getElementById('streak-count').textContent=state.streak;
+document.getElementById('streak-bonus').textContent=`+${Math.min(state.streak*5,50)}% XP`;
+document.getElementById('stat-sections').textContent=state.sections.length;
+document.getElementById('stat-actions').textContent=state.actions;
+document.getElementById('stat-coins').textContent=state.coins;
+document.getElementById('stat-time').textContent=Math.floor((Date.now()-state.start)/60000)+'m';
+document.getElementById('shop-coins').textContent=state.coins;
+document.getElementById('modal-coins').textContent=state.coins;
+updateLeaderboard();
+updateReputation();
+updateCompanionDisplay();
+updatePowerups();
+}
+
+// ACTIONS
+function visit(id){
+if(!state.sections.includes(id)){
+state.sections.push(id);
+addXP(15,'Explored: '+id);
+questProgress('visit');
+}
+save();
+}
+
+function action(name){
+state.actions++;
+questProgress('actions');
+const xpValues={
+viewMap:10,joinPlanting:20,reportWildlife:15,
+shareRecipe:25,recordSong:30,
+startStory:50,continueStory:30,
+applyGrant:40,offerSkill:25,startQuest:15,
+lightCandle:10,shareStory:35
+};
+addXP(xpValues[name]||10,name);
+// Add random materials
+const mat=MATERIALS[Math.floor(Math.random()*MATERIALS.length)];
+state.inventory[mat.id]=(state.inventory[mat.id]||0)+1;
+toast('info',`Found ${mat.icon}!`,mat.name);
+if(name==='startStory')unlock('storyteller');
+save();
+}
+
+// TOAST NOTIFICATIONS
+function toast(type,title,msg){
+const container=document.getElementById('toasts');
+const toast=document.createElement('div');
+toast.className=`toast ${type}`;
+const icons={
+success:'✓',
+error:'✕',
+warning:'!',
+info:'i',
+xp:'⭐',
+achievement:'🏆'
+};
+toast.innerHTML=`
+<div class="toast-icon">${icons[type]||'i'}</div>
+<div class="toast-content">
+<div class="toast-title">${title}</div>
+${msg?`<div class="toast-message">${msg}</div>`:''}
+</div>
+<button class="toast-close" onclick="this.closest('.toast').remove()">✕</button>
+`;
+container.appendChild(toast);
+setTimeout(()=>{
+toast.classList.add('hiding');
+setTimeout(()=>toast.remove(),400);
+},5000);
+}
+
+// MODAL HELPERS
+function openModal(id){
+const modal=document.getElementById(id);
+modal.classList.add('active');
+// Initialize modal content
+if(id==='skills-modal')initSkillTree();
+if(id==='craft-modal')initCrafting();
+if(id==='challenges-modal')initChallenges();
+if(id==='calendar-modal')initCalendar();
+}
+
+function closeModal(id){
+document.getElementById(id).classList.remove('active');
+}
+
+function closeLevelUp(){
+document.getElementById('levelup-overlay').classList.remove('active');
+}
+
+// PARTICLE SYSTEM FOR SPLASH
+function initParticles(){
+const canvas=document.getElementById('particle-canvas');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+const particles=[];
+for(let i=0;i<50;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+vx:(Math.random()-.5)*2,
+vy:(Math.random()-.5)*2,
+size:Math.random()*3+1
+});
+}
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle='rgba(79,209,197,0.5)';
+particles.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+ctx.fill();
+p.x+=p.vx;
+p.y+=p.vy;
+if(p.x<0||p.x>canvas.width)p.vx*=-1;
+if(p.y<0||p.y>canvas.height)p.vy*=-1;
+});
+requestAnimationFrame(animate);
+}
+animate();
+}
+
+// INITIALIZATION
+document.addEventListener('DOMContentLoaded',async()=>{
+// Initialize particles
+initParticles();
+// Enter button
+document.getElementById('enter-btn').addEventListener('click',()=>{
+document.getElementById('splash').classList.add('hidden');
+document.getElementById('app').classList.add('visible');
+unlock('first');
+toast('success','Welcome, Peaceweaver!','Your journey begins');
+});
+// Theme buttons
+document.querySelectorAll('.theme-btn').forEach(btn=>{
+btn.addEventListener('click',()=>{
+document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+document.documentElement.dataset.theme=btn.dataset.theme;
+});
+});
+// HUD toggle
+document.querySelector('.hud-toggle').addEventListener('click',()=>{
+document.getElementById('hud').classList.toggle('collapsed');
+});
+// Nav buttons
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+btn.addEventListener('click',()=>{
+const modal=btn.dataset.nav+'-modal';
+openModal(modal);
+});
+});
+// Collapsibles
+document.querySelectorAll('.collapsible-header').forEach(header=>{
+header.addEventListener('click',()=>{
+const collapsible=header.closest('.collapsible');
+const id=collapsible.dataset.collapsible;
+collapsible.classList.toggle('open');
+if(collapsible.classList.contains('open')&&id&&!state.collapsibles.includes(id)){
+state.collapsibles.push(id);
+addXP(25,'Read: '+id);
+questProgress('collapsible');
+save();
+}
+});
+});
+// Action buttons
+document.querySelectorAll('[data-action]').forEach(btn=>{
+btn.addEventListener('click',()=>{
+action(btn.dataset.action);
+toast('info','Action Complete',`"${btn.dataset.action}" recorded`);
+});
+});
 // Section observer
-const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)visit(en.target.id)})},{threshold:.3});
-document.querySelectorAll('.section').forEach(s=>obs.observe(s));
-
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+visit(entry.target.id);
+}
+});
+},{threshold:0.3});
+document.querySelectorAll('.section').forEach(section=>{
+observer.observe(section);
+});
 // Time tracking
-setInterval(()=>{document.getElementById('stat-time').textContent=Math.floor((Date.now()-state.start)/60000)+'m'},60000);
-
-// Start
-(async()=>{try{await initDB();await load()}catch(e){}updateStreak();initQuests();updateAchievements();updateHUD()})();
+setInterval(()=>{
+document.getElementById('stat-time').textContent=
+Math.floor((Date.now()-state.start)/60000)+'m';
+},60000);
+// Initialize game
+initGame();
+// Load saved state
+try{
+await initDB();
+await load();
+}catch(e){
+console.log('DB init failed, using defaults');
+}
+// Initialize systems
+updateStreak();
+initQuests();
+updateAchievements();
+updateHUD();
+initRewards();
+// Show calendar on first visit
+if(!state.calendar.length){
+setTimeout(()=>openModal('calendar-modal'),2000);
+}
+});
 </script>
 </body>
 </html>
