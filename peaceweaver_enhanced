@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Peaceweaver – Steward Emergence Global Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+/* ============================================================
+   GLOBAL RESET & BASE THEME
+============================================================ */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #1b2740 0, #050712 55%, #020309 100%);
+  color: #f5f5f5;
+}
+
+body {
+  overflow: hidden;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb {
+  background: #26324c;
+  border-radius: 8px;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 1.2s ease forwards;
+  opacity: 0;
+}
+@keyframes fadeIn { to { opacity: 1; } }
+
+.page-turn {
+  animation: pageTurn 0.6s ease forwards;
+}
+@keyframes pageTurn {
+  0% { transform: rotateY(0deg); opacity: 1; }
+  100% { transform: rotateY(80deg); opacity: 0; }
+}
+
+/* ============================================================
+   SPLASH / CINEMATIC INTRO
+============================================================ */
+#splash {
+  position: absolute;
+  inset: 0;
+  padding: 32px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: radial-gradient(circle at top, #273758 0, #070b16 55%, #03040a 100%);
+  transition: opacity 1s ease;
+}
+
+#splash h1 {
+  font-size: clamp(2.6rem, 4vw, 3.4rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+#splash .subtitle {
+  font-size: 1.05rem;
+  max-width: 700px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+#priority-banner {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f9e7aa;
+  border: 1px solid rgba(249,231,170,0.45);
+  padding: 8px 16px;
+  border-radius: 999px;
+}
+
+#splash button {
+  margin-top: 32px;
+  padding: 14px 36px;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+  color: #0b0f1a;
+  background: linear-gradient(135deg, #f3da7a, #f0c34e);
+  box-shadow: 0 0 30px rgba(240,195,78,0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+#splash button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 35px rgba(240,195,78,0.7);
+}
+
+/* ============================================================
+   APP LAYOUT
+============================================================ */
+#app {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+/* Top bar */
+#top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(6,10,23,0.96);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  gap: 10px;
+}
+
+#brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#brand-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 20% 0%, #f8e48b 0, #f0c34e 25%, #26314a 70%, #040610 100%);
+  box-shadow: 0 0 16px rgba(240,195,78,0.7);
+}
+#brand-text {
+  display: flex;
+  flex-direction: column;
+}
+#brand-text span:first-child {
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f8e48b;
+}
+#brand-text span:last-child {
+  font-size: 0.78rem;
+  opacity: 0.7;
+}
+
+/* Lang & steward controls */
+#top-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-ghost {
+  border-radius: 999px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(13,18,36,0.8);
+  color: #f5f5f5;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.btn-ghost:hover {
+  background: rgba(35,47,83,0.9);
+}
+
+#steward-name-input {
+  border-radius: 999px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(5,7,15,0.96);
+  color: #f5f5f5;
+  font-size: 0.8rem;
+}
+
+#steward-status {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+/* Main split */
+#main {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* Left: nav column (tabs + ritual) */
+#left-column {
+  width: 260px;
+  min-width: 220px;
+  max-width: 320px;
+  border-right: 1px solid rgba(255,255,255,0.05);
+  background: radial-gradient(circle at top, #151d33 0, #050712 60%);
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#tab-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tab-btn {
+  border-radius: 10px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,0.09);
+  background: rgba(5,7,15,0.85);
+  color: #f5f5f5;
+  font-size: 0.86rem;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tab-btn span.label {
+  flex: 1;
+}
+.tab-btn span.badge {
+  font-size: 0.7rem;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(248,228,139,0.08);
+  color: #f8e48b;
+}
+.tab-btn.active {
+  border-color: rgba(248,228,139,0.7);
+  background: radial-gradient(circle at top left, rgba(248,228,139,0.2), rgba(5,7,15,0.95));
+}
+
+/* Ritual card */
+#ritual-card {
+  margin-top: 16px;
+  padding: 10px 12px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(248,228,139,0.45);
+  background: radial-gradient(circle at top, rgba(248,228,139,0.16), rgba(8,11,24,0.98));
+  font-size: 0.8rem;
+}
+#ritual-card h3 {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f8e48b;
+}
+#candle {
+  margin-top: 8px;
+  width: 40px;
+  height: 70px;
+  border-radius: 20px/35px;
+  background: radial-gradient(circle at 50% 0, rgba(255,255,255,0.9) 0, #ffd37b 24%, #a86a2e 70%, #502714 100%);
+  position: relative;
+  margin-inline: auto;
+  box-shadow: 0 0 18px rgba(240,195,78,0.6);
+}
+#flame {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 32px;
+  border-radius: 50% 50% 50% 50%;
+  background: radial-gradient(circle at 30% 0%, #fff 0, #ffe6a9 30%, #ffb347 65%, #f06b1b 100%);
+  opacity: 0;
+  transform-origin: bottom center;
+}
+#flame.lit {
+  opacity: 1;
+  animation: flameDance 1.4s ease-in-out infinite;
+}
+@keyframes flameDance {
+  0% { transform: translateX(-50%) scale(1) rotate(0deg); }
+  35% { transform: translateX(-48%) scale(1.06,0.96) rotate(-4deg); }
+  70% { transform: translateX(-52%) scale(0.96,1.05) rotate(3deg); }
+  100% { transform: translateX(-50%) scale(1) rotate(0deg); }
+}
+#ritual-button {
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 999px;
+  border: none;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: rgba(10,14,30,0.96);
+  color: #f5f5f5;
+}
+#ritual-note {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  opacity: 0.8;
+  text-align: center;
+}
+
+/* Right: main content */
+#right-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Panel header (breadcrumbs / status) */
+#panel-header {
+  padding: 10px 16px 6px;
+  font-size: 0.78rem;
+  opacity: 0.8;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* Panels */
+#panels {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* Left inside panels: main scroll area */
+#panel-main {
+  flex: 2;
+  min-width: 0;
+  padding: 10px 16px 16px;
+  overflow-y: auto;
+  border-right: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Right inside panels: detail / module info */
+#panel-detail {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px 16px;
+  overflow-y: auto;
+  background: radial-gradient(circle at top, #151d2d 0, #050712 60%);
+}
+
+/* Headings & text in panels */
+h2.section-title {
+  font-size: 1.4rem;
+  margin: 0 0 6px;
+}
+p.section-subtitle {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin: 0 0 12px;
+}
+
+/* Overview hero */
+#overview-hero {
+  padding: 10px 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: radial-gradient(circle at top left, rgba(248,228,139,0.12), rgba(5,7,15,0.96));
+  margin-bottom: 16px;
+}
+#overview-hero h1 {
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+}
+#overview-hero p {
+  margin: 4px 0;
+  font-size: 0.92rem;
+  opacity: 0.9;
+}
+
+/* Pill list */
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.pill {
+  font-size: 0.72rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(9,12,25,0.9);
+}
+
+/* Module grid */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.module-card {
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(5,8,18,0.92);
+  padding: 8px 9px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.module-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+  border-color: rgba(248,228,139,0.5);
+}
+.module-card h3 {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+}
+.module-card p {
+  margin: 0;
+  font-size: 0.78rem;
+  opacity: 0.84;
+}
+.module-tag {
+  font-size: 0.7rem;
+  opacity: 0.8;
+  margin-bottom: 3px;
+}
+
+/* Detail panel */
+#detail-title {
+  font-size: 1.1rem;
+  margin: 0 0 4px;
+}
+#detail-tag {
+  font-size: 0.76rem;
+  opacity: 0.78;
+  margin-bottom: 6px;
+}
+#detail-body {
+  font-size: 0.82rem;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+#detail-footer {
+  margin-top: 8px;
+  font-size: 0.74rem;
+  opacity: 0.75;
+}
+
+/* Simple responsive tweaks */
+@media (max-width: 900px) {
+  #main {
+    flex-direction: column;
+  }
+  #left-column {
+    width: 100%;
+    max-width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+  }
+  #tab-buttons {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    min-width: 120px;
+    white-space: nowrap;
+  }
+  #ritual-card {
+    min-width: 210px;
+  }
+  #panels {
+    flex-direction: column;
+  }
+  #panel-main {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SPLASH / CINEMATIC DECLARATION
+============================================================ -->
+<div id="splash" class="fade-in">
+  <h1>PEACEWEAVER</h1>
+  <div class="subtitle">
+    A living architecture of citizen-powered peace and stewardship,<br />
+    weaving together Russia, Ukraine, and the wider world through<br />
+    ecology, story, culture, and shared futures.
+  </div>
+  <div id="priority-banner">
+    PRIORITY ONE • HUMANITARIAN STEWARD EMERGENCE PROJECT • ACTIVE DEVELOPMENT
+  </div>
+  <button id="enter-btn">Enter the Steward Dashboard</button>
+</div>
+
+<!-- ============================================================
+     MAIN APPLICATION
+============================================================ -->
+<div id="app">
+
+  <!-- Top bar -->
+  <div id="top-bar">
+    <div id="brand">
+      <div id="brand-logo"></div>
+      <div id="brand-text">
+        <span>PEACEWEAVER</span>
+        <span>Steward Emergence Global Dashboard</span>
+      </div>
+    </div>
+    <div id="top-controls">
+      <button class="btn-ghost" data-lang="en">EN</button>
+      <button class="btn-ghost" data-lang="ru">RU</button>
+      <button class="btn-ghost" data-lang="uk">UA</button>
+      <input id="steward-name-input" type="text" placeholder="Your steward name (optional)" />
+      <span id="steward-status"></span>
+    </div>
+  </div>
+
+  <!-- Main columns -->
+  <div id="main">
+
+    <!-- Left: tabs + ritual -->
+    <div id="left-column">
+      <div id="tab-buttons">
+        <button class="tab-btn active" data-tab="overview">
+          <span class="label">Overview & Manifesto</span>
+          <span class="badge">1</span>
+        </button>
+        <button class="tab-btn" data-tab="modules">
+          <span class="label">Peace Modules (62)</span>
+          <span class="badge">62</span>
+        </button>
+        <button class="tab-btn" data-tab="steward">
+          <span class="label">Steward Path</span>
+          <span class="badge">∞</span>
+        </button>
+        <button class="tab-btn" data-tab="signals">
+          <span class="label">Signals & Futures</span>
+          <span class="badge">⧖</span>
+        </button>
+        <button class="tab-btn" data-tab="about">
+          <span class="label">About This Prototype</span>
+          <span class="badge">α</span>
+        </button>
+      </div>
+
+      <!-- Shared ritual card -->
+      <div id="ritual-card">
+        <h3>Shared Candle Ritual</h3>
+        <p>One shared flame for every life touched by conflict.  
+           Light it once; let it burn for all.</p>
+        <div id="candle">
+          <div id="flame"></div>
+        </div>
+        <button id="ritual-button">Light the candle</button>
+        <div id="ritual-note">Your candle state is stored locally in your browser.</div>
+      </div>
+    </div>
+
+    <!-- Right: panels -->
+    <div id="right-column">
+      <div id="panel-header">
+        <div id="breadcrumb">Tab: Overview & Manifesto</div>
+        <div id="visit-info">Visited modules: <span id="visit-count">0</span></div>
+      </div>
+      <div id="panels">
+        <div id="panel-main"></div>
+        <div id="panel-detail">
+          <h3 id="detail-title">Module Detail</h3>
+          <div id="detail-tag">Select a module to see how it works.</div>
+          <div id="detail-body">
+            This panel is a live window into any peace module in the system.  
+            Click a card to view its purpose, stewardship pattern, and a  
+            suggested expansion path for future developers, facilitators,  
+            or AI co-authors.
+          </div>
+          <div id="detail-footer">
+            This prototype does not collect personal data or analytics.  
+            All state is kept locally, on your device.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   SIMPLE LOCAL STATE HELPERS
+============================================================ */
+const PW_KEY = "peaceweaver_state_v1";
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(PW_KEY);
+    if (!raw) return { visited: [], candleLit: false, stewardName: "" };
+    const parsed = JSON.parse(raw);
+    return Object.assign({ visited: [], candleLit: false, stewardName: "" }, parsed);
+  } catch {
+    return { visited: [], candleLit: false, stewardName: "" };
+  }
+}
+
+function saveState(state) {
+  localStorage.setItem(PW_KEY, JSON.stringify(state));
+}
+
+let state = loadState();
+
+/* ============================================================
+   MODULE DATA (62 Peace Strategies)
+============================================================ */
+const modules = [
+  // Ecology & biosphere
+  {
+    id: "biospheric_cascades",
+    title: "Biospheric Cascades Dashboard",
+    category: "Ecology & Biosphere",
+    summary: "Ecological diplomacy through shared forests, rivers, orchards, and restoration corridors linking communities across borders."
+  },
+  {
+    id: "mycelial_diplomacy",
+    title: "Mycelial Diplomacy Engine",
+    category: "Ecology & Biosphere",
+    summary: "Fungi as diplomats: soil healing, spore bridges, and mycelial metaphors that reconnect wounded landscapes and peoples."
+  },
+  {
+    id: "seed_corridor_planner",
+    title: "Seed Corridor Planner",
+    category: "Ecology & Biosphere",
+    summary: "Plan cross-border fruit tree and berry corridors to nourish travelers, wildlife, and future generations."
+  },
+  {
+    id: "borderland_ecology_visualizer",
+    title: "Borderland Ecology Visualizer",
+    category: "Ecology & Biosphere",
+    summary: "Visualize forests, rivers, and wildlife flows that ignore political borders—and invite people to steward them together."
+  },
+  {
+    id: "shared_rivers_stewardship",
+    title: "Shared Rivers Stewardship Interface",
+    category: "Ecology & Biosphere",
+    summary: "Citizen river care: water quality logs, river rituals, and cross-border guardianship of shared watersheds."
+  },
+  {
+    id: "regenerative_agriculture_coops",
+    title: "Regenerative Agriculture Co-Ops Panel",
+    category: "Ecology & Biosphere",
+    summary: "Connect farms across borders to share soil wisdom, seeds, and resilient growing practices."
+  },
+
+  // Culture & myth
+  {
+    id: "cultural_shadow_exchange",
+    title: "Cultural Shadow Exchange Portal",
+    category: "Culture & Myth",
+    summary: "Recipes, jokes, lullabies, and rituals—quiet cultural echoes that reveal kinship beneath conflict."
+  },
+  {
+    id: "twin_hero_narratives",
+    title: "Twin Hero Narratives Storyforge",
+    category: "Culture & Myth",
+    summary: "Mythic universes where Russian and Ukrainian heroes fight not each other, but entropy, hunger, and winter."
+  },
+  {
+    id: "shared_folklore_revival",
+    title: "Shared Folklore Revival Hub",
+    category: "Culture & Myth",
+    summary: "Collect, co-author, and remix folk tales that belong to the whole region, not just one flag."
+  },
+  {
+    id: "lullaby_song_exchange",
+    title: "Lullaby & Song Exchange Chamber",
+    category: "Culture & Myth",
+    summary: "A gentle archive of childhood songs from both sides, reminding listeners that tenderness sounds the same."
+  },
+  {
+    id: "myth_forged_reconciliation",
+    title: "Myth-Forged Reconciliation Path",
+    category: "Culture & Myth",
+    summary: "A new folkloric figure who embodies reconciliation, carried into festivals, classrooms, and stories."
+  },
+  {
+    id: "ancestral_memory_mirror",
+    title: "Ancestral Memory Mirror",
+    category: "Culture & Myth",
+    summary: "Elders share short stories about grandparents; patterns of shared struggle and resilience emerge side-by-side."
+  },
+
+  // Human vulnerability & healing
+  {
+    id: "shared_vulnerability_sanctuaries",
+    title: "Sanctuaries of Shared Vulnerability",
+    category: "Healing & Vulnerability",
+    summary: "Anonymous spaces to admit fear, grief, confusion, and hope, witnessed without judgement by people on both sides."
+  },
+  {
+    id: "dual_nation_candle_vigil",
+    title: "Dual-Nation Candle Vigil Wall",
+    category: "Healing & Vulnerability",
+    summary: "A single digital wall of candles lit for all who have been lost, without ranking one suffering above another."
+  },
+  {
+    id: "trauma_recovery_rituals",
+    title: "Trauma Recovery Ritual Engine",
+    category: "Healing & Vulnerability",
+    summary: "Guided rituals and breathing practices that help communities process trauma together, gently and safely."
+  },
+  {
+    id: "empathy_engine",
+    title: "Empathy Engine Dashboard",
+    category: "Healing & Vulnerability",
+    summary: "Interactive exercises that help participants experience the world from another family’s perspective."
+  },
+  {
+    id: "futures_without_orphans",
+    title: "Futures Without Orphans Panel",
+    category: "Healing & Vulnerability",
+    summary: "Imagine, design, and commit to futures where no child is left alone because of war."
+  },
+
+  // Citizen agency & micro-actions
+  {
+    id: "citizen_peace_tools",
+    title: "Citizen Peace Tools Dashboard",
+    category: "Citizen Agency",
+    summary: "Practical mini-tools anyone can use to create small bridges of goodwill in daily life."
+  },
+  {
+    id: "neighbor_microbridge_generator",
+    title: "Neighbor Microbridge Generator",
+    category: "Citizen Agency",
+    summary: "Randomized prompts that nudge people into small acts of cross-border cooperation and kindness."
+  },
+  {
+    id: "micro_grant_builder",
+    title: "Micro-Grant Builder",
+    category: "Citizen Agency",
+    summary: "Crowdfund tiny, concrete, local peace projects—shared gardens, repairs, and rituals."
+  },
+  {
+    id: "skill_exchange_grid",
+    title: "Skill Exchange Grid",
+    category: "Citizen Agency",
+    summary: "Match skills across borders: teacher to teacher, coder to coder, farmer to farmer."
+  },
+  {
+    id: "kindness_quest_system",
+    title: "Kindness Quest System",
+    category: "Citizen Agency",
+    summary: "Daily or weekly quests that turn kindness into a habit, not a rare event."
+  },
+  {
+    id: "honor_chain_ledger",
+    title: "Honor Chain Ledger",
+    category: "Citizen Agency",
+    summary: "A voluntary ledger of people who publicly choose decency, honesty, and care."
+  },
+
+  // Memory & remembrance
+  {
+    id: "memory_weaving_loom",
+    title: "Memory Weaving Loom",
+    category: "Memory & Remembrance",
+    summary: "Stories of loss from both sides woven into a visual tapestry instead of competing for attention."
+  },
+  {
+    id: "dual_nation_grief_map",
+    title: "Dual-Nation Grief Map",
+    category: "Memory & Remembrance",
+    summary: "A map of tragedies that honors every life with equal dignity and sorrow."
+  },
+  {
+    id: "faces_of_peace_engine",
+    title: "Faces of Peace Portrait Engine",
+    category: "Memory & Remembrance",
+    summary: "Portraits of ordinary people choosing peace, with short personal notes and blessings."
+  },
+  {
+    id: "echoes_of_the_fallen",
+    title: "Echoes of the Fallen Narrative Generator",
+    category: "Memory & Remembrance",
+    summary: "Generate poems and short texts that pay tribute to unnamed victims without exploiting their pain."
+  },
+
+  // Long-horizon futures
+  {
+    id: "century_archive_simulator",
+    title: "100-Year Archive Simulator",
+    category: "Long-Horizon Futures",
+    summary: "Explore future scenarios based on cooperation vs. ongoing conflict, across a full century."
+  },
+  {
+    id: "future_children_simulator",
+    title: "Future Children Simulator",
+    category: "Long-Horizon Futures",
+    summary: "Design worlds that children born in 2125 would inherit, then see how today’s choices shape them."
+  },
+  {
+    id: "time_capsule_builder",
+    title: "Intergenerational Time Capsule Builder",
+    category: "Long-Horizon Futures",
+    summary: "Compose messages, promises, and warnings for descendants to open decades from now."
+  },
+  {
+    id: "civilizational_risk_dashboard",
+    title: "Civilizational Risk Dashboard",
+    category: "Long-Horizon Futures",
+    summary: "View climate, food, water, and conflict risks as a shared problem space—never a zero-sum game."
+  },
+  {
+    id: "climate_resilience_planner",
+    title: "Joint Climate Resilience Planner",
+    category: "Long-Horizon Futures",
+    summary: "Plan adaptation for homes, farms, and towns in tandem, not in isolation."
+  },
+  {
+    id: "food_stability_mesh",
+    title: "Food Stability Mesh Map",
+    category: "Long-Horizon Futures",
+    summary: "Map regional food systems and cooperative storage that buffer both nations against shocks."
+  },
+
+  // Crisis response
+  {
+    id: "unified_crisis_protocol",
+    title: "Unified Crisis Protocol Dashboard",
+    category: "Crisis Response",
+    summary: "A shared, citizen-readable playbook for responding to fires, floods, blackouts, and other crises."
+  },
+  {
+    id: "heatwave_winter_response",
+    title: "Heatwave & Winter Response Co-Pilot",
+    category: "Crisis Response",
+    summary: "Mutual aid patterns for extreme heat and freezing cold, where survival matters more than flags."
+  },
+  {
+    id: "wildfire_prevention_mesh",
+    title: "Wildfire Prevention Mesh",
+    category: "Crisis Response",
+    summary: "Prevent, detect, and contain wildfires together, with shared data and local action."
+  },
+  {
+    id: "disaster_resilience_playbooks",
+    title: "Disaster Resilience Micro-Playbooks",
+    category: "Crisis Response",
+    summary: "Simple household and neighborhood checklists that reduce panic and save lives."
+  },
+
+  // Story-based peace
+  {
+    id: "branching_peace_story_navigator",
+    title: "Branching Peace Story Navigator",
+    category: "Story & Narrative",
+    summary: "Interactive stories where each choice leads towards or away from reconciliation and care."
+  },
+  {
+    id: "collaborative_myth_cycle",
+    title: "Collaborative Myth Cycle Builder",
+    category: "Story & Narrative",
+    summary: "Co-create entire cycles of myths that encode peace as a heroic act, not a weakness."
+  },
+  {
+    id: "peacekeeper_chronicle_simulator",
+    title: "Peacekeeper Chronicle Simulator",
+    category: "Story & Narrative",
+    summary: "Simulate alternate histories where stewards step in early and prevent escalation."
+  },
+
+  // Steward emergence
+  {
+    id: "steward_archetype_test",
+    title: "Guardian Steward Archetype Test",
+    category: "Steward Emergence",
+    summary: "Discover what kind of steward you are: healer, builder, storyteller, strategist, or bridge-maker."
+  },
+  {
+    id: "steward_skill_tree",
+    title: "Steward Skill Tree",
+    category: "Steward Emergence",
+    summary: "A gamified progression path for peace skills, ecological literacy, and emotional maturity."
+  },
+  {
+    id: "steward_ritual_dashboard",
+    title: "Steward Daily Ritual Dashboard",
+    category: "Steward Emergence",
+    summary: "Small daily practices that anchor your commitment to non-violence and stewardship."
+  },
+  {
+    id: "steward_impact_logbook",
+    title: "Steward Impact Logbook",
+    category: "Steward Emergence",
+    summary: "Track your own acts of care, planting, teaching, repairing, and defending the vulnerable."
+  },
+  {
+    id: "steward_network_map",
+    title: "Steward Network Map",
+    category: "Steward Emergence",
+    summary: "A global, anonymized constellation of people walking a similar path."
+  },
+
+  // Socio-technical peace tools
+  {
+    id: "cross_border_ai_tutor",
+    title: "Cross-Border Cooperation AI Tutor",
+    category: "Socio-Technical Tools",
+    summary: "Guides small groups across borders to reason together about shared problems."
+  },
+  {
+    id: "mesh_dialogue_system",
+    title: "Local-to-Global Mesh Dialogue System",
+    category: "Socio-Technical Tools",
+    summary: "A decentralized conversation fabric where ideas rise based on care, not algorithms of outrage."
+  },
+  {
+    id: "peace_index_generator",
+    title: "Peace Index Generator",
+    category: "Socio-Technical Tools",
+    summary: "Visualize peace trends built from actual acts of cooperation, not mere opinions."
+  },
+  {
+    id: "narrative_deescalation_engine",
+    title: "Narrative De-escalation Engine",
+    category: "Socio-Technical Tools",
+    summary: "Suggests gentler, clearer phrasings for heated messages without erasing truth."
+  },
+  {
+    id: "mediator_assistant_panel",
+    title: "Mediator Assistant Panel",
+    category: "Socio-Technical Tools",
+    summary: "Helps volunteers or professionals prepare for difficult conversations with dignity."
+  },
+
+  // Mythic / symbolic rituals
+  {
+    id: "ritual_of_two_trees",
+    title: "Ritual of the Two Trees Dashboard",
+    category: "Mythic & Symbolic",
+    summary: "Two saplings planted in paired locations, symbolizing roots that grow toward each other."
+  },
+  {
+    id: "firebird_reborn_interface",
+    title: "The Firebird Reborn Interface",
+    category: "Mythic & Symbolic",
+    summary: "The Slavic Firebird reimagined as a shared emblem of survival and renewal."
+  },
+  {
+    id: "river_oath",
+    title: "The River Oath",
+    category: "Mythic & Symbolic",
+    summary: "A simple pledge spoken or clicked near images of shared rivers, reaffirming non-violence."
+  },
+  {
+    id: "dawn_chorus_ceremony",
+    title: "Dawn Chorus Ceremony",
+    category: "Mythic & Symbolic",
+    summary: "Synchronized sunrise rituals, where people in different places greet the same light."
+  },
+
+  // Cross-border commons & learning
+  {
+    id: "shared_digital_library",
+    title: "Shared Digital Library",
+    category: "Commons & Learning",
+    summary: "An open library of peace texts, stories, and tools in multiple languages."
+  },
+  {
+    id: "commons_projects_directory",
+    title: "Commons Projects Directory",
+    category: "Commons & Learning",
+    summary: "A listing of open projects that anyone can join to make the world slightly kinder."
+  },
+  {
+    id: "peace_classroom_kit",
+    title: "Peace Classroom Kit",
+    category: "Commons & Learning",
+    summary: "Lesson plans, activities, and story packs for schools that want to nurture stewards."
+  },
+
+  // Steward meta-leadership
+  {
+    id: "steward_mentor_circuit",
+    title: "Steward Mentor Circuit",
+    category: "Meta-Leadership",
+    summary: "Connect experienced stewards with those just awakening to their role."
+  },
+  {
+    id: "peace_task_scheduler",
+    title: "Peace Task Scheduler",
+    category: "Meta-Leadership",
+    summary: "Schedule recurring peace actions, both personal and community-based."
+  },
+  {
+    id: "stewards_compass",
+    title: "The Steward’s Compass",
+    category: "Meta-Leadership",
+    summary: "A reflective tool to decide: what is the wise, humane action right now?"
+  },
+  {
+    id: "alliance_builder",
+    title: "The Alliance Builder",
+    category: "Meta-Leadership",
+    summary: "Form small circles of trust and action that support one another across distance."
+  },
+
+  // Grand unification
+  {
+    id: "peaceweaver_global_dashboard",
+    title: "Peaceweaver Global Dashboard",
+    category: "Grand Unification",
+    summary: "The bird’s-eye view: an integrated map of modules, rituals, signals, and emerging stewards."
+  }
+];
+
+/* ============================================================
+   TABS & PANEL RENDERING
+============================================================ */
+const panelMain = document.getElementById("panel-main");
+const panelDetailTitle = document.getElementById("detail-title");
+const panelDetailTag = document.getElementById("detail-tag");
+const panelDetailBody = document.getElementById("detail-body");
+const panelDetailFooter = document.getElementById("detail-footer");
+const breadcrumb = document.getElementById("breadcrumb");
+const visitCountEl = document.getElementById("visit-count");
+
+function setTab(tab) {
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.tab === tab);
+  });
+
+  switch (tab) {
+    case "overview":
+      breadcrumb.textContent = "Tab: Overview & Manifesto";
+      renderOverview();
+      break;
+    case "modules":
+      breadcrumb.textContent = "Tab: Peace Modules (62)";
+      renderModules();
+      break;
+    case "steward":
+      breadcrumb.textContent = "Tab: Steward Path";
+      renderStewardPath();
+      break;
+    case "signals":
+      breadcrumb.textContent = "Tab: Signals & Futures";
+      renderSignals();
+      break;
+    case "about":
+      breadcrumb.textContent = "Tab: About This Prototype";
+      renderAbout();
+      break;
+  }
+}
+
+/* ---------------- Overview ---------------- */
+function renderOverview() {
+  panelMain.innerHTML = `
+    <div id="overview-hero">
+      <h1>Steward Emergence, Not Just Ceasefire</h1>
+      <p>
+        This prototype is a living sketch of a world where peace is not
+        a distant treaty between governments, but a daily pattern of
+        behavior chosen by ordinary people.
+      </p>
+      <p>
+        It began as a framework to re-weave trust between Russia and
+        Ukraine through ecology, culture, story, and shared futures—
+        and naturally extends to any place where neighbors have been
+        taught to fear each other.
+      </p>
+      <div class="pill-row">
+        <div class="pill">Ecological diplomacy</div>
+        <div class="pill">Cross-border stewardship</div>
+        <div class="pill">Story & myth as software</div>
+        <div class="pill">Citizen micro-actions</div>
+        <div class="pill">Long-horizon futures</div>
+        <div class="pill">Trauma-aware healing</div>
+      </div>
+    </div>
+    <h2 class="section-title">What You Are Seeing</h2>
+    <p class="section-subtitle">
+      One file, many worlds. Each module is a potential dashboard,
+      story engine, ritual space, or collaboration hub.
+    </p>
+    <p>
+      This single-page prototype is intentionally simple in code yet
+      dense in possibility. Its purpose is not to impress with visual
+      spectacle, but to make legible the full breadth of what a
+      citizen-led peace architecture could become.
+    </p>
+    <p>
+      Developers, educators, diplomats, artists, and ordinary stewards
+      can treat each module as a seed: fork it, grow it, adapt it to
+      local needs, connect it to real communities and ecosystems.
+    </p>
+    <h2 class="section-title">How It Is Meant to Be Used</h2>
+    <ul style="font-size:0.88rem;opacity:0.9;line-height:1.6;margin-top:4px;">
+      <li><strong>Technologists</strong> can turn modules into working apps or simulations.</li>
+      <li><strong>Educators</strong> can adapt them into classroom projects.</li>
+      <li><strong>Community organizers</strong> can use them to frame local initiatives.</li>
+      <li><strong>Artists & storytellers</strong> can turn them into comics, films, or performances.</li>
+      <li><strong>Diplomats & NGOs</strong> can treat them as low-risk, high-symbolism pilots.</li>
+    </ul>
+    <p>
+      No single module is “the solution.” The power lies in the
+      pattern they form together, like mycelium beneath a recovering
+      forest.
+    </p>
+  `;
+}
+
+/* ---------------- Modules ---------------- */
+function renderModules() {
+  // Group modules by category
+  const byCategory = {};
+  modules.forEach(m => {
+    if (!byCategory[m.category]) byCategory[m.category] = [];
+    byCategory[m.category].push(m);
+  });
+
+  let html = `
+    <h2 class="section-title">Peace Modules</h2>
+    <p class="section-subtitle">
+      Sixty-two distinct strategies, each of which can become a standalone
+      dashboard, ritual space, or interactive story. Click any card to
+      view details in the right-hand pane.
+    </p>
+  `;
+
+  for (const [cat, list] of Object.entries(byCategory)) {
+    html += `
+      <h3 style="font-size:1.0rem;margin:14px 0 6px;">${cat}</h3>
+      <div class="module-grid">
+    `;
+    list.forEach(m => {
+      html += `
+        <div class="module-card" data-module-id="${m.id}">
+          <div class="module-tag">${cat}</div>
+          <h3>${m.title}</h3>
+          <p>${m.summary}</p>
+        </div>
+      `;
+    });
+    html += `</div>`;
+  }
+
+  panelMain.innerHTML = html;
+
+  document.querySelectorAll(".module-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const id = card.getAttribute("data-module-id");
+      const mod = modules.find(m => m.id === id);
+      if (mod) {
+        showModuleDetail(mod);
+        recordVisit(id);
+      }
+    });
+  });
+}
+
+/* ---------------- Steward Path ---------------- */
+function renderStewardPath() {
+  panelMain.innerHTML = `
+    <h2 class="section-title">Your Steward Path</h2>
+    <p class="section-subtitle">
+      There is no membership, no oath, no exam. Becoming a steward
+      is simply a choice to care, and to act from that care with skill.
+    </p>
+    <p>
+      In this prototype, your steward identity is represented only by a
+      name stored locally in your browser. No server, no tracking, no
+      score. This is intentional. It mirrors the reality that most
+      meaningful stewardship will never be seen by cameras or counted
+      in statistics.
+    </p>
+    <p>
+      To walk the steward path:
+    </p>
+    <ol style="font-size:0.88rem;opacity:0.9;line-height:1.6;">
+      <li>Choose any module that resonates with you.</li>
+      <li>Imagine one concrete action you could take that matches its spirit.</li>
+      <li>Record it privately (in a notebook, in your heart, or in the logbooks you build).</li>
+      <li>Take one small step. Tell no one if you wish.</li>
+      <li>Repeat, patiently. Let your life become the proof.</li>
+    </ol>
+    <p>
+      If you are a developer, designer, educator, or organizer, your
+      steward path may involve turning these modules into tools that
+      others can use. If you are a parent, neighbor, or worker, your
+      path might be raising children with less fear, planting trees,
+      or refusing to dehumanize strangers.
+    </p>
+  `;
+}
+
+/* ---------------- Signals & Futures ---------------- */
+function renderSignals() {
+  panelMain.innerHTML = `
+    <h2 class="section-title">Signals & Futures</h2>
+    <p class="section-subtitle">
+      This prototype does not yet pull live data. Instead, it
+      acknowledges something quieter: the existence of people, like
+      you, who already feel the pull to repair rather than to punish.
+    </p>
+    <p>
+      Future versions of this dashboard could integrate:
+    </p>
+    <ul style="font-size:0.88rem;opacity:0.9;line-height:1.6;">
+      <li>Ecological restoration metrics (trees planted, rivers cleaned).</li>
+      <li>Cross-border project counts and participation.</li>
+      <li>Story-based indicators of reconciliation.</li>
+      <li>Education and youth engagement in peace curricula.</li>
+      <li>Local, anonymized steward actions aggregated without surveillance.</li>
+    </ul>
+    <p>
+      For now, the most important signal is simply this: you are here,
+      reading this, imagining that human beings could do better.
+      That is not a datapoint. It is a beginning.
+    </p>
+  `;
+}
+
+/* ---------------- About ---------------- */
+function renderAbout() {
+  panelMain.innerHTML = `
+    <h2 class="section-title">About This Prototype</h2>
+    <p class="section-subtitle">
+      One HTML file, no external dependencies, designed to be forked,
+      translated, and extended by anyone aligned with non-violence.
+    </p>
+    <p>
+      This page is intentionally:
+    </p>
+    <ul style="font-size:0.88rem;opacity:0.9;line-height:1.6;">
+      <li><strong>Static:</strong> it can be served from any basic web host or opened from disk.</li>
+      <li><strong>Offline-capable:</strong> all logic lives in this file.</li>
+      <li><strong>Non-extractive:</strong> it stores only minimal state locally on your device.</li>
+      <li><strong>Expandable:</strong> every module is a seed for future tools and collaborations.</li>
+    </ul>
+    <p>
+      It is not a finished product. It is a declaration in code form:
+      that peace can be architected as carefully as any weapon system,
+      and that such architectures belong in the hands of ordinary
+      stewards, not only institutions.
+    </p>
+    <p>
+      If you are reading this in the future and many of these modules
+      have been fully realized, remember: the first version fit inside
+      a single page, shared by people who believed that imagination is
+      a critical infrastructure.
+    </p>
+  `;
+}
+
+/* ---------------- Detail panel ---------------- */
+function showModuleDetail(mod) {
+  panelDetailTitle.textContent = mod.title;
+  panelDetailTag.textContent = mod.category;
+  panelDetailBody.innerHTML = `
+    <p>${mod.summary}</p>
+    <p style="margin-top:6px;">
+      Expansion idea: turn this into a standalone dashboard with
+      simple, human-scale actions, support materials, and reflection
+      prompts. Connect it, where possible, to real-world ecological or
+      community data—without ever endangering or exposing vulnerable
+      people.
+    </p>
+  `;
+  panelDetailFooter.textContent =
+    "This description is a seed. Any steward, educator, or developer may grow it into a real tool for their community.";
+}
+
+/* ============================================================
+   VISIT TRACKING
+============================================================ */
+function recordVisit(id) {
+  if (!state.visited.includes(id)) {
+    state.visited.push(id);
+    saveState(state);
+    updateVisitCount();
+  }
+}
+
+function updateVisitCount() {
+  visitCountEl.textContent = state.visited.length.toString();
+}
+
+/* ============================================================
+   STEWARD NAME
+============================================================ */
+const nameInput = document.getElementById("steward-name-input");
+const stewardStatus = document.getElementById("steward-status");
+
+function updateStewardNameDisplay() {
+  if (state.stewardName && state.stewardName.trim().length > 0) {
+    stewardStatus.textContent = `Steward: ${state.stewardName.trim()}`;
+  } else {
+    stewardStatus.textContent = "";
+  }
+}
+nameInput.addEventListener("change", () => {
+  state.stewardName = nameInput.value || "";
+  saveState(state);
+  updateStewardNameDisplay();
+});
+
+/* ============================================================
+   CANDLE RITUAL
+============================================================ */
+const flameEl = document.getElementById("flame");
+const ritualButton = document.getElementById("ritual-button");
+
+function syncCandle() {
+  if (state.candleLit) {
+    flameEl.classList.add("lit");
+    ritualButton.textContent = "Candle is lit";
+    ritualButton.disabled = true;
+  } else {
+    flameEl.classList.remove("lit");
+    ritualButton.textContent = "Light the candle";
+    ritualButton.disabled = false;
+  }
+}
+ritualButton.addEventListener("click", () => {
+  state.candleLit = true;
+  saveState(state);
+  syncCandle();
+});
+
+/* ============================================================
+   LANGUAGE BUTTON PLACEHOLDER
+============================================================ */
+document.querySelectorAll(".btn-ghost[data-lang]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const lang = btn.getAttribute("data-lang");
+    alert("Language switching placeholder: full multilingual content is intended to be added by future collaborators.\n\nSelected: " + lang.toUpperCase());
+  });
+});
+
+/* ============================================================
+   TAB EVENTS
+============================================================ */
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    setTab(btn.dataset.tab);
+  });
+});
+
+/* ============================================================
+   SPLASH → APP TRANSITION
+============================================================ */
+const splash = document.getElementById("splash");
+const app = document.getElementById("app");
+document.getElementById("enter-btn").addEventListener("click", () => {
+  splash.style.opacity = "0";
+  setTimeout(() => {
+    splash.style.display = "none";
+    app.style.display = "flex";
+    requestAnimationFrame(() => {
+      app.style.opacity = "1";
+    });
+  }, 900);
+});
+
+/* ============================================================
+   INITIALIZATION
+============================================================ */
+function init() {
+  updateVisitCount();
+  syncCandle();
+  if (state.stewardName) {
+    nameInput.value = state.stewardName;
+  }
+  updateStewardNameDisplay();
+  setTab("overview");
+  // Pre-select global dashboard detail
+  const global = modules.find(m => m.id === "peaceweaver_global_dashboard");
+  if (global) showModuleDetail(global);
+}
+init();
+</script>
+
+</body>
+</html>
